@@ -42,3 +42,9 @@ C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerT
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\AGV_Local\bin\Debug\AGV_Local.pdb
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.exe
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.pdb
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.csproj.AssemblyReference.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.MainForm.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.UsersManager.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.Properties.Resources.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.csproj.GenerateResource.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\ServerTCP\AGV_Local\AGV_Local\obj\x86\Debug\AGV_Local.csproj.CoreCompileInputs.cache

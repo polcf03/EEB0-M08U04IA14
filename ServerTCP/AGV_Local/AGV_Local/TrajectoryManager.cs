@@ -5,8 +5,6 @@ using System.Text;
 
 namespace AGV_Local
 {
-   
-    
     class TrajectoryManager
     {
         private bool wallDetected;
@@ -15,8 +13,6 @@ namespace AGV_Local
         private int maxSteps;
         private int steps;
         private readonly Random _random = new Random();
-
-
 
         public TrajectoryManager()
         {
@@ -126,7 +122,5 @@ namespace AGV_Local
 
             return iCan;
         }
-
-
     }
 }

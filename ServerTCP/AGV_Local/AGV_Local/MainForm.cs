@@ -29,8 +29,6 @@ namespace AGV_Local
             blackBoard = panelWS.CreateGraphics();
             WSSizeX=10;
             WSSizeY=10;
-
-
         }
         
         //Métodos y funciones de dibujo

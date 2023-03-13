@@ -3,10 +3,8 @@
     "",
     "\\ServerTCP",
     "\\ServerTCP\\AGV_Local",
-    "\\ServerTCP\\AGV_Local\\AGV_Local",
-    "\\ServerTCP\\AGV_Local\\AGV_Local\\AGV_Local",
-    "\\ServerTCP\\Client_AGV\\Client_AGV"
+    "\\ServerTCP\\AGV_Local\\AGV_Local"
   ],
-  "SelectedNode": "\\ServerTCP\\AGV_Local",
+  "SelectedNode": "\\ServerTCP\\AGV_Local\\AGV_Local\\MainForm.cs",
   "PreviewInSolutionExplorer": false
 }
