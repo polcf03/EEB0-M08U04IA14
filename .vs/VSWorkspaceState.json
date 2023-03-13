@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ServerTCP",
+    "\\ServerTCP\\AGV_Local",
+    "\\ServerTCP\\AGV_Local\\AGV_Local",
+    "\\ServerTCP\\AGV_Local\\AGV_Local\\AGV_Local",
+    "\\ServerTCP\\Client_AGV\\Client_AGV"
+  ],
+  "SelectedNode": "\\ServerTCP\\AGV_Local",
+  "PreviewInSolutionExplorer": false
+}
