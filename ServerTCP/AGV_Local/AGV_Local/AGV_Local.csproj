@@ -54,21 +54,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Users.cs" />
-    <Compile Include="UsersManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UsersManager.Designer.cs">
-      <DependentUpon>UsersManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrajectoryManager.cs" />
     <Compile Include="WSManager.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UsersManager.resx">
-      <DependentUpon>UsersManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
