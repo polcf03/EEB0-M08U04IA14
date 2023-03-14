@@ -15,7 +15,7 @@ namespace AGV_Local
 
         private readonly Random _random = new Random();
         private int iterations;
-        
+        private AGV myAGV= new AGV();
         //Constructores
         public  WSManager()
         {
@@ -51,6 +51,50 @@ namespace AGV_Local
                     break;
             
             }
+        }
+        private void diggUntilX0()
+        {
+            int direction, x, y, xini, yini;
+            xini = 9;
+            yini = RandomNumber(0, 10);
+            x = xini;
+            y = yini;
+            while (x > 0)
+            {
+                direction = RandomNumber(0, 4);
+                switch (direction)
+                {
+                    case 0:
+                        if (y > 0)
+                        {
+                            y = y - 1;
+                        }
+                        break;
+                    case 1:
+                        if (x < 9)
+                        {
+                            x = x + 1;
+                        }
+                        break;
+                    case 2:
+                        if (y < 9)
+                        {
+                            y = y + 1;
+                        }
+                        break;
+                    case 3:
+                        if (x > 0)
+                        {
+                            x = x - 1;
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                WS[x, y] = 99;
+            }
+            
         }
         private void digWithIter(int iter)
         {
@@ -149,13 +193,6 @@ namespace AGV_Local
 
                 }
             }
-        }
-        private void loadSensors()
-        {
-            myAGV.setFSensor(getFrontDistance());
-            myAGV.setBSensor(!(isFreeBack()));
-            myAGV.setRSensor(!(isFreeRight()));
-            myAGV.setLSensor(!(isFreeLeft()));
         }
         private bool isFreeNorth()
         {
@@ -317,65 +354,7 @@ namespace AGV_Local
             }
             return free;
         }
-        private int getFrontDistance()
-        {
-            int distance = 0;
-            int LectureX, LectureY;
-            LectureX = myAGV.getPosX();
-            LectureY = myAGV.getPosY();
 
-
-
-            if (isFreeFront())
-            {
-                distance = 1;
-                switch (myAGV.getOrientation())
-                {
-                    case 0:
-                        LectureY--;
-                        while ((WS[LectureX, LectureY] == 99) && (LectureY > 0))
-                        {
-                            distance++;
-                            LectureY--;
-                        }
-                        break;
-                    case 1:
-                        LectureX++;
-                        while ((WS[LectureX, LectureY] == 99) && (LectureX < 9))
-                        {
-                            distance++;
-                            LectureX++;
-                        }
-                        break;
-                    case 2:
-                        LectureY++;
-                        while ((WS[LectureX, LectureY] == 99) && (LectureY < 9))
-                        {
-                            distance++;
-                            LectureY++;
-                        }
-                        break;
-                    case 3:
-                        LectureX--;
-                        while ((WS[LectureX, LectureY] == 99) && (LectureX > 0))
-                        {
-                            distance++;
-                            LectureX--;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                if (WS[LectureX, LectureY] != 99)
-                {
-                    distance--;
-                }
-
-            }
-
-            return distance;
-
-        }
 
         //Métodos y Accesores públicos
         public void generateWS(int mode, int iter)
@@ -396,7 +375,7 @@ namespace AGV_Local
                 WS[AGVx, AGVy - 1] = 1;
                 myAGV.MovNorth();
             }
-            loadSensors();
+            
         }
         public void MSouthAGV()
         {
@@ -411,7 +390,7 @@ namespace AGV_Local
                 WS[AGVx, AGVy + 1] = 1;
                 myAGV.MovSouth();
             }
-            loadSensors();
+            
         }
         public void MWestAGV()
         {
@@ -426,7 +405,7 @@ namespace AGV_Local
                 WS[AGVx - 1, AGVy] = 1;
                 myAGV.MovWest();
             }
-            loadSensors();
+            
         }
         public void MEastAGV()
         {
@@ -441,7 +420,7 @@ namespace AGV_Local
                 WS[AGVx + 1, AGVy] = 1;
                 myAGV.MovEast();
             }
-            loadSensors();
+            
         }
         public void MFwAGV()
         {
@@ -487,12 +466,12 @@ namespace AGV_Local
         public void RRAGV()
         {
             myAGV.RR();
-            loadSensors();
+            
         }
         public void RLAGV()
         {
             myAGV.RL();
-            loadSensors();
+            
         }
         public int RandomNumber(int min, int max)
         {
@@ -513,22 +492,6 @@ namespace AGV_Local
         public int getAGVOrient()
         {
             return myAGV.getOrientation();
-        }
-        public int getAGVFs()
-        {
-            return myAGV.getFSensor();
-        }
-        public bool getAGVBs()
-        {
-            return myAGV.getBSensor();
-        }
-        public bool getAGVLs()
-        {
-            return myAGV.getLSensor();
-        }
-        public bool getAGVRs()
-        {
-            return myAGV.getRSensor();
         }
 
 
@@ -616,7 +579,7 @@ namespace AGV_Local
             {
                 WS[targetX, targetY] = 99;
             }
-            loadSensors();
+            
         }
     }
 }

@@ -28,111 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.Home = new System.Windows.Forms.TabPage();
-            this.Players_management = new System.Windows.Forms.TabPage();
-            this.panelWS = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Client_Security = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Server_configuration = new System.Windows.Forms.TabPage();
-            this.lbPort = new System.Windows.Forms.Label();
-            this.lbIp = new System.Windows.Forms.Label();
-            this.tbPort = new System.Windows.Forms.TextBox();
-            this.tbIp = new System.Windows.Forms.TextBox();
             this.btStart = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
-            this.Home.SuspendLayout();
-            this.Players_management.SuspendLayout();
+            this.tbIp = new System.Windows.Forms.TextBox();
+            this.tbPort = new System.Windows.Forms.TextBox();
+            this.lbIp = new System.Windows.Forms.Label();
+            this.lbPort = new System.Windows.Forms.Label();
+            this.Home = new System.Windows.Forms.TabPage();
+            this.panelWS = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.addAccountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllPlayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.Client_Security.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.Server_configuration.SuspendLayout();
+            this.Home.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // Client_Security
             // 
-            this.tabControl1.Controls.Add(this.Home);
-            this.tabControl1.Controls.Add(this.Players_management);
-            this.tabControl1.Controls.Add(this.Server_configuration);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(422, 442);
-            this.tabControl1.TabIndex = 0;
+            this.Client_Security.Controls.Add(this.dataGridView1);
+            this.Client_Security.Controls.Add(this.menuStrip1);
+            this.Client_Security.Location = new System.Drawing.Point(4, 22);
+            this.Client_Security.Name = "Client_Security";
+            this.Client_Security.Padding = new System.Windows.Forms.Padding(3);
+            this.Client_Security.Size = new System.Drawing.Size(414, 416);
+            this.Client_Security.TabIndex = 3;
+            this.Client_Security.Text = "Client";
+            this.Client_Security.ToolTipText = "Manage clients, online players and export cliens data base";
+            this.Client_Security.UseVisualStyleBackColor = true;
             // 
-            // Home
+            // dataGridView1
             // 
-            this.Home.Controls.Add(this.panelWS);
-            this.Home.Location = new System.Drawing.Point(4, 22);
-            this.Home.Name = "Home";
-            this.Home.Padding = new System.Windows.Forms.Padding(3);
-            this.Home.Size = new System.Drawing.Size(414, 416);
-            this.Home.TabIndex = 0;
-            this.Home.Text = "Home";
-            this.Home.UseVisualStyleBackColor = true;
-            // 
-            // Players_management
-            // 
-            this.Players_management.Controls.Add(this.label1);
-            this.Players_management.Controls.Add(this.button3);
-            this.Players_management.Controls.Add(this.checkedListBox1);
-            this.Players_management.Controls.Add(this.button2);
-            this.Players_management.Location = new System.Drawing.Point(4, 22);
-            this.Players_management.Name = "Players_management";
-            this.Players_management.Padding = new System.Windows.Forms.Padding(3);
-            this.Players_management.Size = new System.Drawing.Size(414, 416);
-            this.Players_management.TabIndex = 1;
-            this.Players_management.Text = "Players management";
-            this.Players_management.UseVisualStyleBackColor = true;
-            // 
-            // panelWS
-            // 
-            this.panelWS.Location = new System.Drawing.Point(6, 6);
-            this.panelWS.Name = "panelWS";
-            this.panelWS.Size = new System.Drawing.Size(400, 400);
-            this.panelWS.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 12);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Users Online";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(92, 174);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(102, 24);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Delete Selc. User";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "User 1",
-            "User 2",
-            "User 3",
-            "..."});
-            this.checkedListBox1.Location = new System.Drawing.Point(22, 29);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.ScrollAlwaysVisible = true;
-            this.checkedListBox1.Size = new System.Drawing.Size(174, 139);
-            this.checkedListBox1.TabIndex = 16;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(22, 174);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(64, 24);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Delete All";
-            this.button2.UseVisualStyleBackColor = true;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 27);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(408, 386);
+            this.dataGridView1.TabIndex = 0;
             // 
             // Server_configuration
             // 
@@ -147,35 +94,17 @@
             this.Server_configuration.Size = new System.Drawing.Size(414, 416);
             this.Server_configuration.TabIndex = 2;
             this.Server_configuration.Text = "Server configuration";
+            this.Server_configuration.ToolTipText = "Server configuration";
             this.Server_configuration.UseVisualStyleBackColor = true;
             // 
-            // lbPort
+            // btStart
             // 
-            this.lbPort.AutoSize = true;
-            this.lbPort.Location = new System.Drawing.Point(72, 61);
-            this.lbPort.Name = "lbPort";
-            this.lbPort.Size = new System.Drawing.Size(26, 13);
-            this.lbPort.TabIndex = 11;
-            this.lbPort.Text = "Port";
-            // 
-            // lbIp
-            // 
-            this.lbIp.AutoSize = true;
-            this.lbIp.Location = new System.Drawing.Point(81, 14);
-            this.lbIp.Name = "lbIp";
-            this.lbIp.Size = new System.Drawing.Size(17, 13);
-            this.lbIp.TabIndex = 12;
-            this.lbIp.Text = "IP";
-            // 
-            // tbPort
-            // 
-            this.tbPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPort.Location = new System.Drawing.Point(36, 77);
-            this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(99, 26);
-            this.tbPort.TabIndex = 10;
-            this.tbPort.Text = "1";
-            this.tbPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btStart.Location = new System.Drawing.Point(48, 127);
+            this.btStart.Name = "btStart";
+            this.btStart.Size = new System.Drawing.Size(75, 23);
+            this.btStart.TabIndex = 8;
+            this.btStart.Text = "START";
+            this.btStart.UseVisualStyleBackColor = true;
             // 
             // tbIp
             // 
@@ -187,14 +116,155 @@
             this.tbIp.Text = "127.0.0.1";
             this.tbIp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btStart
+            // tbPort
             // 
-            this.btStart.Location = new System.Drawing.Point(48, 127);
-            this.btStart.Name = "btStart";
-            this.btStart.Size = new System.Drawing.Size(75, 23);
-            this.btStart.TabIndex = 8;
-            this.btStart.Text = "START";
-            this.btStart.UseVisualStyleBackColor = true;
+            this.tbPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPort.Location = new System.Drawing.Point(36, 77);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(99, 26);
+            this.tbPort.TabIndex = 10;
+            this.tbPort.Text = "1";
+            this.tbPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbIp
+            // 
+            this.lbIp.AutoSize = true;
+            this.lbIp.Location = new System.Drawing.Point(81, 14);
+            this.lbIp.Name = "lbIp";
+            this.lbIp.Size = new System.Drawing.Size(17, 13);
+            this.lbIp.TabIndex = 12;
+            this.lbIp.Text = "IP";
+            // 
+            // lbPort
+            // 
+            this.lbPort.AutoSize = true;
+            this.lbPort.Location = new System.Drawing.Point(72, 61);
+            this.lbPort.Name = "lbPort";
+            this.lbPort.Size = new System.Drawing.Size(26, 13);
+            this.lbPort.TabIndex = 11;
+            this.lbPort.Text = "Port";
+            // 
+            // Home
+            // 
+            this.Home.Controls.Add(this.panelWS);
+            this.Home.Location = new System.Drawing.Point(4, 22);
+            this.Home.Name = "Home";
+            this.Home.Padding = new System.Windows.Forms.Padding(3);
+            this.Home.Size = new System.Drawing.Size(414, 416);
+            this.Home.TabIndex = 0;
+            this.Home.Text = "Home";
+            this.Home.ToolTipText = "Game screen";
+            this.Home.UseVisualStyleBackColor = true;
+            // 
+            // panelWS
+            // 
+            this.panelWS.Location = new System.Drawing.Point(6, 6);
+            this.panelWS.Name = "panelWS";
+            this.panelWS.Size = new System.Drawing.Size(400, 400);
+            this.panelWS.TabIndex = 1;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.Home);
+            this.tabControl1.Controls.Add(this.Client_Security);
+            this.tabControl1.Controls.Add(this.Server_configuration);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.ShowToolTips = true;
+            this.tabControl1.Size = new System.Drawing.Size(422, 442);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // addAccountsToolStripMenuItem
+            // 
+            this.addAccountsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addClientToolStripMenuItem,
+            this.removeClientToolStripMenuItem});
+            this.addAccountsToolStripMenuItem.Name = "addAccountsToolStripMenuItem";
+            this.addAccountsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.addAccountsToolStripMenuItem.Text = "Users";
+            this.addAccountsToolStripMenuItem.ToolTipText = "Manage clients";
+            // 
+            // addClientToolStripMenuItem
+            // 
+            this.addClientToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addClientsToolStripMenuItem,
+            this.removeToolStripMenuItem});
+            this.addClientToolStripMenuItem.Name = "addClientToolStripMenuItem";
+            this.addClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addClientToolStripMenuItem.Text = "Manage clients";
+            // 
+            // addClientsToolStripMenuItem
+            // 
+            this.addClientsToolStripMenuItem.Name = "addClientsToolStripMenuItem";
+            this.addClientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addClientsToolStripMenuItem.Text = "Add clients";
+            this.addClientsToolStripMenuItem.ToolTipText = "Create a new client adding a User name and password";
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.ToolTipText = "Remove the selecteds clients from data base";
+            // 
+            // removeClientToolStripMenuItem
+            // 
+            this.removeClientToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removePlayerToolStripMenuItem,
+            this.removeAllPlayersToolStripMenuItem});
+            this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
+            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeClientToolStripMenuItem.Text = "Players online";
+            this.removeClientToolStripMenuItem.ToolTipText = "Manage players online";
+            // 
+            // removePlayerToolStripMenuItem
+            // 
+            this.removePlayerToolStripMenuItem.Name = "removePlayerToolStripMenuItem";
+            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removePlayerToolStripMenuItem.Text = "Kick player";
+            this.removePlayerToolStripMenuItem.ToolTipText = "Kick a player form the current game\r\n";
+            // 
+            // removeAllPlayersToolStripMenuItem
+            // 
+            this.removeAllPlayersToolStripMenuItem.Name = "removeAllPlayersToolStripMenuItem";
+            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAllPlayersToolStripMenuItem.Text = "Kick all players";
+            this.removeAllPlayersToolStripMenuItem.ToolTipText = "Kick all players form the current game";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.notepadToolStripMenuItem,
+            this.excelToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.ToolTipText = "Export data base";
+            // 
+            // notepadToolStripMenuItem
+            // 
+            this.notepadToolStripMenuItem.Name = "notepadToolStripMenuItem";
+            this.notepadToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.notepadToolStripMenuItem.Text = "Notepad";
+            // 
+            // excelToolStripMenuItem
+            // 
+            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
+            this.excelToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.excelToolStripMenuItem.Text = "Excel";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addAccountsToolStripMenuItem,
+            this.exportToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(3, 3);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(408, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // MainForm
             // 
@@ -202,36 +272,48 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(422, 442);
             this.Controls.Add(this.tabControl1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "AGV Local Control Screen";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
-            this.tabControl1.ResumeLayout(false);
-            this.Home.ResumeLayout(false);
-            this.Players_management.ResumeLayout(false);
-            this.Players_management.PerformLayout();
+            this.Client_Security.ResumeLayout(false);
+            this.Client_Security.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.Server_configuration.ResumeLayout(false);
             this.Server_configuration.PerformLayout();
+            this.Home.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage Home;
-        private System.Windows.Forms.Panel panelWS;
-        private System.Windows.Forms.TabPage Players_management;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TabPage Client_Security;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem addAccountsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addClientToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addClientsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeClientToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removePlayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAllPlayersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem notepadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
         private System.Windows.Forms.TabPage Server_configuration;
         private System.Windows.Forms.Label lbPort;
         private System.Windows.Forms.Label lbIp;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.TextBox tbIp;
         private System.Windows.Forms.Button btStart;
+        private System.Windows.Forms.TabPage Home;
+        private System.Windows.Forms.Panel panelWS;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }
 
