@@ -17,61 +17,57 @@ namespace ChatServerTCPObjected
 
     class TCPServerComManager
     {
-        // Variables de Calse    
+        // Class variables    
         private IPAddress myIp;
         private int myPort;
         private TcpListener server;
         private List<TcpClient> listOfClients;
-        //Eventos
+
+        // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler<DataReceivedEventArgs> DataReceived;
-        //Constructor
+        
+        // Constructor
         public TCPServerComManager()
         {
             myIp = IPAddress.Loopback;
             myPort = 1;
             listOfClients = new List<TcpClient>();
-
         }
 
-        //Accesores modificadores
+        // Modifier
         public void setIP(IPAddress ip)
         {
             myIp = ip;
         }
-
         public void setPort(int port)
         {
             myPort = port;
         }
-        //Accesores consultores
+        
+        // Accessor
         public IPAddress getIP()
         {
             return myIp;
         }
-
         public int getPort()
         {
             return myPort;
         }
 
-
-        //Este método arranca el servidor en la ip y puerto especificados
+        // Server startup
         public void startServer()
         {
             server = new TcpListener(myIp, myPort);
             server.Start();
             ThreadPool.QueueUserWorkItem(newClient);
-
         }
 
-        //Este método vive en threads independientes lanzados al threadpool
-        //Es una vinvulación con un cliente que exisitá minetras el cliente esté conectado o pendiente de conectarse
-        //Si un cliente nuevo entra, se le da de alta en listOfClients y se abre una vía de comunicación con él
-        //Todo lo que nos llegue de ese cliente, se repite a los demás clientes excepto a él.
         private void newClient(Object state)
         {
-            string txt;
+
+
+             string txt;
             TcpClient client;
             NetworkStream nsToRead;
             NetworkStream nsToWrite;
@@ -97,9 +93,7 @@ namespace ChatServerTCPObjected
                             nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
                         }
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -108,7 +102,7 @@ namespace ChatServerTCPObjected
                     listOfClients.Remove(client);
                 }
                 riseUnexpectedComError(ex.Message);
-            }
+            } */
         }
 
 
@@ -128,7 +122,7 @@ namespace ChatServerTCPObjected
             onDataReceived(args);
         }
 
-        //Lanzadores de eventos
+        // Event launcher
         private void onDataReceived(DataReceivedEventArgs e)
         {
             EventHandler<DataReceivedEventArgs> handler = DataReceived;
@@ -137,7 +131,6 @@ namespace ChatServerTCPObjected
                 handler(this, e);
             }
         }
-
         private void onUnexpectedComError(ErrorEventArgs e)
         {
             EventHandler<ErrorEventArgs> handler = UnexpectedComError;

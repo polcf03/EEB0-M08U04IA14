@@ -51,11 +51,11 @@
             this.panelWS = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Selected_user = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.id_user = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.id_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Agv_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pasword_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_online = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.User_online = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Client_Security.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -71,7 +71,7 @@
             this.Client_Security.Location = new System.Drawing.Point(4, 22);
             this.Client_Security.Name = "Client_Security";
             this.Client_Security.Padding = new System.Windows.Forms.Padding(3);
-            this.Client_Security.Size = new System.Drawing.Size(414, 416);
+            this.Client_Security.Size = new System.Drawing.Size(416, 415);
             this.Client_Security.TabIndex = 3;
             this.Client_Security.Text = "Client";
             this.Client_Security.ToolTipText = "Manage clients, online players and export cliens data base";
@@ -91,7 +91,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 27);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(408, 386);
+            this.dataGridView1.Size = new System.Drawing.Size(410, 385);
             this.dataGridView1.TabIndex = 0;
             // 
             // menuStrip1
@@ -101,7 +101,7 @@
             this.exportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(3, 3);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(408, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(410, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -121,7 +121,7 @@
             this.addClientsToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.addClientToolStripMenuItem.Name = "addClientToolStripMenuItem";
-            this.addClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addClientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.addClientToolStripMenuItem.Text = "Manage clients";
             // 
             // addClientsToolStripMenuItem
@@ -144,7 +144,7 @@
             this.removePlayerToolStripMenuItem,
             this.removeAllPlayersToolStripMenuItem});
             this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
-            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.removeClientToolStripMenuItem.Text = "Players online";
             this.removeClientToolStripMenuItem.ToolTipText = "Manage players online";
             // 
@@ -253,7 +253,7 @@
             this.Home.Location = new System.Drawing.Point(4, 22);
             this.Home.Name = "Home";
             this.Home.Padding = new System.Windows.Forms.Padding(3);
-            this.Home.Size = new System.Drawing.Size(414, 416);
+            this.Home.Size = new System.Drawing.Size(416, 415);
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.ToolTipText = "Game screen";
@@ -276,7 +276,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.ShowToolTips = true;
-            this.tabControl1.Size = new System.Drawing.Size(422, 442);
+            this.tabControl1.Size = new System.Drawing.Size(424, 441);
             this.tabControl1.TabIndex = 0;
             // 
             // Selected_user
@@ -284,7 +284,7 @@
             this.Selected_user.HeaderText = "Selec.";
             this.Selected_user.Name = "Selected_user";
             this.Selected_user.ReadOnly = true;
-            this.Selected_user.Width = 30;
+            this.Selected_user.Width = 40;
             // 
             // id_user
             // 
@@ -292,6 +292,7 @@
             this.id_user.Name = "id_user";
             this.id_user.ReadOnly = true;
             this.id_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.id_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.id_user.Width = 30;
             // 
             // User_name
@@ -319,20 +320,21 @@
             this.pasword_user.ReadOnly = true;
             this.pasword_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.pasword_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.pasword_user.Width = 7;
+            this.pasword_user.Width = 70;
             // 
             // User_online
             // 
             this.User_online.HeaderText = "Online";
             this.User_online.Name = "User_online";
             this.User_online.ReadOnly = true;
+            this.User_online.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.User_online.Width = 40;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 442);
+            this.ClientSize = new System.Drawing.Size(424, 441);
             this.Controls.Add(this.tabControl1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -377,11 +379,11 @@
         private System.Windows.Forms.Panel panelWS;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Selected_user;
-        private System.Windows.Forms.DataGridViewButtonColumn id_user;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_user;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Agv_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn pasword_user;
-        private System.Windows.Forms.DataGridViewButtonColumn User_online;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_online;
     }
 }
 

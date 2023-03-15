@@ -13,29 +13,41 @@ namespace AGV_Local
 {
     public partial class MainForm : Form
     {
-        //Variables de la Clase
+        // Objects
         private Graphics blackBoard;
-        private int WSSizeX;
-        private int WSSizeY;
         private WSManager myWS;
-        private readonly Random _random = new Random();
         private TrajectoryManager myTrManager;
         private TCPServerComManager myTCPserverComManager;
+        private readonly Random _random = new Random();
+
+        // Class variables
+        private int WSSizeX;
+        private int WSSizeY;
    
-        //Constructor
+        // Constructor
         public MainForm()
         {
             InitializeComponent();
+
             myWS = new WSManager(80);
             myTrManager = new TrajectoryManager();
             myTCPserverComManager= new TCPServerComManager();
+
             blackBoard = panelWS.CreateGraphics();
-            WSSizeX=10;
-            WSSizeY=10;
-            
+
+            WSSizeX = 10;
+            WSSizeY = 10;
+            this.Width = 440;
+            this.Height = 480; 
         }
-        
-        //Métodos y funciones de dibujo
+
+        // Random num
+        private int RandomNumber(int min, int max)
+        {
+            return _random.Next(min, max);
+        }
+
+        // Draw functions and methods
         private void refreshAll()
         {
             refreshWS();
@@ -44,11 +56,6 @@ namespace AGV_Local
         {
             clearWS();
             fillWS();
-        }
-
-        private int RandomNumber(int min, int max)
-        {
-            return _random.Next(min, max);
         }
         
         private void fillWS()
@@ -190,12 +197,11 @@ namespace AGV_Local
 
         }
       
-        //Eventos
+        // Events
         private void Form1_Load(object sender, EventArgs e)
         {
             refreshAll();
         }
-       
         private void Form1_Shown(object sender, EventArgs e)
         {
             clearWS();
