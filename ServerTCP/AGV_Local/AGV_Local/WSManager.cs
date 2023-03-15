@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace AGV_Local
 {
-
-    
     public class WSManager
     {
-        
         //Variables de la Clase
         private int[,] WS = new int[10, 10];
 

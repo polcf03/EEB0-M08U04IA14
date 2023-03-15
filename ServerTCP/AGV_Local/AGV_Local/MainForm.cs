@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using ChatServerTCPObjected;
 
 namespace AGV_Local
 {
@@ -19,6 +20,7 @@ namespace AGV_Local
         private WSManager myWS;
         private readonly Random _random = new Random();
         private TrajectoryManager myTrManager;
+        private TCPServerComManager myTCPserverComManager;
    
         //Constructor
         public MainForm()
@@ -26,6 +28,7 @@ namespace AGV_Local
             InitializeComponent();
             myWS = new WSManager(80);
             myTrManager = new TrajectoryManager();
+            myTCPserverComManager= new TCPServerComManager();
             blackBoard = panelWS.CreateGraphics();
             WSSizeX=10;
             WSSizeY=10;
@@ -216,5 +219,9 @@ namespace AGV_Local
 
         }
 
+        private void addClientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
