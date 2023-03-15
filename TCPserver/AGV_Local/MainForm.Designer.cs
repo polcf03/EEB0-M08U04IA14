@@ -1,4 +1,4 @@
-﻿namespace AGV_Local
+﻿namespace TCPserver
 {
     partial class MainForm
     {

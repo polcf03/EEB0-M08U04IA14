@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using ChatServerTCPObjected;
+using TCPserver;
 
-namespace AGV_Local
+namespace TCPserver
 {
     public partial class MainForm : Form
     {
