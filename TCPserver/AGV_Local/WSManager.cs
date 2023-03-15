@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
-namespace AGV_Local
+namespace TCPserver
 {
     public class WSManager
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AGV_Local.Properties
+namespace TCPserver.Properties
 {
 
 

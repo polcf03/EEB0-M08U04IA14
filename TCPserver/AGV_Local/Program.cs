@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AGV_Local
+namespace TCPserver
 {
     static class Program
     {

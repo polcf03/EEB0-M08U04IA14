@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace ChatServerTCPObjected
+namespace TCPserver
 {
     //-------------------------------------------------------------------------------------------------------------------
     //------Esta Clase se encarga de la gestion de la comunicación TCP-IP------------------------------------------------
