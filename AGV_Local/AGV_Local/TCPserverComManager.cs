@@ -66,8 +66,8 @@ namespace ChatServerTCPObjected
         private void newClient(Object state)
         {
 
-
-             string txt;
+            /*
+            string txt;
             TcpClient client;
             NetworkStream nsToRead;
             NetworkStream nsToWrite;
@@ -102,7 +102,8 @@ namespace ChatServerTCPObjected
                     listOfClients.Remove(client);
                 }
                 riseUnexpectedComError(ex.Message);
-            } */
+            } 
+            */
         }
 
 

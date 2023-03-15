@@ -49,6 +49,7 @@
     <Compile Include="AGV.cs" />
     <Compile Include="DataReceivedEventArgs.cs" />
     <Compile Include="ErrorEventArgs.cs" />
+    <Compile Include="FrameManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
