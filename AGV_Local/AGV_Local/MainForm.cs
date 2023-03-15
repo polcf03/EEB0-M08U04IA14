@@ -200,28 +200,6 @@ namespace AGV_Local
         {
             clearWS();
         }
-        private void breakBtt_Click(object sender, EventArgs e)
-        {
-            if (myWS.isBreakPossible())
-            {
-                myWS.breakObstacle();
-                refreshAll();
-            }
-        }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void addClientsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
