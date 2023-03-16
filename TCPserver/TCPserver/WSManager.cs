@@ -8,13 +8,15 @@ namespace TCPserver
 {
     public class WSManager
     {
-        //Variables de la Clase
-        private int[,] WS = new int[10, 10];
-
+        // Objects
         private readonly Random _random = new Random();
-        private int iterations;
         private AGV myAGV = new AGV();
-        //Constructores
+
+        // Class variables
+        private int[,] WS = new int[10, 10];
+        private int iterations;
+
+        // Constructors
         public WSManager()
         {
             resetWS();
@@ -31,7 +33,7 @@ namespace TCPserver
 
         }
 
-        //Métodos y Accesores privados
+        // Private methods
         private void digWS(int mode)
         {
             switch (mode)
@@ -192,6 +194,8 @@ namespace TCPserver
                 }
             }
         }
+
+        // Private access 
         private bool isFreeNorth()
         {
             bool free = false;
@@ -354,7 +358,7 @@ namespace TCPserver
         }
 
 
-        //Métodos y Accesores públicos
+        // Public methods
         public void generateWS(int mode, int iter)
         {
             resetWS();
@@ -471,6 +475,8 @@ namespace TCPserver
             myAGV.RL();
 
         }
+
+        // Public access
         public int RandomNumber(int min, int max)
         {
             return _random.Next(min, max);
@@ -506,7 +512,6 @@ namespace TCPserver
             }
             return breakable;
         }
-
         private bool limitReached()
         {
             bool onLimit;
@@ -545,7 +550,6 @@ namespace TCPserver
             }
             return onLimit;
         }
-
         public void breakObstacle()
         {
             int targetX = 0;

@@ -21,7 +21,7 @@ namespace TCPserver
         }
 
         // Set User
-        public void User(int num, string User, int Password)
+        public Users(int num, string User, int Password)
         {
             UserNum = num;
             UserName = User;
