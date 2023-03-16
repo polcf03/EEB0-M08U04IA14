@@ -61,6 +61,7 @@
     <Compile Include="TCPserverComManager.cs" />
     <Compile Include="TrajectoryManager.cs" />
     <Compile Include="Users.cs" />
+    <Compile Include="UsersManager.cs" />
     <Compile Include="WSManager.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

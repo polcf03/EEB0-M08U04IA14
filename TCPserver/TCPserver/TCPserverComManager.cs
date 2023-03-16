@@ -8,13 +8,6 @@ using System.Threading;
 
 namespace TCPserver
 {
-    //-------------------------------------------------------------------------------------------------------------------
-    //------Esta Clase se encarga de la gestion de la comunicación TCP-IP------------------------------------------------
-    //------Es independiente de la IGU, es capaz de lanzar dos eventos---------------------------------------------------
-    //-----------------UnexpectedComError  --> Evento que lanzamos si hay unh error inesperado en la comunicación--------
-    //-----------------DataReceived  --> Evento podemos lanzar si recivimos un dato--------------------------------------
-    //-------------------------------------------------------------------------------------------------------------------
-
     class TCPServerComManager
     {
         // Class variables    
@@ -22,7 +15,7 @@ namespace TCPserver
         private int myPort;
         private TcpListener server;
         private List<TcpClient> listOfClients;
-        private List<Users> listOfUsers;
+       
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
