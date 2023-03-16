@@ -8,8 +8,8 @@
     <ProjectGuid>{3309628B-4FA0-4F88-A3F4-0C3B985D9FAA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AGV_Local</RootNamespace>
-    <AssemblyName>AGV_Local</AssemblyName>
+    <RootNamespace>TCPserver</RootNamespace>
+    <AssemblyName>TCPserver</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
