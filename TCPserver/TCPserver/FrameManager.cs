@@ -68,22 +68,10 @@ namespace TCPserver
         
         }
 
-        // Access
-        public string Command()
-        {
-            return command;
-        }
-        public string Arg1()
-        {
-            return arg1;
-        }
-        public string Arg2()
-        {
-            return arg2;
-        }
-        public string Arg3()
-        {
-            return arg3;
-        }
+        // Modifiers and acces
+        public string Command { get; set; }
+        public string Arg1 { get; set; }
+        public string Arg2 { get; set; }
+        public string Arg3 { get; set; }
     }
 }

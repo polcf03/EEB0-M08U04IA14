@@ -24,7 +24,7 @@ namespace TCPserver
         private List<TcpClient> listOfClients;
         private List<Users> listOfUsers;
 
-        //Objects
+        // Objects
         private FrameManager myFrameManager = new FrameManager();
         
         // Eventos
@@ -85,9 +85,9 @@ namespace TCPserver
                     nsToRead = client.GetStream();
                     nsToRead.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
-                    
+                    myFrameManager.Frame(txt);
+
                     // riseDataReceive(txt);
-                    if(listOfUsers.Contains())
                     foreach (TcpClient clientListed in listOfClients)
                     {
                         if (clientListed != client)
@@ -147,16 +147,13 @@ namespace TCPserver
             */
         }
 
-
-        //Método compacto que permite lanzar el evento de error de comunicación inesperado
+        // 
         private void riseUnexpectedComError(string txtError)
         {
             ErrorEventArgs args = new ErrorEventArgs();
             args.message = txtError;
             onUnexpectedComError(args);
         }
-
-        //Método compacto que permite lanzar un evento de información recivida
         private void riseDataReceive(string infoReceived)
         {
             DataReceivedEventArgs args = new DataReceivedEventArgs();
@@ -181,6 +178,5 @@ namespace TCPserver
                 handler(this, e);
             }
         }
-
     }
 }
