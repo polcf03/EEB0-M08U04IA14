@@ -41,7 +41,7 @@ namespace TCPserver
             this.Height = 480;
         }
 
-        // Random num
+        // Random num  
         private int RandomNumber(int min, int max)
         {
             return _random.Next(min, max);

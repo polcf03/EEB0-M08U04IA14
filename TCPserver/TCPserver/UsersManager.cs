@@ -9,12 +9,14 @@ namespace TCPserver
     {
         // Class variables
         private List<Users> listOfUsers;
-        
+
         // Constructor
         public UsersManager()
         {
-            listOfUsers = new List<Users>();
+            listOfUsers = new List<Users>()
+            {
+                new Users(),
+            }
         }
-        
     }
 }

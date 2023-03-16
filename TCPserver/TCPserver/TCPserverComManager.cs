@@ -19,6 +19,7 @@ namespace TCPserver
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
+        private UsersManager myUsersManager = new UsersManager();
         
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;

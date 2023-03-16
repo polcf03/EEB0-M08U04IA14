@@ -14,6 +14,7 @@ namespace TCPserver
         private int agvId;
         private int userPassword;
         private bool online;
+
         // Construtores
         public Users()
         {
@@ -49,8 +50,5 @@ namespace TCPserver
         public int UserPassword { get; set; }
         public bool Online { get; set; }
         
-    }
-        
-
     }
 }
