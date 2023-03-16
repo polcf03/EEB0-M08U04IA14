@@ -22,7 +22,11 @@ namespace TCPserver
         private int myPort;
         private TcpListener server;
         private List<TcpClient> listOfClients;
+        private List<Users> listOfUsers;
 
+        //Objects
+        private FrameManager myFrameManager = new FrameManager();
+        
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler<DataReceivedEventArgs> DataReceived;
@@ -62,9 +66,46 @@ namespace TCPserver
             server.Start();
             ThreadPool.QueueUserWorkItem(newClient);
         }
-
         private void newClient(Object state)
         {
+            string txt;
+            TcpClient client;
+            NetworkStream nsToRead;
+            NetworkStream nsToWrite;
+            client = new TcpClient();
+
+            try
+            {
+                client = server.AcceptTcpClient();
+                listOfClients.Add(client);
+                ThreadPool.QueueUserWorkItem(newClient);
+                while (true)
+                {
+                    byte[] toReceive = new byte[100000];
+                    nsToRead = client.GetStream();
+                    nsToRead.Read(toReceive, 0, toReceive.Length);
+                    txt = Encoding.ASCII.GetString(toReceive);
+                    
+                    // riseDataReceive(txt);
+                    if(listOfUsers.Contains())
+                    foreach (TcpClient clientListed in listOfClients)
+                    {
+                        if (clientListed != client)
+                        {
+                            nsToWrite = clientListed.GetStream();
+                            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (listOfClients.Contains(client))
+                {
+                    listOfClients.Remove(client);
+                }
+                riseUnexpectedComError(ex.Message);
+            } 
 
             /*
             string txt;
