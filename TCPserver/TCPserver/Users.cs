@@ -9,46 +9,61 @@ namespace TCPserver
     class Users
     {
         // class variables;
-        private int userId;
-        private string userName;
-        private int agvId;
-        private int userPassword;
+        private int id;
+        private string name;
+        private string agvref;
+        private int password;
         private bool online;
 
         // Construtores
         public Users()
         {
-            userId = 0;
-            userName = "";
-            agvId = 0;
-            userPassword = 0;
+            id = 0;
+            name = "";
+            agvref = "";
+            password = 0;
             online = false;
         }
-        public Users(int num, string User, int id, int Password, bool onlineuser)
+        public Users(int Id, string User, string strref, int Password, bool onlineuser)
         {
-            userId = num;
-            userName = User;
-            agvId = id;
-            userPassword = Password;
+            id = Id;
+            name = User;
+            agvref = strref;
+            password = Password;
             online = onlineuser;
+        }
+        public Users(int Id, string User,  int Password)
+        {
+            id = Id;
+            name = User;
+            agvref = "";
+            password = Password;
+            online = false;
         }
 
         // Modifier
-        public void setUser(int a , string str, int b, int c, bool state)
+        public void setUser(int Id, string User, string strref, int Password, bool state)
         {
-            userId = a;
-            userName = str;
-            agvId = b;
-            userPassword = c;
+            id = Id;
+            name = User;
+            agvref = strref;
+            password = Password;
             online = state;
         }
 
-        // Accessors and modifier
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public int AgvId { get; set; }
-        public int UserPassword { get; set; }
-        public bool Online { get; set; }
+        // Accessors
+        public void setId(int a) { id = a; }
+        public void setName(string str) { name = str; }
+        public void setAgvref(string str) { agvref = str; }
+        public void setPassword(int a) { password = a; }
+        public void setOnline(bool ste) { online = ste; }
+
+        // Modifiers
+        public int getId() { return id; }
+        public string getName() { return name; }
+        public string getAgvref() { return agvref; }
+        public int getPassword() { return password; }
+        public bool getOnline() { return online; }
         
     }
 }

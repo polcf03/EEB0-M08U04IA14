@@ -38,7 +38,7 @@ namespace TCPserver
                 a += c[i];
                 i++;
             }
-            Command = a;
+            command = a;
             a = "";
             i++;
             while (c[i] != '&')
@@ -46,7 +46,7 @@ namespace TCPserver
                 a += c[i];
                 i++;
             }
-            Arg1 = a;
+            arg1 = a;
             a = "";
             i++;
             while (c[i] != '%')
@@ -54,7 +54,7 @@ namespace TCPserver
                 a += c[i];
                 i++;
             }
-            Arg2 = a;
+            arg2 = a;
             a = "";
             i++;
             while (c[i] != '#')
@@ -62,16 +62,25 @@ namespace TCPserver
                 a += c[i];
                 i++;
             }
-            Arg3 = a;
+            arg3 = a;
             a = "";
             i++;
         
         }
 
-        // Modifiers and acces
-        public string Command { get; set; }
-        public string Arg1 { get; set; }
-        public string Arg2 { get; set; }
-        public string Arg3 { get; set; }
+        // Accessors
+        public string Command() { return command; }
+        public string Arg1() { return arg1; }
+        public string Arg2() { return arg2; }
+        public string Arg3() { return arg3;}
+
+        // Modifier
+        public void Command(string str) { command = str; }
+        public void Arg1(string str) { arg1 = str; }
+        public void Arg2(string str) { arg2 = str; }
+        public void Arg3(string str) { arg3 = str; }
+
+
+
     }
 }

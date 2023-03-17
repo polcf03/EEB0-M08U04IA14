@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace TCPserver
 {
@@ -10,12 +11,24 @@ namespace TCPserver
         // Class variables
         private List<Users> listOfUsers;
 
-        // Constructor
+        // Constructors
         public UsersManager()
         {
-            listOfUsers = new List<Users>()
+            listOfUsers = new List<Users>();
+            default_users();
+        }
+
+
+
+
+
+
+        // Method that inicialize a default list of users
+        private void default_users()
+        {
+            for(int i = 0; i < 10; i++)
             {
-                new Users(),
+                listOfUsers.Add(new Users(i,"User" + i.ToString(), 0000 + 1 * i));
             }
         }
     }
