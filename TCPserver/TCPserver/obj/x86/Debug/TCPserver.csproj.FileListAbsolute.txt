@@ -1,5 +1,7 @@
-P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.csproj.AssemblyReference.cache
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.Form1.resources
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.Properties.Resources.resources
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.csproj.GenerateResource.cache
-P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.csproj.CoreCompileInputs.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Debug\TCPserver.exe
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Debug\TCPserver.pdb
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.exe
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.pdb
