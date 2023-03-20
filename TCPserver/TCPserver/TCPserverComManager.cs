@@ -15,7 +15,6 @@ namespace TCPserver
         private int myPort;
         private TcpListener server;
         private List<TcpClient> listOfClients;
-       
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
@@ -84,7 +83,7 @@ namespace TCPserver
                     // riseDataReceive(txt);
                     foreach (TcpClient clientListed in listOfClients)
                     {
-                        if (clientListed != client)
+                        if (clientListed == client)
                         {
                             nsToWrite = clientListed.GetStream();
                             nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);

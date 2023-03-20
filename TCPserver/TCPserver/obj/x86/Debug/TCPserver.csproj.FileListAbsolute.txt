@@ -5,3 +5,5 @@ P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Deb
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Debug\TCPserver.pdb
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.exe
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.pdb
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.exe
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.pdb
