@@ -5,8 +5,8 @@ using System.Text;
 
 namespace TCPserver
 {
-    class DataReceivedEventArgs : EventArgs
+    internal class CommandEventArgs: EventArgs
     {
-        public string txtReceived { get; set; }
+
     }
 }

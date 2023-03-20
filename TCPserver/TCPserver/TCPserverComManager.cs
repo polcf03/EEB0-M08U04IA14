@@ -14,22 +14,23 @@ namespace TCPserver
         private IPAddress myIp;
         private int myPort;
         private TcpListener server;
-        private List<TcpClient> listOfClients;
+        private List<Users> UsersList;
+        private bool firstCom;
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
-        private UsersManager myUsersManager = new UsersManager();
         
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
-        public event EventHandler<DataReceivedEventArgs> DataReceived;
 
         // Constructor
         public TCPServerComManager()
         {
             myIp = IPAddress.Loopback;
             myPort = 1;
-            listOfClients = new List<TcpClient>();
+            UsersList = new List<Users>();
+            firstCom = true;
+            defaultUsers();
         }
 
         // Modifier
@@ -70,7 +71,6 @@ namespace TCPserver
             try
             {
                 client = server.AcceptTcpClient();
-                listOfClients.Add(client);
                 ThreadPool.QueueUserWorkItem(newClient);
                 while (true)
                 {
@@ -79,27 +79,21 @@ namespace TCPserver
                     nsToRead.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
                     myFrameManager.Frame(txt);
-
-                    // riseDataReceive(txt);
-                    foreach (TcpClient clientListed in listOfClients)
+                    int i = login();
+                    if (firstCom && i >= 0 && UsersList[i].getTcpClient() != client)
                     {
-                        if (clientListed == client)
-                        {
-                            nsToWrite = clientListed.GetStream();
-                            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
-                        }
+                        UsersList[i].setTcpClient(client);
                     }
                 }
             }
             catch (Exception ex)
             {
-                if (listOfClients.Contains(client))
+                if (UsersList.Contains(client))
                 {
                     listOfClients.Remove(client);
                 }
                 riseUnexpectedComError(ex.Message);
-            } 
-
+            }
             /*
             string txt;
             TcpClient client;
@@ -140,29 +134,15 @@ namespace TCPserver
             */
         }
 
-        // 
+        // Event caller
         private void riseUnexpectedComError(string txtError)
         {
             ErrorEventArgs args = new ErrorEventArgs();
             args.message = txtError;
             onUnexpectedComError(args);
         }
-        private void riseDataReceive(string infoReceived)
-        {
-            DataReceivedEventArgs args = new DataReceivedEventArgs();
-            args.txtReceived = infoReceived;
-            onDataReceived(args);
-        }
 
         // Event launcher
-        private void onDataReceived(DataReceivedEventArgs e)
-        {
-            EventHandler<DataReceivedEventArgs> handler = DataReceived;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
         private void onUnexpectedComError(ErrorEventArgs e)
         {
             EventHandler<ErrorEventArgs> handler = UnexpectedComError;
@@ -170,6 +150,27 @@ namespace TCPserver
             {
                 handler(this, e);
             }
+        }
+
+        // Method that inicialize a default list of users
+        private void defaultUsers()
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                UsersList.Add(new Users(i, "User" + i.ToString(), 0000 + 1 * i));
+            }
+        }
+        private int login()
+        {
+            for(int i = 0; i <= UsersList.Count() - 1; i++)
+            {
+                if(UsersList[i].getName() != myFrameManager.getArg1() && UsersList[i].getPassword() != myFrameManager.getArg2())
+                {
+                    return i;
+                }
+                else { return -1; }
+            }
+            return -1;
         }
     }
 }

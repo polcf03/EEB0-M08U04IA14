@@ -5,24 +5,28 @@ using System.Text;
 
 namespace TCPserver
 {
-    class FrameManager
+    class FrameManager : EventArgs
     {
-        // Class variables
-        string command, arg1, arg2, arg3;
+        // Class varables
+        string command, arg1, arg2, arg3, order;
 
-        //Constructor
-        public FrameManager() 
+        // Eventos
+        public event EventHandler<DataReceivedEventArgs> DataReceived;
+
+        // Constructor
+        public FrameManager()
         {
             command = "";
             arg1 = "";
             arg2 = "";
             arg3 = "";
+            order = "";
         }
 
-        // Frame modifier
+        // Frame spliter
         public void Frame(string str)
         {
-            char [] c = str.ToCharArray();
+            char[] c = str.ToCharArray();
             string a = "";
             int i = 0;
             do
@@ -30,17 +34,16 @@ namespace TCPserver
                 a += c[i];
                 i++;
             }
-            while (c[i] != '#');
+            while (c[i] == '#');
             a = "";
-            i++;
             while (c[i] != '$')
             {
                 a += c[i];
                 i++;
             }
             command = a;
-            a = "";
             i++;
+            a = "";
             while (c[i] != '&')
             {
                 a += c[i];
@@ -64,23 +67,65 @@ namespace TCPserver
             }
             arg3 = a;
             a = "";
-            i++;
-        
+        }
+
+        // Order creator 
+        public string Order()
+        {
+            CreateFrame();
+            return order;
+        }
+        public string Order(string Command, string Arg1, string Arg2, string Arg3)
+        {
+            setFramesArgs(Command, Arg1, Arg2, Arg3);
+            CreateFrame();
+            return order;
+        }
+
+        // Args Modifier and frame creator
+        private void setFramesArgs(string Command, string Arg1, string Arg2, string Arg3)
+        {
+            command = Command;
+            arg1 = Arg1;
+            arg2 = Arg2;
+            arg3 = Arg3;
+        }
+        private void CreateFrame()
+        {
+            order = "#" + command + "$" + arg1 + "&" + arg2 + "%" + arg3 + "#";
         }
 
         // Accessors
-        public string Command() { return command; }
-        public string Arg1() { return arg1; }
-        public string Arg2() { return arg2; }
-        public string Arg3() { return arg3;}
+        public string getCommand() { return command; }
+        public string getArg1() { return arg1; }
+        public string getArg2() { return arg2; }
+        public string getArg3() { return arg3; }
 
         // Modifier
-        public void Command(string str) { command = str; }
-        public void Arg1(string str) { arg1 = str; }
-        public void Arg2(string str) { arg2 = str; }
-        public void Arg3(string str) { arg3 = str; }
+        private void setCommand(string str) { command = str; }
+        private void setArg1(string str) { arg1 = str; }
+        private void setArg2(string str) { arg2 = str; }
+        private void setArg3(string str) { arg3 = str; }
 
+        // Event caller
+        private void riseDataReceive(string infoReceived)
+        {
+            FrameManager args = new FrameManager();
+            args.txtReceived = infoReceived;
+            onDataReceived(args);
+        }
 
-
+        // Event launcher
+        private void onDataReceived(FrameManager e)
+        {
+            EventHandler<FrameManager> handler = DataR
+                
+                
+                eceived;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
     }
 }
