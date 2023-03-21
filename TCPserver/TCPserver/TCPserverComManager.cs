@@ -14,8 +14,7 @@ namespace TCPserver
         private IPAddress myIp;
         private int myPort;
         private TcpListener server;
-        private List<Users> UsersList;
-        private bool firstCom;
+        //private List<Users> UsersList;
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
@@ -28,9 +27,8 @@ namespace TCPserver
         {
             myIp = IPAddress.Loopback;
             myPort = 1;
-            UsersList = new List<Users>();
-            firstCom = true;
-            defaultUsers();
+            //UsersList = new List<Users>();
+            //defaultUsers();
         }
 
         // Modifier
@@ -62,36 +60,31 @@ namespace TCPserver
         }
         private void newClient(Object state)
         {
-            string txt;
+            string txt,txt2;
             TcpClient client;
             NetworkStream nsToRead;
             NetworkStream nsToWrite;
             client = new TcpClient();
-
             try
             {
                 client = server.AcceptTcpClient();
                 ThreadPool.QueueUserWorkItem(newClient);
+                txt = myFrameManager.Order("LOG","","","");
+                nsToWrite = client.GetStream();
+                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+                nsToRead = client.GetStream();
+
                 while (true)
                 {
                     byte[] toReceive = new byte[100000];
-                    nsToRead = client.GetStream();
+                    
                     nsToRead.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
                     myFrameManager.Frame(txt);
-                    int i = login();
-                    if (firstCom && i >= 0 && UsersList[i].getTcpClient() != client)
-                    {
-                        UsersList[i].setTcpClient(client);
-                    }
                 }
             }
             catch (Exception ex)
             {
-                if (UsersList.Contains(client))
-                {
-                    listOfClients.Remove(client);
-                }
                 riseUnexpectedComError(ex.Message);
             }
             /*
@@ -141,7 +134,6 @@ namespace TCPserver
             args.message = txtError;
             onUnexpectedComError(args);
         }
-
         // Event launcher
         private void onUnexpectedComError(ErrorEventArgs e)
         {
@@ -150,27 +142,6 @@ namespace TCPserver
             {
                 handler(this, e);
             }
-        }
-
-        // Method that inicialize a default list of users
-        private void defaultUsers()
-        {
-            for (int i = 1; i <= 10; i++)
-            {
-                UsersList.Add(new Users(i, "User" + i.ToString(), 0000 + 1 * i));
-            }
-        }
-        private int login()
-        {
-            for(int i = 0; i <= UsersList.Count() - 1; i++)
-            {
-                if(UsersList[i].getName() != myFrameManager.getArg1() && UsersList[i].getPassword() != myFrameManager.getArg2())
-                {
-                    return i;
-                }
-                else { return -1; }
-            }
-            return -1;
         }
     }
 }

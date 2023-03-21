@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AGV.cs" />
+    <Compile Include="ClientsManager.cs" />
     <Compile Include="CommandEventArgs.cs" />
     <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="Form1.cs">
