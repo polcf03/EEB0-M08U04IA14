@@ -41,6 +41,18 @@ namespace TCPserver
             this.Height = 480;
         }
 
+        // Controls
+        private void Orders(object sender, CommandEventArgs e)
+        {
+            string txt;
+            txt = e.Command;
+            switch (txt)
+            {
+                
+            }
+        }
+
+
         // Random num  
         private int RandomNumber(int min, int max)
         {
@@ -206,6 +218,7 @@ namespace TCPserver
         {
             clearWS();
         }
+
 
     }
 }

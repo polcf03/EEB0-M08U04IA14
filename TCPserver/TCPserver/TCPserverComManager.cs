@@ -14,13 +14,14 @@ namespace TCPserver
         private IPAddress myIp;
         private int myPort;
         private TcpListener server;
-        //private List<Users> UsersList;
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
-        
+        private ClientsManager myClientsManager = new ClientsManager();
+
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
+        public event EventHandler<CommandEventArgs> Command;
 
         // Constructor
         public TCPServerComManager()
@@ -60,71 +61,65 @@ namespace TCPserver
         }
         private void newClient(Object state)
         {
-            string txt,txt2;
-            TcpClient client;
-            NetworkStream nsToRead;
-            NetworkStream nsToWrite;
-            client = new TcpClient();
-            try
-            {
-                client = server.AcceptTcpClient();
-                ThreadPool.QueueUserWorkItem(newClient);
-                txt = myFrameManager.Order("LOG","","","");
-                nsToWrite = client.GetStream();
-                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
-                nsToRead = client.GetStream();
 
-                while (true)
-                {
-                    byte[] toReceive = new byte[100000];
-                    
-                    nsToRead.Read(toReceive, 0, toReceive.Length);
-                    txt = Encoding.ASCII.GetString(toReceive);
-                    myFrameManager.Frame(txt);
-                }
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
-            }
-            /*
             string txt;
             TcpClient client;
             NetworkStream nsToRead;
             NetworkStream nsToWrite;
             client = new TcpClient();
-
             try
             {
                 client = server.AcceptTcpClient();
-                listOfClients.Add(client);
                 ThreadPool.QueueUserWorkItem(newClient);
-                while (true)
+                bool UserLogged = login(client);
+                while (UserLogged)
                 {
+                    // Read
                     byte[] toReceive = new byte[100000];
                     nsToRead = client.GetStream();
                     nsToRead.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
-                    riseDataReceive(txt);
-                    foreach (TcpClient clientListed in listOfClients)
-                    {
-                        if (clientListed != client)
-                        {
-                            nsToWrite = clientListed.GetStream();
-                            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
-                        }
-                    }
+
+                    // Process
+                    myFrameManager.Frame(txt);
+                    riseCommand(Orders());
+
+                    //Write
+
                 }
             }
             catch (Exception ex)
             {
-                if (listOfClients.Contains(client))
-                {
-                    listOfClients.Remove(client);
-                }
-                riseUnexpectedComError(ex.Message);
-            } 
-            */
+                riseUnexpectedComError(ex.Message); 
+            }
+        }
+
+        // Orders
+        private void Orders()
+        {
+            string Command = myFrameManager.getCommand();
+            string Arg1 = myFrameManager.getArg1();
+            string Arg2 = myFrameManager.getArg2();
+            string Arg3 = myFrameManager.getArg3();
+
+            switch (Command)
+            {
+                //case Arg1 == "MOV"
+            }
+        }
+        private bool login(TcpClient client)
+        {
+            NetworkStream nsToWrite;
+            NetworkStream nsToRead;
+            string txt = myFrameManager.Order("LOG", "", "", "");
+            nsToWrite = client.GetStream();
+            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+            byte[] txt2 = new byte[100000];
+            nsToRead = client.GetStream();
+            nsToRead.Read(txt2, 0, txt2.Length);
+            txt = Encoding.ASCII.GetString(txt2);
+            myFrameManager.Frame(txt);
+            return myClientsManager.login(client,myFrameManager.getArg1(), myFrameManager.getArg2());
         }
 
         // Event caller
@@ -133,6 +128,12 @@ namespace TCPserver
             ErrorEventArgs args = new ErrorEventArgs();
             args.message = txtError;
             onUnexpectedComError(args);
+        }
+        private void riseCommand(string txtCommand)
+        {
+            CommandEventArgs args = new CommandEventArgs();
+            args.Command = txtCommand;
+            onCommand(args);
         }
         // Event launcher
         private void onUnexpectedComError(ErrorEventArgs e)
@@ -143,5 +144,52 @@ namespace TCPserver
                 handler(this, e);
             }
         }
+        private void onCommand(CommandEventArgs e)
+        {
+            EventHandler<CommandEventArgs> handler = Command;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
     }
 }
+
+/*
+string txt;
+TcpClient client;
+NetworkStream nsToRead;
+NetworkStream nsToWrite;
+client = new TcpClient();
+
+try
+{
+    client = server.AcceptTcpClient();
+    listOfClients.Add(client);
+    ThreadPool.QueueUserWorkItem(newClient);
+    while (true)
+    {
+        byte[] toReceive = new byte[100000];
+        nsToRead = client.GetStream();
+        nsToRead.Read(toReceive, 0, toReceive.Length);
+        txt = Encoding.ASCII.GetString(toReceive);
+        riseDataReceive(txt);
+        foreach (TcpClient clientListed in listOfClients)
+        {
+            if (clientListed != client)
+            {
+                nsToWrite = clientListed.GetStream();
+                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+            }
+        }
+    }
+}
+catch (Exception ex)
+{
+    if (listOfClients.Contains(client))
+    {
+        listOfClients.Remove(client);
+    }
+    riseUnexpectedComError(ex.Message);
+} 
+*/

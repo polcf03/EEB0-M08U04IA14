@@ -7,6 +7,6 @@ namespace TCPserver
 {
     internal class CommandEventArgs: EventArgs
     {
-
+        public string Command { get; set; }
     }
 }

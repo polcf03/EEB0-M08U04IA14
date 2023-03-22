@@ -10,9 +10,6 @@ namespace TCPserver
         // Class varables
         string command, arg1, arg2, arg3, order;
 
-        // Eventos
-        public event EventHandler<DataReceivedEventArgs> DataReceived;
-
         // Constructor
         public FrameManager()
         {
@@ -106,26 +103,5 @@ namespace TCPserver
         private void setArg1(string str) { arg1 = str; }
         private void setArg2(string str) { arg2 = str; }
         private void setArg3(string str) { arg3 = str; }
-
-        // Event caller
-        private void riseDataReceive(string infoReceived)
-        {
-            FrameManager args = new FrameManager();
-            args.txtReceived = infoReceived;
-            onDataReceived(args);
-        }
-
-        // Event launcher
-        private void onDataReceived(FrameManager e)
-        {
-            EventHandler<FrameManager> handler = DataR
-                
-                
-                eceived;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
     }
 }
