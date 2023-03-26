@@ -10,7 +10,6 @@ namespace TCPserver
     {
         // Objects
         private readonly Random _random = new Random();
-        private AGV myAGV = new AGV();
 
         // Class variables
         private int[,] WS = new int[10, 10];

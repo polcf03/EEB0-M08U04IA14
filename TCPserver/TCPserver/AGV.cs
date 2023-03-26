@@ -9,6 +9,7 @@ namespace TCPserver
     public class AGV
     {
         //Variables de clase
+        private int id = 0;
         private int posX;
         private int posY;
         private int orient;

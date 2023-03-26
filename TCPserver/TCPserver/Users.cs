@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
+using System.Drawing;
 
 namespace TCPserver
 {
@@ -12,9 +13,9 @@ namespace TCPserver
         // class variables;
         private int id;
         private string name;
-        private string agvref;
+        private Color agvref;
+        private int agvId;
         private string password;
-        private bool online;
         private TcpClient tcpClient;
 
         // Construtores
@@ -22,43 +23,37 @@ namespace TCPserver
         {
             id = 0;
             name = "";
-            agvref = "";
             password = "";
-            online = false;
         }
-        public Users(int Id, string User,  string Password)
+        public Users(int Id, string Name, string Password)
         {
             id = Id;
-            name = User;
-            agvref = "";
+            name = Name;
             password = Password;
-            online = false;
         }
 
+
         // Global Modifier
-        public void setUser(int Id, string User, string strref, string Password, bool state)
+        public void setUser(int Id, string User, string Password, bool state)
         {
             id = Id;
             name = User;
-            agvref = strref;
             password = Password;
-            online = state;
         }
 
         // Accessors
         public void setId(int a) { id = a; }
         public void setName(string str) { name = str; }
-        public void setAgvref(string str) { agvref = str; }
+        public void setAgvref(Color color) { agvref = color; }
+        public void setAgvId(int a) { agvId = a; }
         public void setPassword(string str) { password = str; }
-        public void setOnline(bool ste) { online = ste; }
         public void setTcpClient(TcpClient Client) { tcpClient = Client; }
 
         // Modifiers
         public int getId() { return id; }
         public string getName() { return name; }
-        public string getAgvref() { return agvref; }
+        public Color getAgvref() { return agvref; }
         public string getPassword() { return password; }
-        public bool getOnline() { return online; }
         public TcpClient getTcpClient() { return tcpClient; }
         
     }

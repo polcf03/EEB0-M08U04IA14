@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TCPserver
 {
-    class FrameManager : EventArgs
+    class FrameManager
     {
         // Class varables
         string command, arg1, arg2, arg3, order;

@@ -5,6 +5,8 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Forms;
 
 namespace TCPserver
 {
@@ -22,6 +24,7 @@ namespace TCPserver
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler<CommandEventArgs> Command;
+        public event EventHandler<CommandEventArgs> Agv;
 
         // Constructor
         public TCPServerComManager()
@@ -52,7 +55,7 @@ namespace TCPserver
             return myPort;
         }
 
-        // Server startup
+        // Methods // Server startup
         public void startServer()
         {
             server = new TcpListener(myIp, myPort);
@@ -61,18 +64,20 @@ namespace TCPserver
         }
         private void newClient(Object state)
         {
-
             string txt;
             TcpClient client;
             NetworkStream nsToRead;
-            NetworkStream nsToWrite;
             client = new TcpClient();
             try
             {
                 client = server.AcceptTcpClient();
                 ThreadPool.QueueUserWorkItem(newClient);
-                bool UserLogged = login(client);
-                while (UserLogged)
+                int i = login(client);
+                if(i >= 0)
+                {
+
+                }
+                while(myClientsManager.getOnline(i))
                 {
                     // Read
                     byte[] toReceive = new byte[100000];
@@ -81,45 +86,43 @@ namespace TCPserver
                     txt = Encoding.ASCII.GetString(toReceive);
 
                     // Process
-                    myFrameManager.Frame(txt);
-                    riseCommand(Orders());
-
-                    //Write
+                    ReadFromClient(txt);
 
                 }
             }
             catch (Exception ex)
             {
-                riseUnexpectedComError(ex.Message); 
+
             }
         }
 
-        // Orders
-        private void Orders()
+        // Methods // Read orders
+        private int login(TcpClient client)
         {
-            string Command = myFrameManager.getCommand();
-            string Arg1 = myFrameManager.getArg1();
-            string Arg2 = myFrameManager.getArg2();
-            string Arg3 = myFrameManager.getArg3();
-
+            NetworkStream nsToRead;
+            string txt; 
+            byte[] received = new byte[100000];
+            nsToRead = client.GetStream();
+            nsToRead.Read(received, 0, received.Length);
+            txt = Encoding.ASCII.GetString(received); 
+            myFrameManager.Frame(txt);
+            return myClientsManager.login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
+        }
+        private string ReadFromClient(string txt)
+        {
+            myFrameManager.Frame(txt);
+            return Orders(myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
+        }
+        private string Orders(string Command, string Arg1, string Arg2, string Arg3)
+        {
+            string txt = ""
+                ; 
             switch (Command)
             {
                 //case Arg1 == "MOV"
+                
             }
-        }
-        private bool login(TcpClient client)
-        {
-            NetworkStream nsToWrite;
-            NetworkStream nsToRead;
-            string txt = myFrameManager.Order("LOG", "", "", "");
-            nsToWrite = client.GetStream();
-            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
-            byte[] txt2 = new byte[100000];
-            nsToRead = client.GetStream();
-            nsToRead.Read(txt2, 0, txt2.Length);
-            txt = Encoding.ASCII.GetString(txt2);
-            myFrameManager.Frame(txt);
-            return myClientsManager.login(client,myFrameManager.getArg1(), myFrameManager.getArg2());
+            return txt;
         }
 
         // Event caller
@@ -129,10 +132,11 @@ namespace TCPserver
             args.message = txtError;
             onUnexpectedComError(args);
         }
-        private void riseCommand(string txtCommand)
+        private void riseCommand(string txtCommand, int Agv)
         {
             CommandEventArgs args = new CommandEventArgs();
             args.Command = txtCommand;
+            args.AGVrequested = Agv;
             onCommand(args);
         }
         // Event launcher
@@ -147,9 +151,11 @@ namespace TCPserver
         private void onCommand(CommandEventArgs e)
         {
             EventHandler<CommandEventArgs> handler = Command;
-            if (handler != null)
+            EventHandler<CommandEventArgs> handler2 = Agv;
+            if (handler != null && handler2 != null)
             {
                 handler(this, e);
+                handler2(this, e);
             }
         }
     }

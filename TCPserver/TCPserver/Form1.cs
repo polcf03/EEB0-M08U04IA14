@@ -37,21 +37,23 @@ namespace TCPserver
 
             WSSizeX = 10;
             WSSizeY = 10;
-            this.Width = 440;
-            this.Height = 480;
+            //this.Width = 860;
+            //this.Height = 470;
+            blackBoard.Clear(Color.DarkSlateBlue);
         }
 
         // Controls
         private void Orders(object sender, CommandEventArgs e)
         {
             string txt;
+            int Agv;
             txt = e.Command;
+            Agv = e.AGVrequested;
             switch (txt)
             {
                 
             }
         }
-
 
         // Random num  
         private int RandomNumber(int min, int max)
@@ -69,7 +71,6 @@ namespace TCPserver
             clearWS();
             fillWS();
         }
-
         private void fillWS()
         {
 
@@ -94,11 +95,8 @@ namespace TCPserver
                         default:
                             break;
                     }
-
                 }
-
             }
-
         }
         private void drawAGV(int i, int j, int o)
         {
@@ -165,9 +163,8 @@ namespace TCPserver
             obstaclePoints[3] = new Point(incX * i + drawOffset, incY * j + incY - drawOffset);
 
 
-            blackBoard.FillPolygon(new SolidBrush(Color.Red), obstaclePoints);
+            blackBoard.FillPolygon(new SolidBrush(Color.DarkMagenta), obstaclePoints);
         }
-
         private void clearWS()
         {
 
@@ -204,21 +201,19 @@ namespace TCPserver
                 lineVEnd.X = j * incX;
 
                 blackBoard.DrawLine(linePen, lineVIn, lineVEnd);
-
+                
             }
 
         }
 
         // Events
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            refreshWS();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             refreshAll();
         }
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            clearWS();
-        }
-
-
     }
 }
