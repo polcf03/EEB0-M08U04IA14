@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
@@ -14,6 +15,7 @@ namespace TCPserver
         // Class variables
         private int[,] WS = new int[10, 10];
         private int iterations;
+        private AGV[] AGVlist = new AGV[10]{ new AGV(), new AGV(), new AGV() ,new AGV() ,new AGV() ,new AGV() ,new AGV(), new AGV(), new AGV(),new AGV()  }; 
 
         // Constructors
         public WSManager()
@@ -27,9 +29,33 @@ namespace TCPserver
             iterations = i;
         }
 
-        public void newAgv()
+        public void newAgv(int AgvRef)
         {
 
+            int x, y;
+            do
+            {
+                x = RandomNumber(0, 10);
+                y = RandomNumber(0, 10);
+                if (WS[ x, y] == 99)
+                {
+                    WS[x,y] = AgvRef;
+                    AGVlist[AgvRef - 1].setId(AgvRef);
+                    AGVlist[AgvRef - 1].setPosX(x);
+                    AGVlist[AgvRef - 1].setPosY(y);
+                    AGVlist[AgvRef - 1].setOrient(RandomNumber(0, 4));
+                }
+            }
+            while (WS[x, y] != 99);
+        }
+        public void removeAgv(int AgvRef)
+        {
+            int a = Int32.Parse(null);
+            WS[AGVlist[AgvRef - 1].getPosX(), AGVlist[AgvRef - 1].getPosY()] = 99;
+            AGVlist[AgvRef - 1].setId(a);
+            AGVlist[AgvRef - 1].setPosX(a);
+            AGVlist[AgvRef - 1].setPosY(a);
+            AGVlist[AgvRef - 1].setOrient(a);
         }
 
         // Private methods
@@ -195,12 +221,12 @@ namespace TCPserver
         }
 
         // Private access 
-        private bool isFreeNorth()
+        private bool isFreeNorth(AGV AGVtomove)
         {
             bool free = false;
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = AGVtomove.getPosX();
+            AGVy = AGVtomove.getPosY();
 
             if (AGVy > 0)
             {
@@ -212,12 +238,12 @@ namespace TCPserver
 
             return free;
         }
-        private bool isFreeSouth()
+        private bool isFreeSouth(AGV AGVtomove)
         {
             bool free = false;
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = AGVtomove.getPosX();
+            AGVy = AGVtomove.getPosY();
 
             if (AGVy < 9)
             {
@@ -229,12 +255,12 @@ namespace TCPserver
 
             return free;
         }
-        private bool isFreeWest()
+        private bool isFreeWest(AGV AGVtomove)
         {
             bool free = false;
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = AGVtomove.getPosX();
+            AGVy = AGVtomove.getPosY();
 
             if (AGVx > 0)
             {
@@ -246,12 +272,12 @@ namespace TCPserver
 
             return free;
         }
-        private bool isFreeEast()
+        private bool isFreeEast(AGV AGVtomove)
         {
             bool free = false;
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = AGVtomove.getPosX();
+            AGVy = AGVtomove.getPosY();
 
             if (AGVx < 9)
             {
@@ -263,92 +289,93 @@ namespace TCPserver
 
             return free;
         }
-        private bool isFreeFront()
+        private bool isFreeFront(AGV Agvtomove)
         {
             bool free = false;
 
-            switch (myAGV.getOrientation())
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    free = isFreeNorth();
+                    free = isFreeNorth(Agvtomove);
                     break;
                 case 1:
-                    free = isFreeEast();
+                    free = isFreeEast(Agvtomove);
                     break;
                 case 2:
-                    free = isFreeSouth();
+                    free = isFreeSouth(Agvtomove);
                     break;
                 case 3:
-                    free = isFreeWest();
+                    free = isFreeWest(Agvtomove);
                     break;
                 default:
                     break;
             }
             return free;
         }
-        private bool isFreeLeft()
+        private bool isFreeLeft(int Agvref)
         {
             bool free = false;
-
-            switch (myAGV.getOrientation())
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    free = isFreeWest();
+                    free = isFreeWest(Agvtomove);
                     break;
                 case 1:
-                    free = isFreeNorth();
+                    free = isFreeNorth(Agvtomove);
                     break;
                 case 2:
-                    free = isFreeEast();
+                    free = isFreeEast(Agvtomove);
                     break;
                 case 3:
-                    free = isFreeSouth();
+                    free = isFreeSouth(Agvtomove);
                     break;
                 default:
                     break;
             }
             return free;
         }
-        private bool isFreeRight()
+        private bool isFreeRight(int Agvref)
         {
             bool free = false;
-
-            switch (myAGV.getOrientation())
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    free = isFreeEast();
+                    free = isFreeEast(Agvtomove);
                     break;
                 case 1:
-                    free = isFreeSouth();
+                    free = isFreeSouth(Agvtomove);
                     break;
                 case 2:
-                    free = isFreeWest();
+                    free = isFreeWest(Agvtomove);
                     break;
                 case 3:
-                    free = isFreeNorth();
+                    free = isFreeNorth(Agvtomove);
                     break;
                 default:
                     break;
             }
             return free;
         }
-        private bool isFreeBack()
+        private bool isFreeBack(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             bool free = false;
 
-            switch (myAGV.getOrientation())
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    free = isFreeSouth();
+                    free = isFreeSouth(Agvtomove);
                     break;
                 case 1:
-                    free = isFreeWest();
+                    free = isFreeWest(Agvtomove);
                     break;
                 case 2:
-                    free = isFreeNorth();
+                    free = isFreeNorth(Agvtomove);
                     break;
                 case 3:
-                    free = isFreeEast();
+                    free = isFreeEast(Agvtomove);
                     break;
                 default:
                     break;
@@ -363,115 +390,123 @@ namespace TCPserver
             resetWS();
             digWS(mode);
         }
-        public void MNorthAGV()
+        public void MNorthAGV(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref-1];
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = Agvtomove.getPosX();
+            AGVy = Agvtomove.getPosY();
 
 
-            if (isFreeNorth())
+            if (isFreeNorth(Agvtomove))
             {
                 WS[AGVx, AGVy] = 99;
-                WS[AGVx, AGVy - 1] = 1;
-                myAGV.MovNorth();
+                WS[AGVx, AGVy - 1] = Agvref;
+                Agvtomove.MovNorth();
             }
 
         }
-        public void MSouthAGV()
+        public void MSouthAGV(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = Agvtomove.getPosX();
+            AGVy = Agvtomove.getPosY();
 
 
-            if (isFreeSouth())
+            if (isFreeSouth(Agvtomove))
             {
                 WS[AGVx, AGVy] = 99;
-                WS[AGVx, AGVy + 1] = 1;
-                myAGV.MovSouth();
+                WS[AGVx, AGVy + 1] = Agvref;
+                Agvtomove.MovSouth();
             }
 
         }
-        public void MWestAGV()
+        public void MWestAGV(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = Agvtomove.getPosX();
+            AGVy = Agvtomove.getPosY();
 
 
-            if (isFreeWest())
+            if (isFreeWest(Agvtomove))
             {
                 WS[AGVx, AGVy] = 99;
-                WS[AGVx - 1, AGVy] = 1;
-                myAGV.MovWest();
+                WS[AGVx - 1, AGVy] = Agvref;
+                Agvtomove.MovWest();
             }
 
         }
-        public void MEastAGV()
+        public void MEastAGV(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             int AGVx, AGVy;
-            AGVx = myAGV.getPosX();
-            AGVy = myAGV.getPosY();
+            AGVx = Agvtomove.getPosX();
+            AGVy = Agvtomove.getPosY();
 
 
-            if (isFreeEast())
+            if (isFreeEast(Agvtomove))
             {
                 WS[AGVx, AGVy] = 99;
-                WS[AGVx + 1, AGVy] = 1;
-                myAGV.MovEast();
+                WS[AGVx + 1, AGVy] = Agvref;
+                Agvtomove.MovEast();
             }
 
         }
-        public void MFwAGV()
+        public void MFwAGV(int Agvref)
         {
-            switch (myAGV.getOrientation())
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    MNorthAGV();
+                    MNorthAGV(Agvref);
                     break;
                 case 1:
-                    MEastAGV();
+                    MEastAGV(Agvref);
                     break;
                 case 2:
-                    MSouthAGV();
+                    MSouthAGV(Agvref);
                     break;
                 case 3:
-                    MWestAGV();
+                    MWestAGV(Agvref);
                     break;
                 default:
                     break;
             }
 
         }
-        public void MBwAGV()
+        public void MBwAGV(int Agvref)
         {
-            switch (myAGV.getOrientation())
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    MSouthAGV();
+                    MSouthAGV(Agvref);
                     break;
                 case 1:
-                    MWestAGV();
+                    MWestAGV(Agvref);
                     break;
                 case 2:
-                    MNorthAGV();
+                    MNorthAGV(Agvref);
                     break;
                 case 3:
-                    MEastAGV();
+                    MEastAGV(Agvref);
                     break;
                 default:
                     break;
             }
         }
-        public void RRAGV()
+        public void RRAGV(int Agvref)
         {
-            myAGV.RR();
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            Agvtomove.RR();
 
         }
-        public void RLAGV()
+        public void RLAGV(int Agvref)
         {
-            myAGV.RL();
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            Agvtomove.RL();
 
         }
 
@@ -484,61 +519,57 @@ namespace TCPserver
         {
             return WS[i, j];
         }
-        public int getAGVPosX()
+        public int getAGVOrient(int Agvref)
         {
-            return myAGV.getPosX();
-        }
-        public int getAGVPosY()
-        {
-            return myAGV.getPosY();
-        }
-        public int getAGVOrient()
-        {
-            return myAGV.getOrientation();
+            AGV Agvtomove = AGVlist[Agvref - 1];
+            return Agvtomove.getOrientation();
         }
 
 
-        public bool isBreakPossible()
+        public bool isBreakPossible(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             bool breakable;
             breakable = false;
-            if (isFreeFront() == false)
+            if (isFreeFront(Agvtomove) == false)
             {
-                if (limitReached() == false)
+                if (
+                    
+                    limitReached(Agvtomove) == false)
                 {
                     breakable = true;
                 }
             }
             return breakable;
         }
-        private bool limitReached()
+        private bool limitReached(AGV Agvtomove)
         {
             bool onLimit;
             onLimit = false;
-            if (myAGV.getFSensor() == 0)
+            if (Agvtomove.getFSensor() == 0)
             {
-                switch (myAGV.getOrientation())
+                switch (Agvtomove.getOrientation())
                 {
                     case 0:
-                        if (myAGV.getPosY() == 0)
+                        if (Agvtomove.getPosY() == 0)
                         {
                             onLimit = true;
                         }
                         break;
                     case 1:
-                        if (myAGV.getPosX() == 9)
+                        if (Agvtomove.getPosX() == 9)
                         {
                             onLimit = true;
                         }
                         break;
                     case 2:
-                        if (myAGV.getPosY() == 9)
+                        if (Agvtomove.getPosY() == 9)
                         {
                             onLimit = true;
                         }
                         break;
                     case 3:
-                        if (myAGV.getPosX() == 0)
+                        if (Agvtomove.getPosX() == 0)
                         {
                             onLimit = true;
                         }
@@ -549,28 +580,29 @@ namespace TCPserver
             }
             return onLimit;
         }
-        public void breakObstacle()
+        public void breakObstacle(int Agvref)
         {
+            AGV Agvtomove = AGVlist[Agvref - 1];
             int targetX = 0;
             int targetY = 0;
 
-            switch (myAGV.getOrientation())
+            switch (Agvtomove.getOrientation())
             {
                 case 0:
-                    targetX = myAGV.getPosX();
-                    targetY = myAGV.getPosY() - 1;
+                    targetX = Agvtomove.getPosX();
+                    targetY = Agvtomove.getPosY() - 1;
                     break;
                 case 1:
-                    targetX = myAGV.getPosX() + 1;
-                    targetY = myAGV.getPosY();
+                    targetX = Agvtomove.getPosX() + 1;
+                    targetY = Agvtomove.getPosY();
                     break;
                 case 2:
-                    targetX = myAGV.getPosX();
-                    targetY = myAGV.getPosY() + 1;
+                    targetX = Agvtomove.getPosX();
+                    targetY = Agvtomove.getPosY() + 1;
                     break;
                 case 3:
-                    targetX = myAGV.getPosX() - 1;
-                    targetY = myAGV.getPosY();
+                    targetX = Agvtomove.getPosX() - 1;
+                    targetY = Agvtomove.getPosY();
                     break;
                 default:
                     break;

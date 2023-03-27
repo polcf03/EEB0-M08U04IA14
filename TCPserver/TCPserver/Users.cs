@@ -13,7 +13,6 @@ namespace TCPserver
         // class variables;
         private int id;
         private string name;
-        private Color agvref;
         private int agvId;
         private string password;
         private TcpClient tcpClient;
@@ -44,7 +43,6 @@ namespace TCPserver
         // Accessors
         public void setId(int a) { id = a; }
         public void setName(string str) { name = str; }
-        public void setAgvref(Color color) { agvref = color; }
         public void setAgvId(int a) { agvId = a; }
         public void setPassword(string str) { password = str; }
         public void setTcpClient(TcpClient Client) { tcpClient = Client; }
@@ -52,7 +50,7 @@ namespace TCPserver
         // Modifiers
         public int getId() { return id; }
         public string getName() { return name; }
-        public Color getAgvref() { return agvref; }
+        public int getAgvId() { return agvId; }
         public string getPassword() { return password; }
         public TcpClient getTcpClient() { return tcpClient; }
         

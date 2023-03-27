@@ -23,8 +23,7 @@ namespace TCPserver
 
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
-        public event EventHandler<CommandEventArgs> Command;
-        public event EventHandler<CommandEventArgs> Agv;
+        public event EventHandler<CommandEventArgs> CommandToExecute;
 
         // Constructor
         public TCPServerComManager()
@@ -68,31 +67,37 @@ namespace TCPserver
             TcpClient client;
             NetworkStream nsToRead;
             client = new TcpClient();
+            int i = -1;
             try
             {
                 client = server.AcceptTcpClient();
                 ThreadPool.QueueUserWorkItem(newClient);
-                int i = login(client);
-                if(i >= 0)
+                i = login(client);
+                if(i >= 0) 
                 {
-
+                    riseCommand("SPWN", myClientsManager.getAgvId(i));
                 }
                 while(myClientsManager.getOnline(i))
                 {
                     // Read
+                    int agv = myClientsManager.getAgvId(i);
                     byte[] toReceive = new byte[100000];
                     nsToRead = client.GetStream();
                     nsToRead.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
 
                     // Process
-                    ReadFromClient(txt);
+                    ReadFromClient(txt,agv);
 
                 }
             }
             catch (Exception ex)
             {
-
+                if (i < 0 && myClientsManager.getOnline(i))
+                {
+                    myClientsManager.remmoveUserConection(i);
+                }
+                riseUnexpectedComError(ex.Message);
             }
         }
 
@@ -108,19 +113,53 @@ namespace TCPserver
             myFrameManager.Frame(txt);
             return myClientsManager.login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
         }
-        private string ReadFromClient(string txt)
+        private string ReadFromClient(string txt, int AgvRef)
         {
             myFrameManager.Frame(txt);
-            return Orders(myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
+            return Orders(AgvRef,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
         }
-        private string Orders(string Command, string Arg1, string Arg2, string Arg3)
+        private string Orders(int Agvref,string Command, string Arg1, string Arg2, string Arg3)
         {
-            string txt = ""
-                ; 
+            string txt = "";
             switch (Command)
             {
-                //case Arg1 == "MOV"
-                
+                case "MOV":
+                    switch (Arg1)
+                    {
+                        case "RIG":
+                            riseCommand("RIG", Agvref);
+                            break;
+                        case "LEF":
+                            riseCommand("LEFT", Agvref);
+                            break;
+                        case "UP":
+                            riseCommand("UP", Agvref);
+                            break;
+                        case "DOWN":
+                            riseCommand("DOWN", Agvref);
+                            break;
+                        case "RT":
+                            if (Arg2 == "RIG")
+                            {
+                                riseCommand("ROTATERIG", Agvref);
+                            }
+                            else
+                            {
+                                riseCommand("ROTATELEF", Agvref);
+                            }
+                            break;
+                        case "FOR":
+                            riseCommand("FORWARD", Agvref);
+                            break;
+                        case "BACK":
+                            riseCommand("BACKWARD", Agvref);
+                            break;
+
+                    }
+                break;
+                case "BRK":
+                    riseCommand("BREAK", Agvref);
+                    break;
             }
             return txt;
         }
@@ -150,12 +189,10 @@ namespace TCPserver
         }
         private void onCommand(CommandEventArgs e)
         {
-            EventHandler<CommandEventArgs> handler = Command;
-            EventHandler<CommandEventArgs> handler2 = Agv;
-            if (handler != null && handler2 != null)
+            EventHandler<CommandEventArgs> handler = CommandToExecute;
+            if (handler != null)
             {
                 handler(this, e);
-                handler2(this, e);
             }
         }
     }

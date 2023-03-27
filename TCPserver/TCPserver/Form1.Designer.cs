@@ -47,12 +47,12 @@
             this.notepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.User_online = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.pasword_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Agv_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Selected_user = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.id_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Agv_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pasword_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_online = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -74,6 +74,7 @@
             this.btStart.TabIndex = 8;
             this.btStart.Text = "START";
             this.btStart.UseVisualStyleBackColor = true;
+            this.btStart.Click += new System.EventHandler(this.btStart_Click);
             // 
             // tbIp
             // 
@@ -220,39 +221,12 @@
             this.dataGridView1.Size = new System.Drawing.Size(411, 350);
             this.dataGridView1.TabIndex = 0;
             // 
-            // User_online
+            // Selected_user
             // 
-            this.User_online.HeaderText = "Online";
-            this.User_online.Name = "User_online";
-            this.User_online.ReadOnly = true;
-            this.User_online.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_online.Width = 50;
-            // 
-            // pasword_user
-            // 
-            this.pasword_user.HeaderText = "Password";
-            this.pasword_user.Name = "pasword_user";
-            this.pasword_user.ReadOnly = true;
-            this.pasword_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.pasword_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Agv_id
-            // 
-            this.Agv_id.HeaderText = "AGV";
-            this.Agv_id.Name = "Agv_id";
-            this.Agv_id.ReadOnly = true;
-            this.Agv_id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Agv_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Agv_id.Width = 40;
-            // 
-            // User_name
-            // 
-            this.User_name.HeaderText = "User name";
-            this.User_name.Name = "User_name";
-            this.User_name.ReadOnly = true;
-            this.User_name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.User_name.Width = 90;
+            this.Selected_user.HeaderText = "Selec.";
+            this.Selected_user.Name = "Selected_user";
+            this.Selected_user.ReadOnly = true;
+            this.Selected_user.Width = 50;
             // 
             // id_user
             // 
@@ -263,12 +237,39 @@
             this.id_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.id_user.Width = 35;
             // 
-            // Selected_user
+            // User_name
             // 
-            this.Selected_user.HeaderText = "Selec.";
-            this.Selected_user.Name = "Selected_user";
-            this.Selected_user.ReadOnly = true;
-            this.Selected_user.Width = 50;
+            this.User_name.HeaderText = "User name";
+            this.User_name.Name = "User_name";
+            this.User_name.ReadOnly = true;
+            this.User_name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.User_name.Width = 90;
+            // 
+            // Agv_id
+            // 
+            this.Agv_id.HeaderText = "AGV";
+            this.Agv_id.Name = "Agv_id";
+            this.Agv_id.ReadOnly = true;
+            this.Agv_id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Agv_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Agv_id.Width = 40;
+            // 
+            // pasword_user
+            // 
+            this.pasword_user.HeaderText = "Password";
+            this.pasword_user.Name = "pasword_user";
+            this.pasword_user.ReadOnly = true;
+            this.pasword_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.pasword_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // User_online
+            // 
+            this.User_online.HeaderText = "Online";
+            this.User_online.Name = "User_online";
+            this.User_online.ReadOnly = true;
+            this.User_online.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_online.Width = 50;
             // 
             // groupBox1
             // 

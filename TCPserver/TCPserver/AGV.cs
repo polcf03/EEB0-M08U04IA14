@@ -115,6 +115,10 @@ namespace TCPserver
         }
 
         //Modificadores puros
+        public void setId(int a)
+        {
+            id= a;
+        }
         public void setOrient(int p)
         {
             orient = p;
@@ -145,6 +149,7 @@ namespace TCPserver
         }
 
         //Consultores puros
+        public int getId() { return id; }
         public int getOrientation()
         {
             return orient;

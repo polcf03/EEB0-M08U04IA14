@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using TCPserver;
+using System.Net;
 
 namespace TCPserver
 {
@@ -19,6 +20,8 @@ namespace TCPserver
         private TrajectoryManager myTrManager;
         private TCPServerComManager myTCPserverComManager;
         private readonly Random _random = new Random();
+        private List<Color> AGVcolors;
+
 
         // Class variables
         private int WSSizeX;
@@ -33,8 +36,10 @@ namespace TCPserver
             myTrManager = new TrajectoryManager();
             myTCPserverComManager = new TCPServerComManager();
 
-            blackBoard = panelWS.CreateGraphics();
+            myTCPserverComManager.CommandToExecute += Orders;
 
+            blackBoard = panelWS.CreateGraphics();
+            AGVcolors = new List<Color>() { Color.White, Color.Black, Color.Gray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Orange, Color.Pink, Color.Purple };
             WSSizeX = 10;
             WSSizeY = 10;
             //this.Width = 860;
@@ -46,13 +51,50 @@ namespace TCPserver
         private void Orders(object sender, CommandEventArgs e)
         {
             string txt;
-            int Agv;
+            int AgvRef;
             txt = e.Command;
-            Agv = e.AGVrequested;
+            AgvRef = e.AGVrequested;
             switch (txt)
             {
-                
+                case "SPWN":
+                    myWS.newAgv(AgvRef);
+                    break;
+                case "DISC":
+                    myWS.removeAgv(AgvRef);
+                    break;
+                case "UP":
+                    myWS.MNorthAGV(AgvRef);
+                    break;
+                case "DOWN":
+                    myWS.MSouthAGV(AgvRef);
+                    break;
+                case "RIG":
+                    myWS.MEastAGV(AgvRef);
+                    break;
+                case "LEFT":
+                    myWS.MWestAGV(AgvRef);
+                    break;
+                case "ROTATERIG":
+                    myWS.RRAGV(AgvRef);
+                    break;
+                case "ROTATELEF":
+                    myWS.RLAGV(AgvRef);
+                    break;
+                case "FORWARD":
+                    myWS.MFwAGV(AgvRef);
+                    break;
+                case "BACKWARD":
+                    myWS.MBwAGV(AgvRef);
+                    break;
+                case "BREAK":
+                    if (myWS.isBreakPossible(AgvRef))
+                    {
+                        myWS.breakObstacle(AgvRef);
+                        refreshAll();
+                    }
+                    break;
             }
+            refreshAll();
         }
 
         // Random num  
@@ -90,7 +132,7 @@ namespace TCPserver
                             drawObstacle(i, j);
                             break;
                         case 1:
-                            drawAGV(i, j, myWS.getAGVOrient());
+                            drawAGV(i, j, myWS.getAGVOrient(myWS.getValue(i,j)));
                             break;
                         default:
                             break;
@@ -214,6 +256,43 @@ namespace TCPserver
         private void Form1_Load(object sender, EventArgs e)
         {
             refreshAll();
+        }
+
+        private void btStart_Click(object sender, EventArgs e)
+        {
+            myWS.generateWS(2, 200);
+            refreshAll();
+            IPAddress ip;
+            int port;
+            bool invalidInfo;
+
+            invalidInfo = false;
+            try
+            {
+                ip = IPAddress.Parse(tbIp.Text);
+                port = int.Parse(tbPort.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                port = 0;
+                ip = IPAddress.Loopback;
+                invalidInfo = true;
+            }
+            if (invalidInfo == false)
+            {
+                myTCPserverComManager.setIP(ip);
+                myTCPserverComManager.setPort(port);
+                try
+                {
+                    myTCPserverComManager.startServer();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
         }
     }
 }

@@ -13,14 +13,14 @@ namespace TCPserver
         // Class variables 
         private List<Users> UsersList;
         private List<Users> OnlineUsersList;
-        private List<Color> AGVcolors;
+        public List<int> AgvRefs;
 
         // Constructor
         public ClientsManager()
         {
             UsersList = new List<Users>();
-            AGVcolors = new List<Color>() { Color.White, Color.Black, Color.Gray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Orange, Color.Pink, Color.Purple };
             OnlineUsersList = new List<Users>();
+            AgvRefs= new List<int>() {1,2,3,4,5,6,7,8,9,10};
             DefaultUsers();
         }
 
@@ -45,10 +45,12 @@ namespace TCPserver
             UsersList[id].setTcpClient(null);
             OnlineUsersList.Remove(UsersList[id]);
         }
-        private void remmoveUserConection(int id)
+        public void remmoveUserConection(int id)
         {
             UsersList[id].setTcpClient(null);
             OnlineUsersList.Remove(UsersList[id]);
+            AgvRefs.Add(UsersList[id].getAgvId());
+            UsersList[id].setAgvId(0);
         }
 
         // Method that returns a bool is Users log is okay
@@ -63,17 +65,14 @@ namespace TCPserver
                     notFound = false;
                     if (UsersList[i].getPassword() == password && UsersList[i].getTcpClient() == null)
                     {
-                        UsersList[i].setTcpClient(client); 
-                        if(OnlineUsersList.Count <= 10)
-                        {
-                            OnlineUsersList.Add(UsersList[i]);
-                            UsersList[i].setAgvref(AGVcolors[0]);
-                            AGVcolors.RemoveAt(0);
-                        }
-                        else
-                        {
-                            i = -1;
-                        }
+                        UsersList[i].setTcpClient(client);
+                        OnlineUsersList.Add(UsersList[i]);
+                        UsersList[i].setAgvId(AgvRefs[0]);
+                        AgvRefs.RemoveAt(0);                        
+                    }
+                    else
+                    {
+                        i = -1;
                     }
                 }
                 else
@@ -91,9 +90,9 @@ namespace TCPserver
         // Users accessors //
         // Accessors
         public string getName(int id) { return UsersList[id].getName(); }
-        public Color getAgvref(int id) { return UsersList[id].getAgvref(); }
         public string getPassword(int id) { return UsersList[id].getPassword(); }
         public TcpClient getTcpClient(int id) { return UsersList[id].getTcpClient(); }
+        public int getAgvId(int id) { return UsersList[id].getAgvId(); }
 
         public bool getOnline(int id) { return OnlineUsersList.Contains(UsersList[id]); }
     }
