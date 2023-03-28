@@ -126,21 +126,23 @@ namespace TCPserver
             {
                 for (j = 0; j < WSSizeY; j++)
                 {
-                    switch (myWS.getValue(i, j))
+                    int a;
+                    a = myWS.getValue(i, j);
+                    if(a == 0)
                     {
-                        case 0:
-                            drawObstacle(i, j);
-                            break;
-                        case 1:
-                            drawAGV(i, j, myWS.getAGVOrient(myWS.getValue(i,j)));
-                            break;
-                        default:
-                            break;
+                        drawObstacle(i, j);
+                    }
+                    else
+                    {
+                        if(0 < a && a < 99)
+                        {
+                            drawAGV(i, j, myWS.getAGVOrient(myWS.getValue(i, j)), a - 1);
+                        }
                     }
                 }
             }
         }
-        private void drawAGV(int i, int j, int o)
+        private void drawAGV(int i, int j, int o, int a)
         {
             int incX, incY, drawOffset;
 
@@ -181,7 +183,7 @@ namespace TCPserver
 
             }
 
-            blackBoard.FillPolygon(new SolidBrush(Color.WhiteSmoke), AGVPoints);
+            blackBoard.FillPolygon(new SolidBrush(AGVcolors[a]), AGVPoints);
         }
         private void drawObstacle(int i, int j)
         {
@@ -293,6 +295,30 @@ namespace TCPserver
                 }
 
             }
+        }
+
+        private void stopsv_Click(object sender, EventArgs e)
+        {
+            myWS.removeallAgvs();
+            refreshAll();
+            myTCPserverComManager.removeallplayers();
+        }
+
+        private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            myWS.removeallAgvs();
+            refreshAll();
+            myTCPserverComManager.removeallplayers();
+        }
+
+        private void removePlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            myWS.generateWS(2, 200);
         }
     }
 }

@@ -54,6 +54,8 @@
             this.pasword_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_online = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.stopsv = new System.Windows.Forms.Button();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -61,7 +63,7 @@
             // 
             // panelWS
             // 
-            this.panelWS.Location = new System.Drawing.Point(3, 27);
+            this.panelWS.Location = new System.Drawing.Point(2, 27);
             this.panelWS.Name = "panelWS";
             this.panelWS.Size = new System.Drawing.Size(400, 400);
             this.panelWS.TabIndex = 0;
@@ -70,7 +72,7 @@
             // 
             this.btStart.Location = new System.Drawing.Point(213, 31);
             this.btStart.Name = "btStart";
-            this.btStart.Size = new System.Drawing.Size(99, 27);
+            this.btStart.Size = new System.Drawing.Size(71, 27);
             this.btStart.TabIndex = 8;
             this.btStart.Text = "START";
             this.btStart.UseVisualStyleBackColor = true;
@@ -118,7 +120,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addAccountsToolStripMenuItem,
-            this.exportToolStripMenuItem});
+            this.exportToolStripMenuItem,
+            this.generateToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(827, 24);
@@ -164,23 +167,25 @@
             this.removePlayerToolStripMenuItem,
             this.removeAllPlayersToolStripMenuItem});
             this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
-            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeClientToolStripMenuItem.Text = "Players online";
             this.removeClientToolStripMenuItem.ToolTipText = "Manage players online";
             // 
             // removePlayerToolStripMenuItem
             // 
             this.removePlayerToolStripMenuItem.Name = "removePlayerToolStripMenuItem";
-            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removePlayerToolStripMenuItem.Text = "Kick player selected";
             this.removePlayerToolStripMenuItem.ToolTipText = "Kick a player form the current game\r\n";
+            this.removePlayerToolStripMenuItem.Click += new System.EventHandler(this.removePlayerToolStripMenuItem_Click);
             // 
             // removeAllPlayersToolStripMenuItem
             // 
             this.removeAllPlayersToolStripMenuItem.Name = "removeAllPlayersToolStripMenuItem";
-            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.removeAllPlayersToolStripMenuItem.Text = "Kick all players";
             this.removeAllPlayersToolStripMenuItem.ToolTipText = "Kick all players form the current game";
+            this.removeAllPlayersToolStripMenuItem.Click += new System.EventHandler(this.removeAllPlayersToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -273,6 +278,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.stopsv);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Controls.Add(this.btStart);
             this.groupBox1.Controls.Add(this.lbPort);
@@ -286,6 +292,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server managment";
             this.groupBox1.UseCompatibleTextRendering = true;
+            // 
+            // stopsv
+            // 
+            this.stopsv.Location = new System.Drawing.Point(290, 31);
+            this.stopsv.Name = "stopsv";
+            this.stopsv.Size = new System.Drawing.Size(71, 27);
+            this.stopsv.TabIndex = 13;
+            this.stopsv.Text = "STOP";
+            this.stopsv.UseVisualStyleBackColor = true;
+            this.stopsv.Click += new System.EventHandler(this.stopsv_Click);
+            // 
+            // generateToolStripMenuItem
+            // 
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.generateToolStripMenuItem.Text = "Generate";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -335,5 +358,7 @@
         private System.Windows.Forms.ToolStripMenuItem notepadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button stopsv;
+        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
     }
 }

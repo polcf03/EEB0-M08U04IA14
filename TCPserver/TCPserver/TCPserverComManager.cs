@@ -76,19 +76,23 @@ namespace TCPserver
                 if(i >= 0) 
                 {
                     riseCommand("SPWN", myClientsManager.getAgvId(i));
+                    while (myClientsManager.getOnline(i))
+                    {
+                        // Read
+                        int agv = myClientsManager.getAgvId(i);
+                        byte[] toReceive = new byte[100000];
+                        nsToRead = client.GetStream();
+                        nsToRead.Read(toReceive, 0, toReceive.Length);
+                        txt = Encoding.ASCII.GetString(toReceive);
+
+                        // Process
+                        ReadFromClient(txt, agv);
+                    }
                 }
-                while(myClientsManager.getOnline(i))
+                else
                 {
-                    // Read
-                    int agv = myClientsManager.getAgvId(i);
-                    byte[] toReceive = new byte[100000];
-                    nsToRead = client.GetStream();
-                    nsToRead.Read(toReceive, 0, toReceive.Length);
-                    txt = Encoding.ASCII.GetString(toReceive);
-
-                    // Process
-                    ReadFromClient(txt,agv);
-
+                    TalktoClient(client, "LOG#Incorrect name or password&%#");
+                    ThreadPool.QueueUserWorkItem(newClient);
                 }
             }
             catch (Exception ex)
@@ -194,6 +198,29 @@ namespace TCPserver
             {
                 handler(this, e);
             }
+        }
+        public void removeallplayers()
+        {
+            
+            List<Users> users= myClientsManager.getOnlineUsers();
+            foreach(Users user in users)
+            {
+                TalktoClient(user.getTcpClient(), "#DISC$&%#");
+            }
+            myClientsManager.removeallplayers();
+        }
+        private void TalktoClient(int id,string txt)
+        {
+            TcpClient TargetClient = myClientsManager.getTcpClient(id);
+            NetworkStream nsToWrite;
+            nsToWrite = TargetClient.GetStream();
+            nsToWrite.Write(Encoding.ASCII.GetBytes(txt),0,txt.Length);
+        }
+        private void TalktoClient(TcpClient client, string txt)
+        {
+            NetworkStream nsToWrite;
+            nsToWrite = client.GetStream();
+            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
         }
     }
 }

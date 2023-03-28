@@ -27,7 +27,7 @@ namespace TCPserver
         // New Users methods // Method that inicialize a default list of users
         private void DefaultUsers()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 11; i++)
             {
                 UsersList.Add(new Users(i, "Us_User" + i.ToString(), "000" + (1 * i).ToString()));
             }
@@ -95,5 +95,19 @@ namespace TCPserver
         public int getAgvId(int id) { return UsersList[id].getAgvId(); }
 
         public bool getOnline(int id) { return OnlineUsersList.Contains(UsersList[id]); }
+        public void removeallplayers()
+        {
+            while(OnlineUsersList.Count != 0)
+            {
+                OnlineUsersList[0].setTcpClient(null);
+                AgvRefs.Add(OnlineUsersList[0].getAgvId());
+                OnlineUsersList[0].setAgvId(0);
+                OnlineUsersList.Remove(OnlineUsersList[0]);
+            }
+        }
+        public List<Users> getOnlineUsers()
+        {
+            return OnlineUsersList;
+        }
     }
 }

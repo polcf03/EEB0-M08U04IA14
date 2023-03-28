@@ -31,7 +31,6 @@ namespace TCPserver
 
         public void newAgv(int AgvRef)
         {
-
             int x, y;
             do
             {
@@ -46,18 +45,29 @@ namespace TCPserver
                     AGVlist[AgvRef - 1].setOrient(RandomNumber(0, 4));
                 }
             }
-            while (WS[x, y] != 99);
+            while (WS[x, y] == 0);
         }
         public void removeAgv(int AgvRef)
         {
-            int a = Int32.Parse(null);
+            int a = 0;
             WS[AGVlist[AgvRef - 1].getPosX(), AGVlist[AgvRef - 1].getPosY()] = 99;
             AGVlist[AgvRef - 1].setId(a);
             AGVlist[AgvRef - 1].setPosX(a);
             AGVlist[AgvRef - 1].setPosY(a);
             AGVlist[AgvRef - 1].setOrient(a);
         }
-
+        public void removeallAgvs()
+        {
+            foreach( AGV i in AGVlist)
+            {
+                int a = 0;
+                WS[i.getPosX(), i.getPosY()] = 99;
+                i.setId(a);
+                i.setPosX(a);
+                i.setPosY(a);
+                i.setOrient(a);
+            }
+        }
         // Private methods
         private void digWS(int mode)
         {
