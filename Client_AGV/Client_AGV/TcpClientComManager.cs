@@ -14,7 +14,8 @@ namespace Client_AGV
         // Class variables
         private FrameManager myFrameManager;
         private TcpClient ServerToConect;
-        private bool ConexionState = false;
+        private bool ConexionState;
+        private string LogError;
 
         // Delegates
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
@@ -25,6 +26,8 @@ namespace Client_AGV
         {
             ServerToConect = null;
             myFrameManager= new FrameManager();
+            ConexionState = false;
+            LogError = "";
         }
 
         // Methods
@@ -122,10 +125,19 @@ namespace Client_AGV
                 nsToRead.Read(received, 0, received.Length);
                 order = Encoding.ASCII.GetString(received);
                 myFrameManager.Frame(order);
-                if(myFrameManager.getCommand() == "LOG" && myFrameManager.getArg1() == "OK")
+                if (myFrameManager.getCommand() == "LOG" && myFrameManager.getArg1() == "OK")
                 {
                     ConexionState = true;
                     ThreadPool.QueueUserWorkItem(ReceiveMessages);
+                }
+                else if (myFrameManager.getArg1() == "WR")
+                {
+                    LogError = myFrameManager.getArg2();
+                    ConexionState = false;
+                }
+                else
+                {
+                    LogError = "Something went wrong";
                 }
             }
             catch (Exception ex)
@@ -136,7 +148,9 @@ namespace Client_AGV
         public void disconect()
         {
             ConexionState = false;
-            ServerToConect = null;
+
+
+
         }
        
         // Events
@@ -152,12 +166,14 @@ namespace Client_AGV
         }
         private void riseDisconexion(EventArgs e)
         {
-            Disconnect?.Invoke(this, e);
+            Disconnect.Invoke(this, e);
         }
 
 
         // Accessors
         private TcpClient getTcpClient() { return ServerToConect; }
+        public bool getConexionState() { return ConexionState; }
+        public string getLogError() { return LogError; }
 
         // Modifiers
         private void setTcpServer(TcpClient NewServer) { ServerToConect = NewServer; }

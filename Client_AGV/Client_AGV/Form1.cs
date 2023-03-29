@@ -47,7 +47,14 @@ namespace Client_AGV
             if (serverOnline)
             {
                 myComManager.login(textBox1.Text, textBox2.Text);
-                myControls.ShowDialog();
+                if (myComManager.getConexionState())
+                {
+                    myControls.ShowDialog();
+                }
+                else
+                {
+                    label3.Text = myComManager.getLogError();
+                }
             }
             else
             {
@@ -60,19 +67,25 @@ namespace Client_AGV
         {
             int a;
             a = e.Command;
-            if(a == 1) { }
+            if(a == 1) 
+            {
+                lblstate.Text = "Offline";
+                lblstate.ForeColor = Color.Red;
+            }
             myComManager.SendOrder(a);
         }
         private void NewServer(object sender, ConexionEventArgs e)
         {
             serverOnline = true;
             lblstate.Text = "Online";
+            lblstate.ForeColor=Color.Green;
             myComManager.NewServer(e.client);
         }
         private void Disconnexion(object sender, EventArgs e)
         {
             serverOnline = false;
             lblstate.Text = "Offline";
+            lblstate.ForeColor = Color.Red;
             myComManager.disconect();
         }
     }

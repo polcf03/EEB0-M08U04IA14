@@ -11,3 +11,11 @@ P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.pdb
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.exe
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.pdb
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csprojResolveAssemblyReference.cache
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Config_form.resources
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Controls.resources
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Form1.resources
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Properties.Resources.resources
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csproj.GenerateResource.Cache
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\bin\Debug\Client_AGV.exe
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\bin\Debug\Client_AGV.pdb

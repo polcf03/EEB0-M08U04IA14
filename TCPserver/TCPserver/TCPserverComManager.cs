@@ -92,7 +92,7 @@ namespace TCPserver
                 }
                 else
                 {
-                    TalktoClient(client, "LOG#Incorrect name or password&%#");
+                    TalktoClient(client, "#LOG$Incorrect name or password&%#");
                     ThreadPool.QueueUserWorkItem(newClient);
                 }
             }
@@ -268,7 +268,7 @@ try
         {
             if (clientListed != client)
             {
-                nsToWrite = clientListed.GetStream();
+                nsToWrite = clientListed.G-+etStream();
                 nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
             }
         }
