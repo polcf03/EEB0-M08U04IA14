@@ -9,3 +9,5 @@ P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csproj.CoreCompileInputs.cache
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.exe
 P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.pdb
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.exe
+C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.pdb

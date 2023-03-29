@@ -5,7 +5,6 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Forms;
 
 namespace TCPserver
