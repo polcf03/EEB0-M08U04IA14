@@ -105,6 +105,14 @@ namespace TCPserver
                 OnlineUsersList.Remove(OnlineUsersList[0]);
             }
         }
+        public void removeoneplayer(int id)
+        {
+
+            UsersList[id].setTcpClient(null);
+            AgvRefs.Add(UsersList[id].getAgvId());
+            UsersList[id].setAgvId(0);  
+            OnlineUsersList.Remove(UsersList[1]);
+        }
         public List<Users> getOnlineUsers()
         {
             return OnlineUsersList;

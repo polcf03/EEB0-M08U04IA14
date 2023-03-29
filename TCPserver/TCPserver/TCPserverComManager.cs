@@ -24,6 +24,7 @@ namespace TCPserver
         // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler<CommandEventArgs> CommandToExecute;
+        public event EventHandler<DisconnectEventArgs> Disconnect;
 
         // Constructor
         public TCPServerComManager()
@@ -75,6 +76,7 @@ namespace TCPserver
                 i = login(client);
                 if(i >= 0) 
                 {
+                    TalktoClient(client, "#LOG$OK&%#");
                     riseCommand("SPWN", myClientsManager.getAgvId(i));
                     while (myClientsManager.getOnline(i))
                     {
@@ -86,7 +88,7 @@ namespace TCPserver
                         txt = Encoding.ASCII.GetString(toReceive);
 
                         // Process
-                        ReadFromClient(txt, agv);
+                        ReadFromClient(i,txt, agv);
                     }
                 }
                 else
@@ -117,12 +119,12 @@ namespace TCPserver
             myFrameManager.Frame(txt);
             return myClientsManager.login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
         }
-        private string ReadFromClient(string txt, int AgvRef)
+        private string ReadFromClient(int i ,string txt, int AgvRef)
         {
             myFrameManager.Frame(txt);
-            return Orders(AgvRef,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
+            return Orders(i,AgvRef,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
         }
-        private string Orders(int Agvref,string Command, string Arg1, string Arg2, string Arg3)
+        private string Orders(int i,int Agvref,string Command, string Arg1, string Arg2, string Arg3)
         {
             string txt = "";
             switch (Command)
@@ -163,6 +165,11 @@ namespace TCPserver
                 break;
                 case "BRK":
                     riseCommand("BREAK", Agvref);
+                    break;
+                case "DISC":
+                    TalktoClient(myClientsManager.getTcpClient(i), "#DISC$&%#");
+                    riseDisconnect(Agvref);
+                    disconectoneplayer(i);
                     break;
             }
             return txt;
@@ -221,6 +228,20 @@ namespace TCPserver
             NetworkStream nsToWrite;
             nsToWrite = client.GetStream();
             nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+        }
+        private void riseDisconnect(int agv)
+        {
+            DisconnectEventArgs args = new DisconnectEventArgs();
+            args.agv = agv;
+            EventHandler<DisconnectEventArgs> handler = Disconnect;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+        private void disconectoneplayer(int id)
+        {
+            myClientsManager.removeoneplayer(id);
         }
     }
 }

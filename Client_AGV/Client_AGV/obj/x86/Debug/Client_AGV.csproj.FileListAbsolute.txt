@@ -1,0 +1,11 @@
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\bin\Debug\Client_AGV.exe
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\bin\Debug\Client_AGV.pdb
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csproj.AssemblyReference.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Config_form.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Controls.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Form1.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.Properties.Resources.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csproj.GenerateResource.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.csproj.CoreCompileInputs.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.exe
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\Client_AGV\Client_AGV\obj\x86\Debug\Client_AGV.pdb

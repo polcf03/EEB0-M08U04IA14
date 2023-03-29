@@ -320,5 +320,13 @@ namespace TCPserver
         {
             myWS.generateWS(2, 200);
         }
+
+        private void disconect(object sender, DisconnectEventArgs e)
+        {
+            myWS.removeAgv(e.agv);
+            refreshAll();
+            
+
+        }
     }
 }

@@ -38,7 +38,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(81, 74);
+            this.label2.Location = new System.Drawing.Point(36, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 13);
             this.label2.TabIndex = 10;
@@ -47,7 +47,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(90, 31);
+            this.label1.Location = new System.Drawing.Point(36, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 9;
@@ -55,12 +55,13 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(58, 116);
+            this.button2.Location = new System.Drawing.Point(94, 116);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(59, 23);
             this.button2.TabIndex = 8;
-            this.button2.Text = "Start";
+            this.button2.Text = "Connect";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox2
             // 
@@ -68,6 +69,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(114, 20);
             this.textBox2.TabIndex = 7;
+            this.textBox2.Text = "1";
             // 
             // textBox1
             // 
@@ -75,6 +77,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(114, 20);
             this.textBox1.TabIndex = 6;
+            this.textBox1.Text = "127.0.0.1";
             // 
             // Config_form
             // 
