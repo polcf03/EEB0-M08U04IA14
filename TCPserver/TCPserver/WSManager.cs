@@ -68,6 +68,7 @@ namespace TCPserver
                 i.setOrient(a);
             }
         }
+
         // Private methods
         private void digWS(int mode)
         {

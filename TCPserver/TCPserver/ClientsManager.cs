@@ -5,6 +5,9 @@ using System.Text;
 using System.Net.Sockets;
 using System.Reflection.Emit;
 using System.Drawing;
+using System.Xml.Linq;
+using System.Windows.Forms;
+using System.Runtime.Remoting.Messaging;
 
 namespace TCPserver
 {
@@ -24,98 +27,340 @@ namespace TCPserver
             DefaultUsers();
         }
 
-        // New Users methods // Method that inicialize a default list of users
+        // Class methods
         private void DefaultUsers()
         {
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 10; i++)
             {
                 UsersList.Add(new Users(i, "Us_User" + i.ToString(), "000" + (1 * i).ToString()));
             }
         }
-        // New user
         private void newUser(string name,string password)
         {
             UsersList.Add(new Users(UsersList.Count,"Us_"+ name, password));
+        }      
+       
+        // Methods
+        public bool UserInOnlineUsers(Users user)
+        {
+            return OnlineUsersList.Contains(user);
+        }
+        public bool UserInUsersusers(Users user)
+        {
+            return UsersList.Contains(user);
         }
 
-        // Methods that removes account or conexion from account
-        private void removeAccount(int id)
+        // AgvRefs methods
+        public int takeAgvFromAgvList()
         {
-            UsersList.RemoveAt(id);
-            UsersList[id].setTcpClient(null);
-            OnlineUsersList.Remove(UsersList[id]);
-        }
-        public void remmoveUserConection(int id)
+            int Ref;
+            Ref = AgvRefs[0];
+            AgvRefs.RemoveAt(0);
+            return Ref;
+        } 
+        private void leaveAgvToAgvList(int Ref)
         {
-            UsersList[id].setTcpClient(null);
-            OnlineUsersList.Remove(UsersList[id]);
-            AgvRefs.Add(UsersList[id].getAgvId());
-            UsersList[id].setAgvId(0);
+            AgvRefs.Add(Ref);
         }
 
-        // Method that returns a bool is Users log is okay
-        public int login(TcpClient client, string name, string password)
+
+
+        // List accessors
+        public Users getUserFromOnlineUsers(int index)
+        {
+            return OnlineUsersList[index];
+        }
+        public Users getUsersFromUsers(int index)
+        {
+            return UsersList[index];
+        }
+        public int getUsersSize()
+        {
+            return UsersList.Count();
+        }
+        public int getOnlineUsersSize()
+        {
+            return OnlineUsersList.Count;
+        }
+        // List modifiers
+        public void AddUserInOnlineUsers(Users user)
+        {
+            OnlineUsersList.Add(user);
+        }
+        private void AddUserInUsers(Users user)
+        {
+            UsersList.Add(user);
+        }
+        public void RemoveUserFromOnlineUsers(Users user)
+        {
+            UsersList.Remove(user);
+        }
+        public void RemoveUserFromUsers(Users user)
+        {
+            UsersList.Remove(user);
+        }
+
+
+        // Online users accessors
+        public int getOnlineUsersId(int index) 
+        { 
+            return OnlineUsersList[index].getId(); 
+        }
+        public string getOnlineUsersName(int index)
+        {
+            return OnlineUsersList[index].getName();
+        }
+        public int getOnlineUsersAgvId(int index)
+        {
+            return OnlineUsersList[index].getAgvId();
+        }
+        public string getOnlineUsersPassword(int index)
+        {
+            return OnlineUsersList[index].getPassword();
+        }
+        public TcpClient getOnlineUsersClient(int index)
+        {
+            return OnlineUsersList[index].getTcpClient();
+        }
+        // Users accessors 
+        public int getUsersId(int index)
+        {
+            return UsersList[index].getId();
+        }
+        public string getUsersName(int index)
+        {
+            return UsersList[index].getName();
+        }
+        public int getUsersAgvId(int index)
+        {
+            return UsersList[index].getAgvId();
+        }
+        public string getUsersPassword(int index)
+        {
+            return UsersList[index].getPassword();
+        }
+        public TcpClient getUsersTcpclient(int index)
+        {
+            return UsersList[index].getTcpClient();
+        }
+        
+
+        // Online users modifiers
+        public void setOnlineUsersId(int index, int id)
+        {
+            OnlineUsersList[index].setId(id);
+        }
+        public void setOnlineUsersName(int index, string name)
+        {
+            OnlineUsersList[index].setName(name);
+        }
+        public void setOnlineUsersAgvId(int index, int Agvref)
+        {
+            OnlineUsersList[index].setAgvId(Agvref);
+        }
+        public void setOnlineUsersPassword(int index, string password)
+        {
+            OnlineUsersList[index].setPassword(password);
+        }
+        public void setOnlineUsersClient(int index, TcpClient client)
+        {
+            OnlineUsersList[index].setTcpClient(client);
+        }
+        // Users modifiers
+        public void setUsersId(int index, int id)
+        {
+            UsersList[index].setId(id);
+        }
+        public void setUsersName(int index, string name)
+        {
+            UsersList[index].setName(name);
+        }
+        public void setUsersAgvId(int index, int Agvref)
+        {
+            UsersList[index].setAgvId(Agvref);
+        }
+        public void setUsersPassword(int index, string password)
+        {
+            UsersList[index].setPassword(password);
+        }
+        public void setUsersClient(int index, TcpClient client)
+        {
+            UsersList[index].setTcpClient(client);
+        }
+        
+
+        // Online users list INDEX accessors
+        public int getIndexOnlineUsersById(int id)
         {
             int i = 0;
             bool notFound = true;
-            while (notFound && i < UsersList.Count )
+            while (notFound && i < OnlineUsersList.Count)
             {
-                if(UsersList[i].getName() == name)
+                if (OnlineUsersList[i].getId() == id)
                 {
                     notFound = false;
-                    if (UsersList[i].getPassword() == password && UsersList[i].getTcpClient() == null)
-                    {
-                        UsersList[i].setTcpClient(client);
-                        OnlineUsersList.Add(UsersList[i]);
-                        UsersList[i].setAgvId(AgvRefs[0]);
-                        AgvRefs.RemoveAt(0);                        
-                    }
-                    else
-                    {
-                        i = -1;
-                    }
                 }
                 else
                 {
                     i++;
                 }
             }
-            if(i >= UsersList.Count)
-            {   
-                i = -1;
+            return i;
+        }
+        public int getIndexOnlineUsersByName(string name)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < OnlineUsersList.Count)
+            {
+                if (OnlineUsersList[i].getName() == name)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexOnlineUsersByAgvId(int Agvref) 
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < OnlineUsersList.Count)
+            {
+                if (OnlineUsersList[i].getAgvId() == Agvref)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexOnlineUsersByPassword(string password)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < OnlineUsersList.Count)
+            {
+                if (OnlineUsersList[i].getPassword() == password)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexOnlineUsersByClient(TcpClient client)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < OnlineUsersList.Count)
+            {
+                if (OnlineUsersList[i].getTcpClient() == client)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        // Users list INDEX accessors
+        public int getIndexUsersById(int id)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < UsersList.Count)
+            {
+                if (UsersList[i].getId() == id)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexUsersByName(string name)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < UsersList.Count)
+            {
+                if (UsersList[i].getName() == name)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexUsersByAgvId(int Agvref)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < UsersList.Count)
+            {
+                if (UsersList[i].getAgvId() == Agvref)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexUsersByPassword(string password)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < UsersList.Count)
+            {
+                if (UsersList[i].getPassword() == password)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        public int getIndexUsersByClient(TcpClient client)
+        {
+            int i = 0;
+            bool notFound = true;
+            while (notFound && i < UsersList.Count)
+            {
+                if (UsersList[i].getTcpClient() == client)
+                {
+                    notFound = false;
+                }
+                else
+                {
+                    i++;
+                }
             }
             return i;
         }
 
-        // Users accessors //
-        // Accessors
-        public string getName(int id) { return UsersList[id].getName(); }
-        public string getPassword(int id) { return UsersList[id].getPassword(); }
-        public TcpClient getTcpClient(int id) { return UsersList[id].getTcpClient(); }
-        public int getAgvId(int id) { return UsersList[id].getAgvId(); }
-
-        public bool getOnline(int id) { return OnlineUsersList.Contains(UsersList[id]); }
-        public void removeallplayers()
-        {
-            while(OnlineUsersList.Count != 0)
-            {
-                OnlineUsersList[0].setTcpClient(null);
-                AgvRefs.Add(OnlineUsersList[0].getAgvId());
-                OnlineUsersList[0].setAgvId(0);
-                OnlineUsersList.Remove(OnlineUsersList[0]);
-            }
-        }
-        public void removeoneplayer(int id)
-        {
-
-            UsersList[id].setTcpClient(null);
-            AgvRefs.Add(UsersList[id].getAgvId());
-            UsersList[id].setAgvId(0);  
-            OnlineUsersList.Remove(UsersList[1]);
-        }
-        public List<Users> getOnlineUsers()
-        {
-            return OnlineUsersList;
-        }
     }
 }
