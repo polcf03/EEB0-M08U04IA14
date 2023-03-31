@@ -38,7 +38,7 @@ namespace Client_AGV
         }
         
         // Methods
-        public void ConnectToServer()
+        private void ConnectToServer()
         {
             try
             {

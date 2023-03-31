@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace TCPserver
 {
@@ -21,7 +20,7 @@ namespace TCPserver
         private FrameManager myFrameManager = new FrameManager();
         private ClientsManager myClientsManager = new ClientsManager();
 
-        // Delegates
+        // Eventos
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler<CommandEventArgs> CommandToExecute;
         public event EventHandler<DisconnectEventArgs> Disconnect;
@@ -33,216 +32,6 @@ namespace TCPserver
             myPort = 1;
             //UsersList = new List<Users>();
             //defaultUsers();
-        }
-
-        // Server startup methods
-        public void startServer()
-        {
-            server = new TcpListener(myIp, myPort);
-            server.Start();
-            ThreadPool.QueueUserWorkItem(newClient);
-        }
-        private void newClient(Object state)
-        {
-            string txt, log;
-            TcpClient client;
-            NetworkStream nsToRead;
-
-            client = new TcpClient();
-
-            try
-            {
-                client = server.AcceptTcpClient();
-
-                ThreadPool.QueueUserWorkItem(newClient);
-                ReadCommands(client);
-
-                log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
-
-                if (log != null)
-                {
-                    WriteCommandsToClient(client, "LOG", "WR", log, "");
-                }
-                else
-                {
-                    Users user;
-
-                    user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
-
-                    WriteCommandsToClient(client, "LOG", "OK", "", "");
-                    riseCommand("SPWN", user.getAgvId());
-
-                    while (myClientsManager.UserInOnlineUsers(user))
-                    {
-                        byte[] toReceive = new byte[100000];
-                        nsToRead = client.GetStream();
-                        nsToRead.Read(toReceive, 0, toReceive.Length);
-                        txt = Encoding.ASCII.GetString(toReceive);
-                        ReadFromClient(user, txt);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
-            }
-        }
-
-        // Methods
-        private void WriteCommandsToClient(TcpClient client, string Command, string Arg1, string Arg2, string Arg3)
-        {
-            NetworkStream nsToWrite;
-            string txt;
-            txt = myFrameManager.Order(Command, Arg1, Arg2, Arg3);
-            try
-            {
-                nsToWrite = client.GetStream();
-                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
-            }
-        }
-        private void ReadCommands(TcpClient client)
-        {
-            NetworkStream nsToRead;
-            string txt;
-            byte[] received = new byte[100000];
-            nsToRead = client.GetStream();
-            nsToRead.Read(received, 0, received.Length);
-            txt = Encoding.ASCII.GetString(received);
-            myFrameManager.Frame(txt);
-        }
-        private string login(TcpClient client, string name, string password)
-        {
-            bool notFound;
-            int OnlineMax, UsersSize, OnlineUsersSize, i;
-            string log = "";
-
-            OnlineMax = 10;
-            i = 0;
-            UsersSize = myClientsManager.getUsersSize();
-            OnlineUsersSize = myClientsManager.getOnlineUsersSize();
-            notFound = true;
-            log = "That Name is not registered";
-
-            if (OnlineMax > OnlineUsersSize)
-            {
-                while (notFound && i < UsersSize)
-                {
-                    if (myClientsManager.getUsersName(i) == name)
-                    {
-                        notFound = false;
-                        if(myClientsManager.getUsersTcpclient(i) == null && myClientsManager.getUsersPassword(i) == password)
-                        {
-                            myClientsManager.setUsersClient(i, client);
-                            myClientsManager.setUsersAgvId(i, myClientsManager.takeAgvFromAgvList());
-                            myClientsManager.AddUserInOnlineUsers(myClientsManager.getUsersFromUsers(i));
-                            log = null;
-                        }
-                        else
-                        {
-                            log = "The password is incorrect";
-                        }
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                log = "The Game is full";
-            }
-            return log;
-            
-        }
-        private void ReadFromClient(Users user ,string txt)
-        {
-            myFrameManager.Frame(txt);
-            Orders(user ,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
-        }
-        private void Orders(Users user,string Command, string Arg1, string Arg2, string Arg3)
-        {
-            string txt = "";
-            int Agvref = user.getAgvId();
-            switch (Command)
-            {
-                case "MOV":
-                    switch (Arg1)
-                    {
-                        case "RIG":
-                            txt = "RIG";
-                            break;
-                        case "LEF":
-                             txt = "LEFT";
-                            break;
-                        case "UP":
-                            txt = "UP";
-                            break;
-                        case "DOWN":
-                            txt = "DOWN";
-                            break;
-                        case "RT":
-                            if (Arg2 == "RIG")
-                            {
-                                txt = "ROTATERIG";
-                            }
-                            else
-                            {
-                                txt = "ROTATELEF";
-                            }
-                            break;
-                        case "FOR":
-                            txt = "FORWARD";
-                            break;
-                        case "BACK":
-                            txt = "BACKWARD";
-                            break;
-
-                    }
-                break;
-                case "BRK":
-                    txt = "BREAK";
-                    break;
-                case "DISC":
-                    break;
-                    
-            }
-            riseCommand(txt, Agvref);
-        }
-
-        // Events
-        private void riseUnexpectedComError(string txtError)
-        {
-            ErrorEventArgs args = new ErrorEventArgs();
-            args.message = txtError;
-            onUnexpectedComError(args);
-        }
-        private void riseCommand(string txtCommand, int Agv)
-        {
-            CommandEventArgs args = new CommandEventArgs();
-            args.Command = txtCommand;
-            args.AGVrequested = Agv;
-            onCommand(args);
-        }
-        private void onUnexpectedComError(ErrorEventArgs e)
-        {
-            EventHandler<ErrorEventArgs> handler = UnexpectedComError;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-        private void onCommand(CommandEventArgs e)
-        {
-            EventHandler<CommandEventArgs> handler = CommandToExecute;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
         }
 
         // Modifier
@@ -264,5 +53,233 @@ namespace TCPserver
         {
             return myPort;
         }
+
+        // Methods // Server startup
+        public void startServer()
+        {
+            server = new TcpListener(myIp, myPort);
+            server.Start();
+            ThreadPool.QueueUserWorkItem(newClient);
+        }
+        private void newClient(Object state)
+        {
+            string txt;
+            TcpClient client;
+            NetworkStream nsToRead;
+            client = new TcpClient();
+            int i = -1;
+            try
+            {
+                client = server.AcceptTcpClient();
+                ThreadPool.QueueUserWorkItem(newClient);
+                i = login(client);
+                if(i >= 0) 
+                {
+                    TalktoClient(client, "#LOG$OK&%#");
+                    riseCommand("SPWN", myClientsManager.getAgvId(i));
+                    while (myClientsManager.getOnline(i))
+                    {
+                        // Read
+                        int agv = myClientsManager.getAgvId(i);
+                        byte[] toReceive = new byte[100000];
+                        nsToRead = client.GetStream();
+                        nsToRead.Read(toReceive, 0, toReceive.Length);
+                        txt = Encoding.ASCII.GetString(toReceive);
+
+                        // Process
+                        ReadFromClient(i,txt, agv);
+                    }
+                }
+                else
+                {
+                    TalktoClient(client, "#LOG$Incorrect name or password&%#");
+                    ThreadPool.QueueUserWorkItem(newClient);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (i < 0 && myClientsManager.getOnline(i))
+                {
+                    myClientsManager.remmoveUserConection(i);
+                }
+                riseUnexpectedComError(ex.Message);
+            }
+        }
+
+        // Methods // Read orders
+        private int login(TcpClient client)
+        {
+            NetworkStream nsToRead;
+            string txt; 
+            byte[] received = new byte[100000];
+            nsToRead = client.GetStream();
+            nsToRead.Read(received, 0, received.Length);
+            txt = Encoding.ASCII.GetString(received); 
+            myFrameManager.Frame(txt);
+            return myClientsManager.login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
+        }
+        private string ReadFromClient(int i ,string txt, int AgvRef)
+        {
+            myFrameManager.Frame(txt);
+            return Orders(i,AgvRef,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
+        }
+        private string Orders(int i,int Agvref,string Command, string Arg1, string Arg2, string Arg3)
+        {
+            string txt = "";
+            switch (Command)
+            {
+                case "MOV":
+                    switch (Arg1)
+                    {
+                        case "RIG":
+                            riseCommand("RIG", Agvref);
+                            break;
+                        case "LEF":
+                            riseCommand("LEFT", Agvref);
+                            break;
+                        case "UP":
+                            riseCommand("UP", Agvref);
+                            break;
+                        case "DOWN":
+                            riseCommand("DOWN", Agvref);
+                            break;
+                        case "RT":
+                            if (Arg2 == "RIG")
+                            {
+                                riseCommand("ROTATERIG", Agvref);
+                            }
+                            else
+                            {
+                                riseCommand("ROTATELEF", Agvref);
+                            }
+                            break;
+                        case "FOR":
+                            riseCommand("FORWARD", Agvref);
+                            break;
+                        case "BACK":
+                            riseCommand("BACKWARD", Agvref);
+                            break;
+
+                    }
+                break;
+                case "BRK":
+                    riseCommand("BREAK", Agvref);
+                    break;
+                case "DISC":
+                    TalktoClient(myClientsManager.getTcpClient(i), "#DISC$&%#");
+                    riseDisconnect(Agvref);
+                    disconectoneplayer(i);
+                    break;
+            }
+            return txt;
+        }
+
+        // Event caller
+        private void riseUnexpectedComError(string txtError)
+        {
+            ErrorEventArgs args = new ErrorEventArgs();
+            args.message = txtError;
+            onUnexpectedComError(args);
+        }
+        private void riseCommand(string txtCommand, int Agv)
+        {
+            CommandEventArgs args = new CommandEventArgs();
+            args.Command = txtCommand;
+            args.AGVrequested = Agv;
+            onCommand(args);
+        }
+        // Event launcher
+        private void onUnexpectedComError(ErrorEventArgs e)
+        {
+            EventHandler<ErrorEventArgs> handler = UnexpectedComError;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        private void onCommand(CommandEventArgs e)
+        {
+            EventHandler<CommandEventArgs> handler = CommandToExecute;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        public void removeallplayers()
+        {
+            
+            List<Users> users= myClientsManager.getOnlineUsers();
+            foreach(Users user in users)
+            {
+                TalktoClient(user.getTcpClient(), "#DISC$&%#");
+            }
+            myClientsManager.removeallplayers();
+        }
+        private void TalktoClient(int id,string txt)
+        {
+            TcpClient TargetClient = myClientsManager.getTcpClient(id);
+            NetworkStream nsToWrite;
+            nsToWrite = TargetClient.GetStream();
+            nsToWrite.Write(Encoding.ASCII.GetBytes(txt),0,txt.Length);
+        }
+        private void TalktoClient(TcpClient client, string txt)
+        {
+            NetworkStream nsToWrite;
+            nsToWrite = client.GetStream();
+            nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+        }
+        private void riseDisconnect(int agv)
+        {
+            DisconnectEventArgs args = new DisconnectEventArgs();
+            args.agv = agv;
+            EventHandler<DisconnectEventArgs> handler = Disconnect;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+        private void disconectoneplayer(int id)
+        {
+            myClientsManager.removeoneplayer(id);
+        }
     }
 }
+
+/*
+string txt;
+TcpClient client;
+NetworkStream nsToRead;
+NetworkStream nsToWrite;
+client = new TcpClient();
+
+try
+{
+    client = server.AcceptTcpClient();
+    listOfClients.Add(client);
+    ThreadPool.QueueUserWorkItem(newClient);
+    while (true)
+    {
+        byte[] toReceive = new byte[100000];
+        nsToRead = client.GetStream();
+        nsToRead.Read(toReceive, 0, toReceive.Length);
+        txt = Encoding.ASCII.GetString(toReceive);
+        riseDataReceive(txt);
+        foreach (TcpClient clientListed in listOfClients)
+        {
+            if (clientListed != client)
+            {
+                nsToWrite = clientListed.G-+etStream();
+                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+            }
+        }
+    }
+}
+catch (Exception ex)
+{
+    if (listOfClients.Contains(client))
+    {
+        listOfClients.Remove(client);
+    }
+    riseUnexpectedComError(ex.Message);
+} 
+*/

@@ -20,7 +20,6 @@ namespace Client_AGV
         // Delegates
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler Disconnect;
-        public event EventHandler Connect;
 
         // Constructores
         public TcpClientComManager()
@@ -134,13 +133,10 @@ namespace Client_AGV
                 else if (myFrameManager.getArg1() == "WR")
                 {
                     LogError = myFrameManager.getArg2();
-                    riseConexion(EventArgs.Empty);
                     ConexionState = false;
-                    
                 }
                 else
                 {
-                    riseConexion(EventArgs.Empty);
                     LogError = "Something went wrong";
                 }
             }
@@ -172,10 +168,7 @@ namespace Client_AGV
         {
             Disconnect.Invoke(this, e);
         }
-        private void riseConexion(EventArgs e)
-        {
-            Connect.Invoke(this, e);
-        }
+
 
         // Accessors
         private TcpClient getTcpClient() { return ServerToConect; }

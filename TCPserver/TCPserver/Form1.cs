@@ -299,12 +299,16 @@ namespace TCPserver
 
         private void stopsv_Click(object sender, EventArgs e)
         {
-
+            myWS.removeallAgvs();
+            refreshAll();
+            myTCPserverComManager.removeallplayers();
         }
 
         private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            myWS.removeallAgvs();
+            refreshAll();
+            myTCPserverComManager.removeallplayers();
         }
 
         private void removePlayerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -317,5 +321,12 @@ namespace TCPserver
             myWS.generateWS(2, 200);
         }
 
+        private void disconect(object sender, DisconnectEventArgs e)
+        {
+            myWS.removeAgv(e.agv);
+            refreshAll();
+            
+
+        }
     }
 }
