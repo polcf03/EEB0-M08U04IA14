@@ -16,6 +16,7 @@ namespace TCPserver
         private IPAddress myIp;
         private int myPort;
         private TcpListener server;
+        private bool Disc;
 
         // Objects
         private FrameManager myFrameManager = new FrameManager();
@@ -31,8 +32,7 @@ namespace TCPserver
         {
             myIp = IPAddress.Loopback;
             myPort = 1;
-            //UsersList = new List<Users>();
-            //defaultUsers();
+            Disc = false;
         }
 
         // Server startup methods
@@ -51,43 +51,54 @@ namespace TCPserver
 
             client = new TcpClient();
 
+            int i = 0;
             try
             {
-                int i = 0;
                 client = server.AcceptTcpClient();
-
                 ThreadPool.QueueUserWorkItem(newClient);
 
-                    ReadCommands(client);
-                    log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
+                ReadCommands(client);
+            }
+            catch (Exception ex) { }
+           
+            log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
 
-                    if (log != null)
+            if (log != null)
+            {
+                WriteCommandsToClient(client, "LOG", "WR", log, "");
+            }
+            else
+            {
+                Users user;
+
+                user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
+
+                WriteCommandsToClient(client, "LOG", "OK", "", "");
+                riseCommand("SPWN", user.getAgvId());
+
+                while (myClientsManager.UserInOnlineUsers(user))
+                {
+                    try
                     {
-                        WriteCommandsToClient(client, "LOG", "WR", log, "");
+                        byte[] toReceive = new byte[100000];
+                        nsToRead = client.GetStream();
+                        nsToRead.ReadTimeout = 10;
+                        nsToRead.Read(toReceive, 0, toReceive.Length);
+                        txt = Encoding.ASCII.GetString(toReceive);
+                        ReadFromClient(user, txt);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Users user;
-
-                        user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
-
-                        WriteCommandsToClient(client, "LOG", "OK", "", "");
-                        riseCommand("SPWN", user.getAgvId());
-
-                        while (myClientsManager.UserInOnlineUsers(user))
+                        if (!Disc)
                         {
-                            byte[] toReceive = new byte[100000];
-                            nsToRead = client.GetStream();
-                            nsToRead.Read(toReceive, 0, toReceive.Length);
-                            txt = Encoding.ASCII.GetString(toReceive);
-                            ReadFromClient(user, txt);
+                            riseUnexpectedComError(ex.Message);
+                        }
+                        else
+                        {
+
                         }
                     }
-
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
+                }
             }
         }
         private string login(TcpClient client, string name, string password)
@@ -278,6 +289,10 @@ namespace TCPserver
         public void setPort(int port)
         {
             myPort = port;
+        }
+        public void setDisc(bool state)
+        {
+            Disc = true;
         }
 
         // Accessor
