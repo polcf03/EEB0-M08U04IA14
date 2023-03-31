@@ -18,6 +18,9 @@ namespace Client_AGV
         private TcpClientComManager myComManager;
         private Controls myControls;
 
+        // Delgates
+        private delegate void Safelblconexion(string state, Color color);
+
         // Class variables
         private bool serverOnline;
         
@@ -90,11 +93,23 @@ namespace Client_AGV
         }
         private void Disconnexion(object sender, EventArgs e)
         {
-            mySvConf.Close();
-            lblstate.Text = "Offline";
-            lblstate.ForeColor = Color.Red;
+            myControls.CloseControls();
+            ChangeLbl("Offline", Color.Red);
             serverOnline = false;
             myComManager.SendOrder(1);
+        }
+        private void ChangeLbl(string text,Color color)
+        {
+            if (lblstate.InvokeRequired)
+            {
+                var d = new Safelblconexion(ChangeLbl);
+                lblstate.Invoke(d, new object[] { text, color });
+            }
+            else
+            {
+                lblstate.Text = text;
+                lblstate.ForeColor = color;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Client_AGV
 {
@@ -21,7 +22,7 @@ namespace Client_AGV
 
         // Delegates
         public event EventHandler<ConexionEventArgs> ClientConexion;
-        
+
         // Constructores
         public Config_form()
         {
@@ -35,6 +36,7 @@ namespace Client_AGV
         private void button2_Click(object sender, EventArgs e)
         {
             ConnectToServer();
+            CloseConfig();
         }
         
         // Methods
@@ -48,7 +50,7 @@ namespace Client_AGV
                 if(client != null)
                 {
                     TransferClient(client);
-                    CloseConfig();
+                    
                 }
             }
             catch (Exception ex)
@@ -56,7 +58,7 @@ namespace Client_AGV
                 MessageBox.Show("Error al conectar al servdior. Volver a intentar.");
             }
         }
-        private void CloseConfig()
+        public void CloseConfig()
         {
             this.Close();
         }

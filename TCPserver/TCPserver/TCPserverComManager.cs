@@ -42,6 +42,7 @@ namespace TCPserver
             server.Start();
             ThreadPool.QueueUserWorkItem(newClient);
         }
+        public void stopServer() { server.Stop();}
         private void newClient(Object state)
         {
             string txt, log;
@@ -52,35 +53,37 @@ namespace TCPserver
 
             try
             {
+                int i = 0;
                 client = server.AcceptTcpClient();
 
                 ThreadPool.QueueUserWorkItem(newClient);
-                ReadCommands(client);
 
-                log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
+                    ReadCommands(client);
+                    log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
 
-                if (log != null)
-                {
-                    WriteCommandsToClient(client, "LOG", "WR", log, "");
-                }
-                else
-                {
-                    Users user;
-
-                    user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
-
-                    WriteCommandsToClient(client, "LOG", "OK", "", "");
-                    riseCommand("SPWN", user.getAgvId());
-
-                    while (myClientsManager.UserInOnlineUsers(user))
+                    if (log != null)
                     {
-                        byte[] toReceive = new byte[100000];
-                        nsToRead = client.GetStream();
-                        nsToRead.Read(toReceive, 0, toReceive.Length);
-                        txt = Encoding.ASCII.GetString(toReceive);
-                        ReadFromClient(user, txt);
+                        WriteCommandsToClient(client, "LOG", "WR", log, "");
                     }
-                }
+                    else
+                    {
+                        Users user;
+
+                        user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
+
+                        WriteCommandsToClient(client, "LOG", "OK", "", "");
+                        riseCommand("SPWN", user.getAgvId());
+
+                        while (myClientsManager.UserInOnlineUsers(user))
+                        {
+                            byte[] toReceive = new byte[100000];
+                            nsToRead = client.GetStream();
+                            nsToRead.Read(toReceive, 0, toReceive.Length);
+                            txt = Encoding.ASCII.GetString(toReceive);
+                            ReadFromClient(user, txt);
+                        }
+                    }
+
             }
             catch (Exception ex)
             {

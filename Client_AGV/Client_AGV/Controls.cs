@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Client_AGV
 {
@@ -14,6 +15,7 @@ namespace Client_AGV
     {
         // Delegates
         public event EventHandler<CommandsEventArgs> Command;
+        private delegate void CloseSafe();
 
         // Constructores
         public Controls()
@@ -59,15 +61,26 @@ namespace Client_AGV
         {
             TransferCommand(9);
         }
-
+      
         // Methods
-        private void CloseControls()
+        public void CloseControls()
         {
-            this.Close();
+            if (this.InvokeRequired)
+            {
+                var d = new CloseSafe(CloseControls);
+                this.Invoke(d, new object[] {  });
+            }
+            else
+            {
+                this.Close();
+            }
+            
         }
 
         // Events
         private void TransferCommand(int command)
+
+
         {
             CommandsEventArgs args = new CommandsEventArgs();
             args.Command = command;

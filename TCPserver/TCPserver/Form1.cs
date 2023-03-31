@@ -288,6 +288,8 @@ namespace TCPserver
                 try
                 {
                     myTCPserverComManager.startServer();
+                    tbIp.ReadOnly= true;
+                    tbPort.ReadOnly= true;
                 }
                 catch (Exception ex)
                 {
@@ -295,11 +297,17 @@ namespace TCPserver
                 }
 
             }
+
         }
 
         private void stopsv_Click(object sender, EventArgs e)
         {
-
+            myTCPserverComManager.disconectAll();
+            myTCPserverComManager.stopServer();
+            myWS.resetWS();
+            refreshWS();
+            tbIp.ReadOnly = false;
+            tbPort.ReadOnly = false;
         }
 
         private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)

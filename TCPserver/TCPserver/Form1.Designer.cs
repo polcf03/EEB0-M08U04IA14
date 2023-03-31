@@ -46,19 +46,19 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Selected_user = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.id_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Agv_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pasword_user = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_online = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.stopsv = new System.Windows.Forms.Button();
             this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpOnline = new System.Windows.Forms.TabPage();
+            this.tbOnline = new System.Windows.Forms.TextBox();
+            this.tpUsers = new System.Windows.Forms.TabPage();
+            this.stopsv = new System.Windows.Forms.Button();
+            this.tbUsers = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tpOnline.SuspendLayout();
+            this.tpUsers.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelWS
@@ -167,14 +167,14 @@
             this.removePlayerToolStripMenuItem,
             this.removeAllPlayersToolStripMenuItem});
             this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
-            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.removeClientToolStripMenuItem.Text = "Players online";
             this.removeClientToolStripMenuItem.ToolTipText = "Manage players online";
             // 
             // removePlayerToolStripMenuItem
             // 
             this.removePlayerToolStripMenuItem.Name = "removePlayerToolStripMenuItem";
-            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.removePlayerToolStripMenuItem.Text = "Kick player selected";
             this.removePlayerToolStripMenuItem.ToolTipText = "Kick a player form the current game\r\n";
             this.removePlayerToolStripMenuItem.Click += new System.EventHandler(this.removePlayerToolStripMenuItem_Click);
@@ -182,7 +182,7 @@
             // removeAllPlayersToolStripMenuItem
             // 
             this.removeAllPlayersToolStripMenuItem.Name = "removeAllPlayersToolStripMenuItem";
-            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.removeAllPlayersToolStripMenuItem.Text = "Kick all players";
             this.removeAllPlayersToolStripMenuItem.ToolTipText = "Kick all players form the current game";
             this.removeAllPlayersToolStripMenuItem.Click += new System.EventHandler(this.removeAllPlayersToolStripMenuItem_Click);
@@ -209,77 +209,17 @@
             this.excelToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.excelToolStripMenuItem.Text = "Excel";
             // 
-            // dataGridView1
+            // generateToolStripMenuItem
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Selected_user,
-            this.id_user,
-            this.User_name,
-            this.Agv_id,
-            this.pasword_user,
-            this.User_online});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 62);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(411, 350);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // Selected_user
-            // 
-            this.Selected_user.HeaderText = "Selec.";
-            this.Selected_user.Name = "Selected_user";
-            this.Selected_user.ReadOnly = true;
-            this.Selected_user.Width = 50;
-            // 
-            // id_user
-            // 
-            this.id_user.HeaderText = "Id";
-            this.id_user.Name = "id_user";
-            this.id_user.ReadOnly = true;
-            this.id_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.id_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.id_user.Width = 35;
-            // 
-            // User_name
-            // 
-            this.User_name.HeaderText = "User name";
-            this.User_name.Name = "User_name";
-            this.User_name.ReadOnly = true;
-            this.User_name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.User_name.Width = 90;
-            // 
-            // Agv_id
-            // 
-            this.Agv_id.HeaderText = "AGV";
-            this.Agv_id.Name = "Agv_id";
-            this.Agv_id.ReadOnly = true;
-            this.Agv_id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Agv_id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Agv_id.Width = 40;
-            // 
-            // pasword_user
-            // 
-            this.pasword_user.HeaderText = "Password";
-            this.pasword_user.Name = "pasword_user";
-            this.pasword_user.ReadOnly = true;
-            this.pasword_user.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.pasword_user.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // User_online
-            // 
-            this.User_online.HeaderText = "Online";
-            this.User_online.Name = "User_online";
-            this.User_online.ReadOnly = true;
-            this.User_online.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_online.Width = 50;
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.generateToolStripMenuItem.Text = "Generate";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tabControl1);
             this.groupBox1.Controls.Add(this.stopsv);
-            this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Controls.Add(this.btStart);
             this.groupBox1.Controls.Add(this.lbPort);
             this.groupBox1.Controls.Add(this.tbPort);
@@ -293,6 +233,48 @@
             this.groupBox1.Text = "Server managment";
             this.groupBox1.UseCompatibleTextRendering = true;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tpOnline);
+            this.tabControl1.Controls.Add(this.tpUsers);
+            this.tabControl1.Location = new System.Drawing.Point(9, 65);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(200, 211);
+            this.tabControl1.TabIndex = 14;
+            // 
+            // tpOnline
+            // 
+            this.tpOnline.Controls.Add(this.tbOnline);
+            this.tpOnline.Location = new System.Drawing.Point(4, 22);
+            this.tpOnline.Name = "tpOnline";
+            this.tpOnline.Padding = new System.Windows.Forms.Padding(3);
+            this.tpOnline.Size = new System.Drawing.Size(192, 185);
+            this.tpOnline.TabIndex = 0;
+            this.tpOnline.Text = "Online";
+            this.tpOnline.UseVisualStyleBackColor = true;
+            // 
+            // tbOnline
+            // 
+            this.tbOnline.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbOnline.Location = new System.Drawing.Point(3, 3);
+            this.tbOnline.Multiline = true;
+            this.tbOnline.Name = "tbOnline";
+            this.tbOnline.ReadOnly = true;
+            this.tbOnline.Size = new System.Drawing.Size(186, 179);
+            this.tbOnline.TabIndex = 0;
+            // 
+            // tpUsers
+            // 
+            this.tpUsers.Controls.Add(this.tbUsers);
+            this.tpUsers.Location = new System.Drawing.Point(4, 22);
+            this.tpUsers.Name = "tpUsers";
+            this.tpUsers.Padding = new System.Windows.Forms.Padding(3);
+            this.tpUsers.Size = new System.Drawing.Size(192, 185);
+            this.tpUsers.TabIndex = 1;
+            this.tpUsers.Text = "Users";
+            this.tpUsers.UseVisualStyleBackColor = true;
+            // 
             // stopsv
             // 
             this.stopsv.Location = new System.Drawing.Point(290, 31);
@@ -303,12 +285,15 @@
             this.stopsv.UseVisualStyleBackColor = true;
             this.stopsv.Click += new System.EventHandler(this.stopsv_Click);
             // 
-            // generateToolStripMenuItem
+            // tbUsers
             // 
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.generateToolStripMenuItem.Text = "Generate";
-            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
+            this.tbUsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbUsers.Location = new System.Drawing.Point(3, 3);
+            this.tbUsers.Multiline = true;
+            this.tbUsers.Name = "tbUsers";
+            this.tbUsers.ReadOnly = true;
+            this.tbUsers.Size = new System.Drawing.Size(186, 179);
+            this.tbUsers.TabIndex = 1;
             // 
             // Form1
             // 
@@ -324,9 +309,13 @@
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tpOnline.ResumeLayout(false);
+            this.tpOnline.PerformLayout();
+            this.tpUsers.ResumeLayout(false);
+            this.tpUsers.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,13 +328,6 @@
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.TextBox tbIp;
         private System.Windows.Forms.Button btStart;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Selected_user;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_user;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Agv_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pasword_user;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn User_online;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addAccountsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addClientToolStripMenuItem;
@@ -360,5 +342,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button stopsv;
         private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tpOnline;
+        private System.Windows.Forms.TextBox tbOnline;
+        private System.Windows.Forms.TabPage tpUsers;
+        private System.Windows.Forms.TextBox tbUsers;
     }
 }
