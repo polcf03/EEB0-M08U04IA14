@@ -65,10 +65,6 @@ namespace Client_AGV
         {
             this.Close();
         }
-        private void Controls_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            TransferCommand(1);
-        }
 
         // Events
         private void TransferCommand(int command)

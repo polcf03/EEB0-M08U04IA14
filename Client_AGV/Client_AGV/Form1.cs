@@ -33,6 +33,7 @@ namespace Client_AGV
             mySvConf.ClientConexion += NewServer;
             myControls.Command += OrdersToSend;
             myComManager.Connect += Conexion;
+            myComManager.Disconnect += Disconnexion;
 
             serverOnline = false;
             lblstate.Text = "Offline";
@@ -72,6 +73,7 @@ namespace Client_AGV
             {
                 lblstate.Text = "Offline";
                 lblstate.ForeColor = Color.Red;
+                serverOnline = false;
             }
             myComManager.SendOrder(a);
         }
@@ -88,10 +90,11 @@ namespace Client_AGV
         }
         private void Disconnexion(object sender, EventArgs e)
         {
-            serverOnline = false;
+            mySvConf.Close();
             lblstate.Text = "Offline";
             lblstate.ForeColor = Color.Red;
-            myComManager.disconect();
+            serverOnline = false;
+            myComManager.SendOrder(1);
         }
     }
 }

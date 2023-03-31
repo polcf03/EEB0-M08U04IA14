@@ -87,6 +87,51 @@ namespace TCPserver
                 riseUnexpectedComError(ex.Message);
             }
         }
+        private string login(TcpClient client, string name, string password)
+        {
+            bool notFound;
+            int OnlineMax, UsersSize, OnlineUsersSize, i;
+            string log = "";
+
+            OnlineMax = 10;
+            i = 0;
+            UsersSize = myClientsManager.getUsersSize();
+            OnlineUsersSize = myClientsManager.getOnlineUsersSize();
+            notFound = true;
+            log = "That Name is not registered";
+
+            if (OnlineMax > OnlineUsersSize)
+            {
+                while (notFound && i < UsersSize)
+                {
+                    if (myClientsManager.getUsersName(i) == name)
+                    {
+                        notFound = false;
+                        if (myClientsManager.getUsersTcpclient(i) == null && myClientsManager.getUsersPassword(i) == password)
+                        {
+                            myClientsManager.setUsersClient(i, client);
+                            myClientsManager.setUsersAgvId(i, myClientsManager.takeAgvFromAgvList());
+                            myClientsManager.AddUserInOnlineUsers(myClientsManager.getUsersFromUsers(i));
+                            log = null;
+                        }
+                        else
+                        {
+                            log = "The password is incorrect";
+                        }
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+            }
+            else
+            {
+                log = "The Game is full";
+            }
+            return log;
+
+        }
 
         // Methods
         private void WriteCommandsToClient(TcpClient client, string Command, string Arg1, string Arg2, string Arg3)
@@ -114,51 +159,7 @@ namespace TCPserver
             txt = Encoding.ASCII.GetString(received);
             myFrameManager.Frame(txt);
         }
-        private string login(TcpClient client, string name, string password)
-        {
-            bool notFound;
-            int OnlineMax, UsersSize, OnlineUsersSize, i;
-            string log = "";
 
-            OnlineMax = 10;
-            i = 0;
-            UsersSize = myClientsManager.getUsersSize();
-            OnlineUsersSize = myClientsManager.getOnlineUsersSize();
-            notFound = true;
-            log = "That Name is not registered";
-
-            if (OnlineMax > OnlineUsersSize)
-            {
-                while (notFound && i < UsersSize)
-                {
-                    if (myClientsManager.getUsersName(i) == name)
-                    {
-                        notFound = false;
-                        if(myClientsManager.getUsersTcpclient(i) == null && myClientsManager.getUsersPassword(i) == password)
-                        {
-                            myClientsManager.setUsersClient(i, client);
-                            myClientsManager.setUsersAgvId(i, myClientsManager.takeAgvFromAgvList());
-                            myClientsManager.AddUserInOnlineUsers(myClientsManager.getUsersFromUsers(i));
-                            log = null;
-                        }
-                        else
-                        {
-                            log = "The password is incorrect";
-                        }
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                log = "The Game is full";
-            }
-            return log;
-            
-        }
         private void ReadFromClient(Users user ,string txt)
         {
             myFrameManager.Frame(txt);
@@ -208,11 +209,32 @@ namespace TCPserver
                     txt = "BREAK";
                     break;
                 case "DISC":
+                    txt = "DISC";
+                    myClientsManager.RemoveUserFromOnlineUsers(user);
+                    myClientsManager.leaveAgvToAgvList(Agvref);
+                    myClientsManager.setUsersClient(myClientsManager.getIndexUsersByAgvId(Agvref), null);
                     break;
                     
             }
             riseCommand(txt, Agvref);
         }
+
+        public void disconectAll()
+        {
+            int i = 0;
+            List<Users> Onlinelist = new List<Users>();
+            int size = myClientsManager.getOnlineUsersSize();
+            while ( i < size)
+            {
+                Onlinelist.Add(myClientsManager.getUserFromOnlineUsers(i));
+                i++;
+            }
+            foreach(Users user in Onlinelist)
+            {
+                WriteCommandsToClient(user.getTcpClient(), "DISC", "", "", "");
+            }
+        }
+
 
         // Events
         private void riseUnexpectedComError(string txtError)

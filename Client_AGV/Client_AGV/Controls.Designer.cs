@@ -145,7 +145,6 @@
             this.Controls.Add(this.btFor);
             this.Name = "Controls";
             this.Text = "Controls";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Controls_FormClosing);
             this.ResumeLayout(false);
 
         }

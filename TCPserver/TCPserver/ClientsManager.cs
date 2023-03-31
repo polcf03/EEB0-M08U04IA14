@@ -58,7 +58,7 @@ namespace TCPserver
             AgvRefs.RemoveAt(0);
             return Ref;
         } 
-        private void leaveAgvToAgvList(int Ref)
+        public void leaveAgvToAgvList(int Ref)
         {
             AgvRefs.Add(Ref);
         }
@@ -82,6 +82,10 @@ namespace TCPserver
         {
             return OnlineUsersList.Count;
         }
+        public List<Users> getOnlineUsersList()
+        {
+            return OnlineUsersList;
+        }
         // List modifiers
         public void AddUserInOnlineUsers(Users user)
         {
@@ -93,7 +97,7 @@ namespace TCPserver
         }
         public void RemoveUserFromOnlineUsers(Users user)
         {
-            UsersList.Remove(user);
+            OnlineUsersList.Remove(user);
         }
         public void RemoveUserFromUsers(Users user)
         {

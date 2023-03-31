@@ -49,10 +49,7 @@ namespace Client_AGV
                     ns.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
                     myFrameManager.Frame(txt);
-                    if(myFrameManager.getCommand() == "DISC")
-                    {
-                        riseDisconexion(EventArgs.Empty);
-                    }
+                    ReadData(myFrameManager.getCommand(),myFrameManager.getArg1());
                 }
             }
             catch (Exception ex)
@@ -76,6 +73,11 @@ namespace Client_AGV
         public void SendOrder(int a)
         {
             sendMessage(OrderToSend(a));
+            if(myFrameManager.getCommand() == "DISC")
+            {
+                ServerToConect = null;
+                ConexionState = false;
+            }
         }
         private string OrderToSend(int Command)
         {
@@ -152,8 +154,13 @@ namespace Client_AGV
         public void disconect()
         {
             ConexionState = false;
-
-
+        }
+        private void ReadData(string Command, string Arg1)
+        {
+            if(Command == "DISC")
+            {
+                riseDisconexion(EventArgs.Empty);
+            }
 
         }
        
