@@ -73,7 +73,7 @@ namespace Client_AGV
                 lblstate.ForeColor = Color.Red;
                 serverOnline = false;
             }
-            myComManager.SendOrder(a);
+            myComManager.WriteCommandsToClient(a);
         }
         private void NewServer(object sender, ConexionEventArgs e)
         {
@@ -91,7 +91,7 @@ namespace Client_AGV
             myControls.Close();
             ChangeLbl("Offline", Color.Red);
             serverOnline = false;
-            myComManager.SendOrder(1);
+            myComManager.WriteCommandsToClient(1);
         }
        
         private void Logged(object sender, EventArgs e)

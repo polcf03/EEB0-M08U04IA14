@@ -305,7 +305,6 @@ namespace TCPserver
 
         private void stopsv_Click(object sender, EventArgs e)
         {
-            myTCPserverComManager.disconectAll();
             myTCPserverComManager.stopServer();
             myWS.resetWS();
             refreshWS();
@@ -317,7 +316,7 @@ namespace TCPserver
 
         private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myTCPserverComManager.setDiscAll(true);
+            myTCPserverComManager.DisconectAll();
         }
 
         private void removePlayerToolStripMenuItem_Click(object sender, EventArgs e)

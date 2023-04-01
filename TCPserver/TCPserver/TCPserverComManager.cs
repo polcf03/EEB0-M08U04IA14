@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.ExceptionServices;
+using System.Xml.Linq;
 
 namespace TCPserver
 {
@@ -45,47 +46,70 @@ namespace TCPserver
             server = new TcpListener(myIp, myPort);
             server.Start();
             ThreadPool.QueueUserWorkItem(newClient);
-            Disc = false;
         }
-        public void stopServer() { Disc = true; server.Stop(); }
-        private void newClient(Object state)
+        private void newClient(object satate)
         {
-            string txt, log;
+            bool firstCom = true;
+            
             TcpClient client;
             NetworkStream nsToRead;
             client = new TcpClient();
-            bool firstCom = true;
-            bool DiscOne = false;
             Users user = null;
+
             try
             {
                 client = server.AcceptTcpClient();
+                clientslist.Add(client);
                 ThreadPool.QueueUserWorkItem(newClient);
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
-            }
-            while (!Disc && !DiscOne)
-            {
-                try
+                while (true)
                 {
-                    if (DiscAll)
-                    {
-                        WriteCommandsToClient(client, "DISC", "", "", "");
-                        DiscAll = false;
-                    }
-                    byte[] received = new byte[100000];
-                    nsToRead = client.GetStream();
-                    nsToRead.ReadTimeout = 10;
-                    nsToRead.Read(received, 0, received.Length);
-                    txt = Encoding.ASCII.GetString(received);
-                    myFrameManager.Frame(txt);
+                    myFrameManager.Frame(ReceiveMessageFromClient(client));
                     if (firstCom)
                     {
+                        string name = myFrameManager.getArg1();
+                        string password = myFrameManager.getArg2();
+                        bool notFound;
+                        int OnlineMax, UsersSize, OnlineUsersSize, i;
+                        string log = "";
+
+                        OnlineMax = 10;
+                        i = 0;
+                        UsersSize = myClientsManager.getUsersSize();
+                        OnlineUsersSize = myClientsManager.getOnlineUsersSize();
+                        notFound = true;
+                        log = "That Name is not registered";
+
+                        if (OnlineMax >= OnlineUsersSize)
+                        {
+                            while (notFound && i < UsersSize)
+                            {
+                                if (myClientsManager.getUsersName(i) == name)
+                                {
+                                    notFound = false;
+                                    if (myClientsManager.getUsersTcpclient(i) == null && myClientsManager.getUsersPassword(i) == password)
+                                    {
+                                        myClientsManager.setUsersClient(i, client);
+                                        myClientsManager.setUsersAgvId(i, myClientsManager.takeAgvFromAgvList());
+                                        myClientsManager.AddUserInOnlineUsers(myClientsManager.getUsersFromUsers(i));
+                                        log = null;
+                                    }
+                                    else
+                                    {
+                                        log = "The password is incorrect";
+                                    }
+                                }
+                                else
+                                {
+                                    i++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            log = "The Game is full";
+                        }
                         if (myFrameManager.getCommand() == "LOG")
                         {
-                            log = login(client, myFrameManager.getArg1(), myFrameManager.getArg2());
                             if (log == null)
                             {
                                 user = myClientsManager.getUserFromOnlineUsers(myClientsManager.getIndexOnlineUsersByClient(client));
@@ -99,83 +123,79 @@ namespace TCPserver
                                 WriteCommandsToClient(client, "LOG", "WR", log, "");
                             }
                         }
+
                     }
                     else
                     {
-                        if(myFrameManager.getCommand() == "DISC")
+                        string txt = "";
+                        switch (myFrameManager.getCommand())
                         {
-                            ReadOrders(user);
-                            DiscOne = true;
-                            
-                        }
-                        else
-                        {
-                            ReadOrders(user);
-                        }
-                    }
-                    
-                }
-                catch(Exception ex)
-                {
+                            case "MOV":
+                                switch (myFrameManager.getArg1())
+                                {
+                                    case "RIG":
+                                        txt = "RIG";
+                                        break;
+                                    case "LEF":
+                                        txt = "LEFT";
+                                        break;
+                                    case "UP":
+                                        txt = "UP";
+                                        break;
+                                    case "DOWN":
 
+                                        txt = "DOWN";
+                                        break;
+                                    case "RT":
+                                        if (myFrameManager.getArg2() == "RIG")
+                                        {
+                                            txt = "ROTATERIG";
+                                        }
+                                        else
+                                        {
+                                            txt = "ROTATELEF";
+                                        }
+                                        break;
+                                    case "FOR":
+                                        txt = "FORWARD";
+                                        break;
+                                    case "BACK":
+                                        txt = "BACKWARD";
+                                        break;
+                                }
+                                break;
+                            case "BRK":
+                                txt = "BREAK";
+                                break;
+                            case "DISC":
+                                myClientsManager.RemoveUserFromOnlineUsers(user);
+                                myClientsManager.leaveAgvToAgvList(user.getAgvId());
+                                myClientsManager.setUsersClient(myClientsManager.getIndexUsersByAgvId(user.getAgvId()), null);
+                                clientslist.Remove(user.getTcpClient());
+                                txt = "DISC";
+                                break;
+                        }
+                        riseCommand(txt, user.getAgvId());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                if (clientslist.Contains(client))
+                {
+                    clientslist.Remove(client);
+                }
+                riseUnexpectedComError(ex.Message);
             }
         }
-        private string login(TcpClient client, string name, string password)
-        {
-            bool notFound;
-            int OnlineMax, UsersSize, OnlineUsersSize, i;
-            string log = "";
 
-            OnlineMax = 10;
-            i = 0;
-            UsersSize = myClientsManager.getUsersSize();
-            OnlineUsersSize = myClientsManager.getOnlineUsersSize();
-            notFound = true;
-            log = "That Name is not registered";
-
-            if (OnlineMax >= OnlineUsersSize)
-            {
-                while (notFound && i < UsersSize)
-                {
-                    if (myClientsManager.getUsersName(i) == name)
-                    {
-                        notFound = false;
-                        if (myClientsManager.getUsersTcpclient(i) == null && myClientsManager.getUsersPassword(i) == password)
-                        {
-                            myClientsManager.setUsersClient(i, client);
-                            myClientsManager.setUsersAgvId(i, myClientsManager.takeAgvFromAgvList());
-                            myClientsManager.AddUserInOnlineUsers(myClientsManager.getUsersFromUsers(i));
-                            log = null;
-                        }
-                        else
-                        {
-                            log = "The password is incorrect";
-                        }
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                log = "The Game is full";
-            }
-            return log;
-
-        }
-
-        // Methods
         private void WriteCommandsToClient(TcpClient client, string Command, string Arg1, string Arg2, string Arg3)
         {
-            NetworkStream nsToWrite;
-            string txt;
-            txt = myFrameManager.Order(Command, Arg1, Arg2, Arg3);
+            string txt = myFrameManager.Order(Command, Arg1, Arg2, Arg3);
             try
             {
-                nsToWrite = client.GetStream();
+                TcpClient clientToSend = client;
+                NetworkStream nsToWrite = client.GetStream();
                 nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
                 byte[] buffer = Encoding.ASCII.GetBytes(txt);
                 nsToWrite.Write(buffer, 0, buffer.Length);
@@ -185,75 +205,60 @@ namespace TCPserver
                 riseUnexpectedComError(ex.Message);
             }
         }
-
-        private void ReadOrders(Users user )
+        public void DisconectAll()
         {
-            Orders(user ,myFrameManager.getCommand(), myFrameManager.getArg1(), myFrameManager.getArg2(), myFrameManager.getArg3());
-        }
-        private void Orders(Users user,string Command, string Arg1, string Arg2, string Arg3)
-        {
-            string txt = "";
-            int Agvref = user.getAgvId();
-            switch (Command)
+            string txt = myFrameManager.Order("DISC", "", "", "");
+            foreach(TcpClient client in clientslist)
             {
-                case "MOV":
-                    switch (Arg1)
-                    {
-                        case "RIG":
-                            txt = "RIG";
-                            break;
-                        case "LEF":
-                             txt = "LEFT";
-                            break;
-                        case "UP":
-                            txt = "UP";
-                            break;
-                        case "DOWN":
-
-                            txt = "DOWN";
-                            break;
-                        case "RT":
-                            if (Arg2 == "RIG")
-                            {
-                                txt = "ROTATERIG";
-                            }
-                            else
-                            {
-                                txt = "ROTATELEF";
-                            }
-                            break;
-                        case "FOR":
-                            txt = "FORWARD";
-                            break;
-                        case "BACK":
-                            txt = "BACKWARD";
-                            break;
-
-                    }
-                break;
-                case "BRK":
-                    txt = "BREAK";
-                    break;
-                case "DISC":
-                    myClientsManager.RemoveUserFromOnlineUsers(user);
-                    myClientsManager.leaveAgvToAgvList(user.getAgvId());
-                    myClientsManager.setUsersClient(myClientsManager.getIndexUsersByAgvId(user.getAgvId()), null);
-                    clientslist.Remove(user.getTcpClient());
-                    txt = "DISC";
-                    break;
-                    
+                try
+                {
+                    TcpClient clientToSend = client;
+                    NetworkStream nsToWrite = client.GetStream();
+                    nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+                    byte[] buffer = Encoding.ASCII.GetBytes(txt);
+                    nsToWrite.Write(buffer, 0, buffer.Length);
+                }
+                catch (Exception ex)
+                {
+                    riseUnexpectedComError(ex.Message);
+                }
             }
-            riseCommand(txt, Agvref);
-        }
-
-        public void disconectAll()
-        {
             
-            foreach (TcpClient user in clientslist)
-            {
-                WriteCommandsToClient(user, "DISC", "", "", "");
-            }
         }
+        private string ReceiveMessageFromClient(TcpClient client)
+        {
+            TcpClient clientToReadFrom = client;
+            NetworkStream stream = clientToReadFrom.GetStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            return message;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public void stopServer() { Disc = true; server.Stop(); }
+        
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Events

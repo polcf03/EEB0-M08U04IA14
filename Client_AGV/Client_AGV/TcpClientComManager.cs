@@ -7,6 +7,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Runtime.ExceptionServices;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Client_AGV
 {
@@ -40,10 +42,10 @@ namespace Client_AGV
         {
             setTcpServer(NewServer);
             ConexionState = true;
-            ThreadPool.QueueUserWorkItem(ReceiveMessages);
+            ThreadPool.QueueUserWorkItem(Main);
             logged = false;
         }
-        private void ReceiveMessages(object state)
+        private void Main(object state)
         {
             NetworkStream ns;
             byte[] toReceive = new byte[100000];
@@ -53,38 +55,87 @@ namespace Client_AGV
             {
                 try
                 {
-                    ns = ServerToConect.GetStream();
-                    //ns.ReadTimeout = 10;
-                    ns.Read(toReceive, 0, toReceive.Length);
-                    txt = Encoding.ASCII.GetString(toReceive);
-                    myFrameManager.Frame(txt);
-                    ReadData(myFrameManager.getCommand(), myFrameManager.getArg1(),myFrameManager.getArg2());
+                    if (!logged)
+                    {
+                        myFrameManager.Frame(ReceiveMessageFromClient(ServerToConect));
+                        if(myFrameManager.getCommand() == "LOG")
+                        {
+
+                            if (myFrameManager.getArg1() == "OK")
+                            {
+                                logged = true;
+                            }
+                            else
+                            {
+                                LogError = myFrameManager.getArg3();
+                            }
+                            riseLogged(EventArgs.Empty);
+                        }
+                        else
+                        {
+                            LogError = "Something wrong";
+                            riseLogged(EventArgs.Empty);
+                        }
+                    }
+                    else
+                    {
+                        myFrameManager.Frame(ReceiveMessageFromClient(ServerToConect));
+                        if (myFrameManager.getCommand() == "DISC")
+                        {
+                            riseDisconexion(EventArgs.Empty);
+                        }
+                    }
                 }
                 catch(Exception ex) { }
             }
         }
-        private void sendMessage(String txtToSend)
+
+        private string ReceiveMessageFromClient(TcpClient client)
         {
-            NetworkStream ns;
+            TcpClient clientToReadFrom = client;
+            NetworkStream stream = clientToReadFrom.GetStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            return message;
+        }
+
+        private void WriteCommandsToClient(TcpClient client, string Command, string Arg1, string Arg2, string Arg3)
+        {
+            string txt = myFrameManager.Order(Command, Arg1, Arg2, Arg3);
             try
             {
-                ns = ServerToConect.GetStream();
-                ns.Write(Encoding.ASCII.GetBytes(txtToSend), 0, txtToSend.Length);
+                TcpClient clientToSend = client;
+                NetworkStream nsToWrite = client.GetStream();
+                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+                byte[] buffer = Encoding.ASCII.GetBytes(txt);
+                nsToWrite.Write(buffer, 0, buffer.Length);
             }
             catch (Exception ex)
             {
                 riseUnexpectedComError(ex.Message);
             }
         }
-        public void SendOrder(int a)
+        public void WriteCommandsToClient( int a)
         {
             string txt = OrderToSend(a);
-            sendMessage(txt);
-            if (myFrameManager.getCommand() == "DISC")
+
+            try
             {
-                ServerToConect = null;
-                ConexionState = false;
+                TcpClient clientToSend = ServerToConect;
+                NetworkStream nsToWrite = ServerToConect.GetStream();
+                nsToWrite.Write(Encoding.ASCII.GetBytes(txt), 0, txt.Length);
+                byte[] buffer = Encoding.ASCII.GetBytes(txt);
+                nsToWrite.Write(buffer, 0, buffer.Length);
             }
+            catch (Exception ex)
+            {
+                riseUnexpectedComError(ex.Message);
+            }
+        }
+        public void login(string name, string passsword)
+        {
+            WriteCommandsToClient(ServerToConect, "LOG", "Us_"+ name, passsword, "");
         }
         private string OrderToSend(int Command)
         {
@@ -123,38 +174,20 @@ namespace Client_AGV
             return order;
         }
 
-        public void login(string user, string passw)
-        {
-
-            string order;
-            byte[] received = new byte[100000];
-            order = myFrameManager.Order("LOG", "Us_" + user, passw, "");
-            sendMessage(order);
-        }
         public void disconect()
         {
             ConexionState = false;
         }
-        private void ReadData(string Command, string Arg1, string Arg2)
-        {
-            if(Command == "DISC")
-            {
-                riseDisconexion(EventArgs.Empty);
-            }
-            else if(Command == "LOG")
-            {
-                if(Arg1 != "OK")
-                {
-                    LogError = Arg2;
-                }
-                else
-                {
-                    logged = true;
-                }
-                riseLogged(EventArgs.Empty);
-            }
-        }
        
+
+
+
+
+
+
+
+
+
         // Events
         private void riseUnexpectedComError(string txtError)
         {
