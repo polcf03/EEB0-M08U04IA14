@@ -20,6 +20,8 @@ namespace Client_AGV
 
         // Delgates
         private delegate void Safelblconexion(string state, Color color);
+        private delegate void SafelblLog(string state, Color color);
+        private delegate void SafeCloseControls();
 
         // Class variables
         private bool serverOnline;
@@ -37,6 +39,7 @@ namespace Client_AGV
             myControls.Command += OrdersToSend;
             myComManager.Connect += Conexion;
             myComManager.Disconnect += Disconnexion;
+            myComManager.Loggedin += Logged;
 
             serverOnline = false;
             lblstate.Text = "Offline";
@@ -52,14 +55,6 @@ namespace Client_AGV
             if (serverOnline)
             {
                 myComManager.login(textBox1.Text, textBox2.Text);
-                if (myComManager.getConexionState())
-                {
-                    myControls.ShowDialog();
-                }
-                else
-                {
-                    label3.Text = myComManager.getLogError();
-                }
             }
             else
             {
@@ -74,7 +69,7 @@ namespace Client_AGV
             a = e.Command;
             if(a == 1) 
             {
-                lblstate.Text = "Offline";
+                ChangeLbl("Online", Color.Red);
                 lblstate.ForeColor = Color.Red;
                 serverOnline = false;
             }
@@ -93,12 +88,41 @@ namespace Client_AGV
         }
         private void Disconnexion(object sender, EventArgs e)
         {
-            myControls.CloseControls();
+            myControls.Close();
             ChangeLbl("Offline", Color.Red);
             serverOnline = false;
             myComManager.SendOrder(1);
         }
-        private void ChangeLbl(string text,Color color)
+       
+        private void Logged(object sender, EventArgs e)
+        {
+            if (myComManager.getLogged())
+            {
+                myControls.ShowDialog();
+                ChangeLbl3("", Color.Red);
+            }
+            else
+            {
+                ChangeLbl3(myComManager.getLogError(), Color.Red);
+            }
+        }
+
+
+        // safe methods
+        private void ChangeLbl3(string text, Color color)
+        {
+            if (label3.InvokeRequired)
+            {
+                var d = new SafelblLog(ChangeLbl3);
+                label3.Invoke(d, new object[] { text, color });
+            }
+            else
+            {
+                label3.Text = text;
+                label3.ForeColor = color;
+            }
+        }
+        private void ChangeLbl(string text, Color color)
         {
             if (lblstate.InvokeRequired)
             {
@@ -112,4 +136,5 @@ namespace Client_AGV
             }
         }
     }
+
 }

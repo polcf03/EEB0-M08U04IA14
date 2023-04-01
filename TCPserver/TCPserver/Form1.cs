@@ -45,6 +45,8 @@ namespace TCPserver
             //this.Width = 860;
             //this.Height = 470;
             blackBoard.Clear(Color.DarkSlateBlue);
+            btStart.Enabled = true;
+            stopsv.Enabled = false;
         }
 
         // Controls
@@ -261,7 +263,7 @@ namespace TCPserver
         }
 
         private void btStart_Click(object sender, EventArgs e)
-        {
+         {
             myWS.generateWS(2, 200);
             refreshAll();
             IPAddress ip;
@@ -297,7 +299,8 @@ namespace TCPserver
                 }
 
             }
-
+            btStart.Enabled= false;
+            stopsv.Enabled= true;
         }
 
         private void stopsv_Click(object sender, EventArgs e)
@@ -308,21 +311,23 @@ namespace TCPserver
             refreshWS();
             tbIp.ReadOnly = false;
             tbPort.ReadOnly = false;
+            btStart.Enabled = true;
+            stopsv.Enabled = false;
         }
 
         private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myTCPserverComManager.disconectAll();
+            myTCPserverComManager.setDiscAll(true);
         }
 
         private void removePlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myWS.generateWS(2, 200);
+           
         }
 
     }

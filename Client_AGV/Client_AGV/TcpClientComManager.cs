@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 
 namespace Client_AGV
 {
@@ -16,11 +17,13 @@ namespace Client_AGV
         private TcpClient ServerToConect;
         private bool ConexionState;
         private string LogError;
+        private bool logged;
 
         // Delegates
         public event EventHandler<ErrorEventArgs> UnexpectedComError;
         public event EventHandler Disconnect;
         public event EventHandler Connect;
+        public event EventHandler Loggedin;
 
         // Constructores
         public TcpClientComManager()
@@ -28,6 +31,7 @@ namespace Client_AGV
             ServerToConect = null;
             myFrameManager= new FrameManager();
             ConexionState = false;
+            logged= false;
             LogError = "";
         }
 
@@ -35,26 +39,28 @@ namespace Client_AGV
         public void NewServer(TcpClient NewServer)
         {
             setTcpServer(NewServer);
+            ConexionState = true;
+            ThreadPool.QueueUserWorkItem(ReceiveMessages);
+            logged = false;
         }
         private void ReceiveMessages(object state)
         {
             NetworkStream ns;
             byte[] toReceive = new byte[100000];
             string txt;
-            try
+
+            while (ConexionState)
             {
-                while (ConexionState)
+                try
                 {
                     ns = ServerToConect.GetStream();
+                    //ns.ReadTimeout = 10;
                     ns.Read(toReceive, 0, toReceive.Length);
                     txt = Encoding.ASCII.GetString(toReceive);
                     myFrameManager.Frame(txt);
-                    ReadData(myFrameManager.getCommand(),myFrameManager.getArg1());
+                    ReadData(myFrameManager.getCommand(), myFrameManager.getArg1(),myFrameManager.getArg2());
                 }
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
+                catch(Exception ex) { }
             }
         }
         private void sendMessage(String txtToSend)
@@ -72,8 +78,9 @@ namespace Client_AGV
         }
         public void SendOrder(int a)
         {
-            sendMessage(OrderToSend(a));
-            if(myFrameManager.getCommand() == "DISC")
+            string txt = OrderToSend(a);
+            sendMessage(txt);
+            if (myFrameManager.getCommand() == "DISC")
             {
                 ServerToConect = null;
                 ConexionState = false;
@@ -115,53 +122,37 @@ namespace Client_AGV
             }
             return order;
         }
+
         public void login(string user, string passw)
         {
+
             string order;
             byte[] received = new byte[100000];
             order = myFrameManager.Order("LOG", "Us_" + user, passw, "");
-            NetworkStream nsToRead;
-            try
-            {
-                sendMessage(order);
-                nsToRead = ServerToConect.GetStream();
-                nsToRead.Read(received, 0, received.Length);
-                order = Encoding.ASCII.GetString(received);
-                myFrameManager.Frame(order);
-                if (myFrameManager.getCommand() == "LOG" && myFrameManager.getArg1() == "OK")
-                {
-                    ConexionState = true;
-                    ThreadPool.QueueUserWorkItem(ReceiveMessages);
-                }
-                else if (myFrameManager.getArg1() == "WR")
-                {
-                    LogError = myFrameManager.getArg2();
-                    riseConexion(EventArgs.Empty);
-                    ConexionState = false;
-                    
-                }
-                else
-                {
-                    riseConexion(EventArgs.Empty);
-                    LogError = "Something went wrong";
-                }
-            }
-            catch (Exception ex)
-            {
-                riseUnexpectedComError(ex.Message);
-            }
+            sendMessage(order);
         }
         public void disconect()
         {
             ConexionState = false;
         }
-        private void ReadData(string Command, string Arg1)
+        private void ReadData(string Command, string Arg1, string Arg2)
         {
             if(Command == "DISC")
             {
                 riseDisconexion(EventArgs.Empty);
             }
-
+            else if(Command == "LOG")
+            {
+                if(Arg1 != "OK")
+                {
+                    LogError = Arg2;
+                }
+                else
+                {
+                    logged = true;
+                }
+                riseLogged(EventArgs.Empty);
+            }
         }
        
         // Events
@@ -179,6 +170,10 @@ namespace Client_AGV
         {
             Disconnect.Invoke(this, e);
         }
+        private void riseLogged(EventArgs e)
+        {
+            Loggedin.Invoke(this, e);
+        }
         private void riseConexion(EventArgs e)
         {
             Connect.Invoke(this, e);
@@ -188,6 +183,7 @@ namespace Client_AGV
         private TcpClient getTcpClient() { return ServerToConect; }
         public bool getConexionState() { return ConexionState; }
         public string getLogError() { return LogError; }
+        public bool getLogged() { return logged; }
 
         // Modifiers
         private void setTcpServer(TcpClient NewServer) { ServerToConect = NewServer; }

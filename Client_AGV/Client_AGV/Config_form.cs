@@ -50,7 +50,6 @@ namespace Client_AGV
                 if(client != null)
                 {
                     TransferClient(client);
-                    
                 }
             }
             catch (Exception ex)
@@ -64,10 +63,10 @@ namespace Client_AGV
         }
 
         // Events
-        private void TransferClient(TcpClient ClientTransferred)
+        private void TransferClient(TcpClient ClientTransfered)
         {
             ConexionEventArgs args = new ConexionEventArgs();
-            args.client = ClientTransferred;
+            args.client = ClientTransfered;
             EventHandler<ConexionEventArgs> handler = ClientConexion;
             if(handler != null)
             {
