@@ -47,7 +47,6 @@ namespace TCPserver
             ThreadPool.QueueUserWorkItem(newClient);
             Disc = false;
         }
-        public void stopServer() { Disc = true; server.Stop(); }
         private void newClient(Object state)
         {
             string txt, log;
@@ -77,7 +76,6 @@ namespace TCPserver
                     }
                     byte[] received = new byte[100000];
                     nsToRead = client.GetStream();
-                    nsToRead.ReadTimeout = 10;
                     nsToRead.Read(received, 0, received.Length);
                     txt = Encoding.ASCII.GetString(received);
                     myFrameManager.Frame(txt);
@@ -134,7 +132,7 @@ namespace TCPserver
             notFound = true;
             log = "That Name is not registered";
 
-            if (OnlineMax >= OnlineUsersSize)
+            if (OnlineMax > OnlineUsersSize)
             {
                 while (notFound && i < UsersSize)
                 {
@@ -246,15 +244,16 @@ namespace TCPserver
             riseCommand(txt, Agvref);
         }
 
-        public void disconectAll()
-        {
-            
-            foreach (TcpClient user in clientslist)
-            {
-                WriteCommandsToClient(user, "DISC", "", "", "");
-            }
-        }
 
+
+        public string showUsers()
+        {
+            return myClientsManager.UsersListShow();
+        }
+        public string showUsersOnline()
+        {
+            return myClientsManager.OnlineUsersListShow();
+        }
 
         // Events
         private void riseUnexpectedComError(string txtError)
@@ -301,6 +300,14 @@ namespace TCPserver
             Disc = true;
         }
         public void setDiscAll(bool a) { DiscAll = a; }
+        public void newUser(string name, string password)
+        {
+            myClientsManager.newUser(name, password);
+        }
+        public void removeuser(string name)
+        {
+            myClientsManager.RemoveUserFromUsers(myClientsManager.getUsersFromUsers(myClientsManager.getIndexUsersByName(name)));
+        }
 
 
         // Accessor
@@ -312,6 +319,14 @@ namespace TCPserver
         {
             return myPort;
         }
-        
+        public int getOnlineUsersSize()
+        {
+            return myClientsManager.getOnlineUsersSize();
+        }
+        public List<Users> getUsersList()
+        {
+            return myClientsManager.getUsersList();
+        } 
+
     }
 }

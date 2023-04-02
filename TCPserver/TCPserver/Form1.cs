@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using System.Threading;
 using TCPserver;
 using System.Net;
+using System.Drawing.Text;
+using static System.Windows.Forms.LinkLabel;
+using System.IO;
 
 namespace TCPserver
 {
@@ -19,13 +22,17 @@ namespace TCPserver
         private WSManager myWS;
         private TrajectoryManager myTrManager;
         private TCPServerComManager myTCPserverComManager;
+        private AddUser myAdduser;
+        private removeUser myremover;
         private readonly Random _random = new Random();
         private List<Color> AGVcolors;
 
+        private delegate void Safetbrefresh(string data);
 
         // Class variables
         private int WSSizeX;
         private int WSSizeY;
+        private bool serverstarted;
 
         // Constructor
         public Form1()
@@ -35,8 +42,12 @@ namespace TCPserver
             myWS = new WSManager(80);
             myTrManager = new TrajectoryManager();
             myTCPserverComManager = new TCPServerComManager();
+            myAdduser = new AddUser();
+            myremover= new removeUser();
 
+            myAdduser.NewUser += nwUser;
             myTCPserverComManager.CommandToExecute += Orders;
+            myremover.remove += remove;
 
             blackBoard = panelWS.CreateGraphics();
             AGVcolors = new List<Color>() { Color.White, Color.Black, Color.Gray, Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Orange, Color.Pink, Color.Purple };
@@ -46,7 +57,7 @@ namespace TCPserver
             //this.Height = 470;
             blackBoard.Clear(Color.DarkSlateBlue);
             btStart.Enabled = true;
-            stopsv.Enabled = false;
+            serverstarted= false;
         }
 
         // Controls
@@ -60,9 +71,11 @@ namespace TCPserver
             {
                 case "SPWN":
                     myWS.newAgv(AgvRef);
+                    changetb(myTCPserverComManager.showUsersOnline());
                     break;
                 case "DISC":
                     myWS.removeAgv(AgvRef);
+                    changetb(myTCPserverComManager.showUsersOnline());
                     break;
                 case "UP":
                     myWS.MNorthAGV(AgvRef);
@@ -256,14 +269,17 @@ namespace TCPserver
         private void Form1_Shown(object sender, EventArgs e)
         {
             refreshWS();
+            tbUsers.Text = myTCPserverComManager.showUsers();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             refreshAll();
+            tbUsers.Text = myTCPserverComManager.showUsers();
         }
 
         private void btStart_Click(object sender, EventArgs e)
          {
+            serverstarted= true;
             myWS.generateWS(2, 200);
             refreshAll();
             IPAddress ip;
@@ -300,35 +316,110 @@ namespace TCPserver
 
             }
             btStart.Enabled= false;
-            stopsv.Enabled= true;
         }
-
-        private void stopsv_Click(object sender, EventArgs e)
-        {
-            myTCPserverComManager.disconectAll();
-            myTCPserverComManager.stopServer();
-            myWS.resetWS();
-            refreshWS();
-            tbIp.ReadOnly = false;
-            tbPort.ReadOnly = false;
-            btStart.Enabled = true;
-            stopsv.Enabled = false;
-        }
-
         private void removeAllPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            myTCPserverComManager.setDiscAll(true);
+            MessageBox.Show("In Building");
         }
 
-        private void removePlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addClientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!serverstarted)
+            {
+                myAdduser.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No avaliable during the game");
+            }
+        }
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!serverstarted)
+            {
+                myremover.setList(myTCPserverComManager.getUsersList());
+                myremover.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No avaliable during the game");
+            }
+
+        }
+        private void changetb(string text)
+        {
+            if (tbOnline.InvokeRequired)
+            {
+                var d = new Safetbrefresh(changetb);
+                tbOnline.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                tbOnline.Text = text;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (serverstarted)
+            {
+                if (myTCPserverComManager.getOnlineUsersSize() == 0)
+                {
+                    myWS.generateWS(2, 200);
+                    refreshAll();
+                }
+            }
+            else
+            {
+                MessageBox.Show("There msut be no users connected");
+            }
             
         }
-
-        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void nwUser(object sender, Class1 e)
         {
-           
+            myTCPserverComManager.newUser(e.user, e.password);
+            tbUsers.Text = myTCPserverComManager.showUsers();
+        }
+        private void remove(object sender, Class2 e)
+        {
+            myTCPserverComManager.removeuser(e.Name);
+            tbUsers.Text = myTCPserverComManager.showUsers();
+
         }
 
+
+        private void exportUsersListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter("Users list"))
+                {
+                    writer.Write(DateTime.UtcNow+ "\r\n" +  myTCPserverComManager.showUsers());
+                }
+                    
+                MessageBox.Show("Users list exporteds in debug folder");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void exportOnlineUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter("Onlin users"))
+                {
+                    writer.Write(DateTime.UtcNow + "\r\n" + myTCPserverComManager.showUsersOnline());
+                }
+                MessageBox.Show("Online users list exporteds in debug folder");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
     }
 }

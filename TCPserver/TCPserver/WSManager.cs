@@ -241,7 +241,7 @@ namespace TCPserver
 
             if (AGVy > 0)
             {
-                if (WS[AGVx, AGVy - 1] == 99)
+                if (WS[AGVx, AGVy - 1] > 10)
                 {
                     free = true;
                 }
@@ -258,7 +258,7 @@ namespace TCPserver
 
             if (AGVy < 9)
             {
-                if (WS[AGVx, AGVy + 1] == 99)
+                if (WS[AGVx, AGVy + 1] > 10)
                 {
                     free = true;
                 }
@@ -275,7 +275,7 @@ namespace TCPserver
 
             if (AGVx > 0)
             {
-                if (WS[AGVx - 1, AGVy] == 99)
+                if (WS[AGVx - 1, AGVy] > 10)
                 {
                     free = true;
                 }
@@ -292,7 +292,7 @@ namespace TCPserver
 
             if (AGVx < 9)
             {
-                if (WS[AGVx + 1, AGVy] == 99)
+                if (WS[AGVx + 1, AGVy] > 10)
                 {
                     free = true;
                 }

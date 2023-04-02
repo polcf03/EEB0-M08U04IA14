@@ -35,9 +35,9 @@ namespace TCPserver
                 UsersList.Add(new Users(i, "Us_User" + i.ToString(), "000" + (1 * i).ToString()));
             }
         }
-        private void newUser(string name,string password)
+        public void newUser(string name,string password)
         {
-            UsersList.Add(new Users(UsersList.Count,"Us_"+ name, password));
+            UsersList.Add(new Users(UsersList.Count,name, password));
         }      
        
         // Methods
@@ -85,6 +85,30 @@ namespace TCPserver
         public List<Users> getOnlineUsersList()
         {
             return OnlineUsersList;
+        }
+        public List<Users> getUsersList()
+        { 
+            return UsersList; 
+        }
+        public string UsersListShow()
+        {
+            string Usersdata = "";
+            for (int i = 0; i < UsersList.Count; i++)
+            {
+
+                Usersdata += i.ToString() + ".  Name: " + UsersList[i].getName() + "   -   Password:   " + UsersList[i].getPassword() +"\r\n";
+            }
+            return Usersdata;
+        }
+        public string OnlineUsersListShow()
+        {
+            string Usersdata = "";
+            for (int i = 0; i < OnlineUsersList.Count; i++)
+            {
+
+                Usersdata += OnlineUsersList[i].getId() + ".  Name: " + OnlineUsersList[i].getName() + "   -   Password:   " + OnlineUsersList[i].getPassword() + "\r\n";
+            }
+            return Usersdata;
         }
         // List modifiers
         public void AddUserInOnlineUsers(Users user)

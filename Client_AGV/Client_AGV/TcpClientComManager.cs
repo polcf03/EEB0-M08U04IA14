@@ -119,6 +119,9 @@ namespace Client_AGV
                 case 9: // BACK
                     order = myFrameManager.Order("MOV", "BACK", "", "");
                     break;
+                case 10:
+                    order = myFrameManager.Order("BRK", "", "", "");
+                    break;
             }
             return order;
         }
@@ -128,7 +131,7 @@ namespace Client_AGV
 
             string order;
             byte[] received = new byte[100000];
-            order = myFrameManager.Order("LOG", "Us_" + user, passw, "");
+            order = myFrameManager.Order("LOG",user, passw, "");
             sendMessage(order);
         }
         public void disconect()
@@ -137,11 +140,7 @@ namespace Client_AGV
         }
         private void ReadData(string Command, string Arg1, string Arg2)
         {
-            if(Command == "DISC")
-            {
-                riseDisconexion(EventArgs.Empty);
-            }
-            else if(Command == "LOG")
+            if(Command == "LOG")
             {
                 if(Arg1 != "OK")
                 {

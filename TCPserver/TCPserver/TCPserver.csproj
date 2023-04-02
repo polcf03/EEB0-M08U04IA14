@@ -46,7 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUser.Designer.cs">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="AGV.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="ClientsManager.cs" />
     <Compile Include="CommandEventArgs.cs" />
     <Compile Include="DisconnectEventArgs.cs" />
@@ -60,10 +68,19 @@
     <Compile Include="FrameManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="removeUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="removeUser.Designer.cs">
+      <DependentUpon>removeUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="TCPserverComManager.cs" />
     <Compile Include="TrajectoryManager.cs" />
     <Compile Include="Users.cs" />
     <Compile Include="WSManager.cs" />
+    <EmbeddedResource Include="AddUser.resx">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -76,6 +93,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="removeUser.resx">
+      <DependentUpon>removeUser.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

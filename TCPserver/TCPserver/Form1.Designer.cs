@@ -41,18 +41,16 @@
             this.addClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllPlayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.notepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportUsersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportOnlineUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpOnline = new System.Windows.Forms.TabPage();
             this.tbOnline = new System.Windows.Forms.TextBox();
             this.tpUsers = new System.Windows.Forms.TabPage();
-            this.stopsv = new System.Windows.Forms.Button();
             this.tbUsers = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -120,8 +118,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addAccountsToolStripMenuItem,
-            this.exportToolStripMenuItem,
-            this.generateToolStripMenuItem});
+            this.exportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(827, 24);
@@ -150,39 +147,32 @@
             // addClientsToolStripMenuItem
             // 
             this.addClientsToolStripMenuItem.Name = "addClientsToolStripMenuItem";
-            this.addClientsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.addClientsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addClientsToolStripMenuItem.Text = "Add clients";
             this.addClientsToolStripMenuItem.ToolTipText = "Create a new client adding a User name and password";
+            this.addClientsToolStripMenuItem.Click += new System.EventHandler(this.addClientsToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.removeToolStripMenuItem.Text = "Remove selected";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.removeToolStripMenuItem.Text = "Remove player";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selecteds clients from data base";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // removeClientToolStripMenuItem
             // 
             this.removeClientToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removePlayerToolStripMenuItem,
             this.removeAllPlayersToolStripMenuItem});
             this.removeClientToolStripMenuItem.Name = "removeClientToolStripMenuItem";
             this.removeClientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.removeClientToolStripMenuItem.Text = "Players online";
             this.removeClientToolStripMenuItem.ToolTipText = "Manage players online";
             // 
-            // removePlayerToolStripMenuItem
-            // 
-            this.removePlayerToolStripMenuItem.Name = "removePlayerToolStripMenuItem";
-            this.removePlayerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.removePlayerToolStripMenuItem.Text = "Kick player selected";
-            this.removePlayerToolStripMenuItem.ToolTipText = "Kick a player form the current game\r\n";
-            this.removePlayerToolStripMenuItem.Click += new System.EventHandler(this.removePlayerToolStripMenuItem_Click);
-            // 
             // removeAllPlayersToolStripMenuItem
             // 
             this.removeAllPlayersToolStripMenuItem.Name = "removeAllPlayersToolStripMenuItem";
-            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.removeAllPlayersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.removeAllPlayersToolStripMenuItem.Text = "Kick all players";
             this.removeAllPlayersToolStripMenuItem.ToolTipText = "Kick all players form the current game";
             this.removeAllPlayersToolStripMenuItem.Click += new System.EventHandler(this.removeAllPlayersToolStripMenuItem_Click);
@@ -190,36 +180,30 @@
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.notepadToolStripMenuItem,
-            this.excelToolStripMenuItem});
+            this.exportUsersListToolStripMenuItem,
+            this.exportOnlineUsersToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.exportToolStripMenuItem.Text = "Export";
-            this.exportToolStripMenuItem.ToolTipText = "Export data base";
             // 
-            // notepadToolStripMenuItem
+            // exportUsersListToolStripMenuItem
             // 
-            this.notepadToolStripMenuItem.Name = "notepadToolStripMenuItem";
-            this.notepadToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.notepadToolStripMenuItem.Text = "Notepad";
+            this.exportUsersListToolStripMenuItem.Name = "exportUsersListToolStripMenuItem";
+            this.exportUsersListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportUsersListToolStripMenuItem.Text = "Export users list";
+            this.exportUsersListToolStripMenuItem.Click += new System.EventHandler(this.exportUsersListToolStripMenuItem_Click);
             // 
-            // excelToolStripMenuItem
+            // exportOnlineUsersToolStripMenuItem
             // 
-            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
-            this.excelToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.excelToolStripMenuItem.Text = "Excel";
-            // 
-            // generateToolStripMenuItem
-            // 
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.generateToolStripMenuItem.Text = "Generate";
-            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
+            this.exportOnlineUsersToolStripMenuItem.Name = "exportOnlineUsersToolStripMenuItem";
+            this.exportOnlineUsersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportOnlineUsersToolStripMenuItem.Text = "Export online users";
+            this.exportOnlineUsersToolStripMenuItem.Click += new System.EventHandler(this.exportOnlineUsersToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.tabControl1);
-            this.groupBox1.Controls.Add(this.stopsv);
             this.groupBox1.Controls.Add(this.btStart);
             this.groupBox1.Controls.Add(this.lbPort);
             this.groupBox1.Controls.Add(this.tbPort);
@@ -233,6 +217,16 @@
             this.groupBox1.Text = "Server managment";
             this.groupBox1.UseCompatibleTextRendering = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(286, 31);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(103, 26);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Regenerate Map";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tpOnline);
@@ -240,7 +234,7 @@
             this.tabControl1.Location = new System.Drawing.Point(9, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(200, 211);
+            this.tabControl1.Size = new System.Drawing.Size(380, 350);
             this.tabControl1.TabIndex = 14;
             // 
             // tpOnline
@@ -249,7 +243,7 @@
             this.tpOnline.Location = new System.Drawing.Point(4, 22);
             this.tpOnline.Name = "tpOnline";
             this.tpOnline.Padding = new System.Windows.Forms.Padding(3);
-            this.tpOnline.Size = new System.Drawing.Size(192, 185);
+            this.tpOnline.Size = new System.Drawing.Size(372, 324);
             this.tpOnline.TabIndex = 0;
             this.tpOnline.Text = "Online";
             this.tpOnline.UseVisualStyleBackColor = true;
@@ -261,7 +255,7 @@
             this.tbOnline.Multiline = true;
             this.tbOnline.Name = "tbOnline";
             this.tbOnline.ReadOnly = true;
-            this.tbOnline.Size = new System.Drawing.Size(186, 179);
+            this.tbOnline.Size = new System.Drawing.Size(366, 318);
             this.tbOnline.TabIndex = 0;
             // 
             // tpUsers
@@ -270,20 +264,10 @@
             this.tpUsers.Location = new System.Drawing.Point(4, 22);
             this.tpUsers.Name = "tpUsers";
             this.tpUsers.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUsers.Size = new System.Drawing.Size(192, 185);
+            this.tpUsers.Size = new System.Drawing.Size(372, 324);
             this.tpUsers.TabIndex = 1;
             this.tpUsers.Text = "Users";
             this.tpUsers.UseVisualStyleBackColor = true;
-            // 
-            // stopsv
-            // 
-            this.stopsv.Location = new System.Drawing.Point(290, 31);
-            this.stopsv.Name = "stopsv";
-            this.stopsv.Size = new System.Drawing.Size(71, 27);
-            this.stopsv.TabIndex = 13;
-            this.stopsv.Text = "STOP";
-            this.stopsv.UseVisualStyleBackColor = true;
-            this.stopsv.Click += new System.EventHandler(this.stopsv_Click);
             // 
             // tbUsers
             // 
@@ -292,7 +276,7 @@
             this.tbUsers.Multiline = true;
             this.tbUsers.Name = "tbUsers";
             this.tbUsers.ReadOnly = true;
-            this.tbUsers.Size = new System.Drawing.Size(186, 179);
+            this.tbUsers.Size = new System.Drawing.Size(366, 318);
             this.tbUsers.TabIndex = 1;
             // 
             // Form1
@@ -334,18 +318,16 @@
         private System.Windows.Forms.ToolStripMenuItem addClientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeClientToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removePlayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAllPlayersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem notepadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem excelToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button stopsv;
-        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpOnline;
         private System.Windows.Forms.TextBox tbOnline;
         private System.Windows.Forms.TabPage tpUsers;
         private System.Windows.Forms.TextBox tbUsers;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportUsersListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportOnlineUsersToolStripMenuItem;
     }
 }

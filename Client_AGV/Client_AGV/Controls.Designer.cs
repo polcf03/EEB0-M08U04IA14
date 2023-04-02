@@ -37,6 +37,7 @@
             this.btDown = new System.Windows.Forms.Button();
             this.btRight = new System.Windows.Forms.Button();
             this.btFor = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btExit
@@ -45,7 +46,7 @@
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(50, 50);
             this.btExit.TabIndex = 19;
-            this.btExit.Text = "Exit";
+            this.btExit.Text = "Disc\r\nonect";
             this.btExit.UseVisualStyleBackColor = true;
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
             // 
@@ -129,11 +130,22 @@
             this.btFor.UseVisualStyleBackColor = true;
             this.btFor.Click += new System.EventHandler(this.btFor_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(124, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(50, 50);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "BRK";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(190, 242);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.btBack);
             this.Controls.Add(this.btLeft);
@@ -145,6 +157,7 @@
             this.Controls.Add(this.btFor);
             this.Name = "Controls";
             this.Text = "Controls";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Controls_FormClosing);
             this.ResumeLayout(false);
 
         }
@@ -160,5 +173,6 @@
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Button btRight;
         private System.Windows.Forms.Button btFor;
+        private System.Windows.Forms.Button button1;
     }
 }

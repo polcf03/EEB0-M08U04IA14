@@ -17,3 +17,5 @@ C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M0
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Debug\TCPserver.exe
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\TCPserver\TCPserver\bin\Debug\TCPserver.pdb
 C:\Users\polcf\Desktop\FP\S2AR\Comunicacions industrials\EEB0-M08U04IA14\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.csprojResolveAssemblyReference.cache
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.AddUser.resources
+P:\Fp\S2AR\Comunicacions industrials\EEB0-M08U04IA14\TCPserver\TCPserver\obj\x86\Debug\TCPserver.removeUser.resources

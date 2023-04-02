@@ -90,5 +90,15 @@ namespace Client_AGV
                 handler(this, args);
             }
         }
+
+        private void Controls_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            TransferCommand(1);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TransferCommand(10);
+        }
     }
 }
